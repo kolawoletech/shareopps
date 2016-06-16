@@ -23,9 +23,13 @@ angular.module('your_app_name', [
   'ngResource',
   'ngCordova',
   'slugifier',
+  'firebase',
   'ionic.contrib.ui.tinderCards',
   'youtube-embed'
 ])
+
+.constant('FirebaseUrl', 'https://shareopps.firebaseio.com')
+.service('rootRef', ['FirebaseUrl','firebase'])
 
 .run(function($ionicPlatform, PushNotificationsService, $rootScope, $ionicConfig, $timeout) {
 

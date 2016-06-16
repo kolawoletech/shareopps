@@ -1,4 +1,4 @@
-angular.module('your_app_name.controllers', ['services.Auth'])
+angular.module('your_app_name.controllers', [])
 
 .controller('AuthCtrl', function($scope, $ionicConfig) {
 
@@ -6,33 +6,14 @@ angular.module('your_app_name.controllers', ['services.Auth'])
 
 // APP
 .controller('AppCtrl', function($scope, $ionicConfig) {
-  $scope.login = function(authMethod) {
-    Auth.$authWithOAuthRedirect(authMethod).then(function(authData) {
-    }).catch(function(error) {
-      if (error.code === 'TRANSPORT_UNAVAILABLE') {
-        Auth.$authWithOAuthPopup(authMethod).then(function(authData) {
-        });
-      } else {
-        console.log(error);
-      }
-    });
-  };
+
 })
 
-function LoginCtrl(Auth, $state) {
-  this.loginWithGoogle = function loginWithGoogle() {
-    Auth.$authWithOAuthPopup('google')
-      .then(function(authData) {
-        $state.go('tab.dash');
-      });
-  };
-}
-LoginCtrl.$inject = ['Auth', '$state'];
 
 //LOGIN
 .controller('LoginCtrl', function($scope, $state, $templateCache, $q, $rootScope) {
 	$scope.doLogIn = function(){
-		$state.go('app.feeds-categories');
+		$state.go('app.wordpress');
 	};
 
 	$scope.user = {};
@@ -55,13 +36,13 @@ LoginCtrl.$inject = ['Auth', '$state'];
 	$scope.user.email = "john@doe.com";
 
 	$scope.doSignUp = function(){
-		$state.go('app.feeds-categories');
+		$state.go('app.wordpress');
 	};
 })
 
 .controller('ForgotPasswordCtrl', function($scope, $state) {
 	$scope.recoverPassword = function(){
-		$state.go('app.feeds-categories');
+		$state.go('app.wordpress');
 	};
 
 	$scope.user = {};
@@ -396,7 +377,7 @@ LoginCtrl.$inject = ['Auth', '$state'];
 
 	$scope.doRefresh = function() {
 		$ionicLoading.show({
-			template: 'Loading posts...'
+			template: 'Loading ...'
 		});
 
 		//Always bring me the latest posts => page=1
