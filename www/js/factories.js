@@ -1,11 +1,13 @@
 angular.module('your_app_name.factories', [])
 
+
 .factory('Auth', function($firebaseAuth) {
   var firebaseUrl = "https://shareopps.firebaseio.com/"
 
   var usersRef = new Firebase(firebaseUrl+'/users');
   return $firebaseAuth(usersRef);
 })
+
 
 .factory('FeedLoader', function ($resource){
   return $resource('http://ajax.googleapis.com/ajax/services/feed/load', {}, {

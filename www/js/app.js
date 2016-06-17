@@ -52,7 +52,7 @@ angular.module('your_app_name', [
       $timeout(function(){
         $ionicConfig.views.transition('android');
         $ionicConfig.views.swipeBackEnabled(false);
-      	console.log("setting transition to android and disabling swipe back");
+        console.log("setting transition to android and disabling swipe back");
       }, 0);
     }
   });
@@ -66,7 +66,7 @@ angular.module('your_app_name', [
       {
         $ionicConfig.views.swipeBackEnabled(true);
       }
-    	console.log("enabling swipe back and restoring transition to platform default", $ionicConfig.views.transition());
+      console.log("enabling swipe back and restoring transition to platform default", $ionicConfig.views.transition());
     }
   });
 
@@ -230,8 +230,8 @@ angular.module('your_app_name', [
     resolve: {
       post_data: function(PostService, $ionicLoading, $stateParams) {
         $ionicLoading.show({
-      		template: 'Loading post ...'
-      	});
+          template: 'Loading post ...'
+        });
 
         var postId = $stateParams.postId;
         return PostService.getPost(postId);

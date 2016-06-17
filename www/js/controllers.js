@@ -12,16 +12,18 @@ angular.module('your_app_name.controllers', [])
 
 //LOGIN
 .controller('LoginCtrl', function(Auth, $scope, $state, $templateCache, $q, $rootScope) {
+	$scope.loginWithGoogle = function loginWithGoogle() {
+	    Auth.$authWithOAuthPopup('google')
+	      .then(function(authData) {
+	        $state.go('tab.dash');
+	    });
+  	};
+
 	$scope.doLogIn = function(){
-		this.loginWithGoogle = function loginWithGoogle() {
-    		Auth.$authWithOAuthPopup('google')
-      		.then(function(authData) {
-        $state.go('app.wordpress');
-      });
-  };
+		$state.go('app.wordpress');
 	};
 
-/*	$scope.user = {};
+	$scope.user = {};
 
 	$scope.user.email = "john@doe.com";
 	$scope.user.pin = "12345";
@@ -31,7 +33,9 @@ angular.module('your_app_name.controllers', [])
 
 	$scope.$on('my-tabs-changed', function (event, data) {
 		$scope.selected_tab = data.title;
-	});*/
+	});
+
+
 
 })
 
