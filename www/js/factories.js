@@ -1,5 +1,12 @@
 angular.module('your_app_name.factories', [])
 
+.factory('Auth', function($firebaseAuth) {
+  var firebaseUrl = "https://shareopps.firebaseio.com/"
+
+  var usersRef = new Firebase(firebaseUrl+'/users');
+  return $firebaseAuth(usersRef);
+})
+
 .factory('FeedLoader', function ($resource){
   return $resource('http://ajax.googleapis.com/ajax/services/feed/load', {}, {
     fetch: { method: 'JSONP', params: {v: '1.0', callback: 'JSON_CALLBACK'} }
@@ -10,7 +17,7 @@ angular.module('your_app_name.factories', [])
 // Factory for node-pushserver (running locally in this case), if you are using other push notifications server you need to change this
 .factory('NodePushServer', function ($http){
   // Configure push notifications server address
-  // 		- If you are running a local push notifications server you can test this by setting the local IP (on mac run: ipconfig getifaddr en1)
+  //- If you are running a local push notifications server you can test this by setting the local IP (on mac run: ipconfig getifaddr en1)
   var push_server_address = "http://192.168.1.102:8000";
 
   return {

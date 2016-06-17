@@ -1,5 +1,6 @@
 angular.module('your_app_name.services', [])
 
+
 .service('FeedList', function ($rootScope, FeedLoader, $q){
 	this.get = function(feedSourceUrl) {
 		var response = $q.defer();

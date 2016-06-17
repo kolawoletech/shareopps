@@ -11,12 +11,17 @@ angular.module('your_app_name.controllers', [])
 
 
 //LOGIN
-.controller('LoginCtrl', function($scope, $state, $templateCache, $q, $rootScope) {
+.controller('LoginCtrl', function(Auth, $scope, $state, $templateCache, $q, $rootScope) {
 	$scope.doLogIn = function(){
-		$state.go('app.wordpress');
+		this.loginWithGoogle = function loginWithGoogle() {
+    		Auth.$authWithOAuthPopup('google')
+      		.then(function(authData) {
+        $state.go('app.wordpress');
+      });
+  };
 	};
 
-	$scope.user = {};
+/*	$scope.user = {};
 
 	$scope.user.email = "john@doe.com";
 	$scope.user.pin = "12345";
@@ -26,7 +31,7 @@ angular.module('your_app_name.controllers', [])
 
 	$scope.$on('my-tabs-changed', function (event, data) {
 		$scope.selected_tab = data.title;
-	});
+	});*/
 
 })
 
@@ -36,13 +41,13 @@ angular.module('your_app_name.controllers', [])
 	$scope.user.email = "john@doe.com";
 
 	$scope.doSignUp = function(){
-		$state.go('app.wordpress');
+		$state.go('app.feeds-categories');
 	};
 })
 
 .controller('ForgotPasswordCtrl', function($scope, $state) {
 	$scope.recoverPassword = function(){
-		$state.go('app.wordpress');
+		$state.go('app.feeds-categories');
 	};
 
 	$scope.user = {};
@@ -377,7 +382,7 @@ angular.module('your_app_name.controllers', [])
 
 	$scope.doRefresh = function() {
 		$ionicLoading.show({
-			template: 'Loading ...'
+			template: 'Loading posts...'
 		});
 
 		//Always bring me the latest posts => page=1
