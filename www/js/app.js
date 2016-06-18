@@ -177,6 +177,16 @@ angular.module('your_app_name', [
     }
   })
 
+  .state('app.chat', {
+    url: '/chat',
+    views: {
+      'menuContent': {
+        templateUrl: "views/app/chat/chats.html",
+        controller: 'ChatCtrl'
+      }
+    }
+})
+
   //FEEDS
   .state('app.feeds-categories', {
     url: "/feeds-categories",
@@ -230,7 +240,7 @@ angular.module('your_app_name', [
     resolve: {
       post_data: function(PostService, $ionicLoading, $stateParams) {
         $ionicLoading.show({
-          template: 'Loading post ...'
+          template: 'Loading ...'
         });
 
         var postId = $stateParams.postId;

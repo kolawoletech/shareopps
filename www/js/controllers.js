@@ -13,9 +13,9 @@ angular.module('your_app_name.controllers', [])
 //LOGIN
 .controller('LoginCtrl', function(Auth, $scope, $state, $templateCache, $q, $rootScope) {
 	$scope.loginWithGoogle = function loginWithGoogle() {
-	    Auth.$authWithOAuthPopup('google')
+	    Auth.$authWithOAuthPopup('facebook')
 	      .then(function(authData) {
-	        $state.go('tab.dash');
+	        $state.go('app.wordpress');
 	    });
   	};
 
@@ -70,6 +70,27 @@ angular.module('your_app_name.controllers', [])
 		}
 	};
 })*/
+
+.controller('ChatCtrl', function($scope, $state, $ionicPopup, Messages) {
+
+  $scope.messages = Messages;
+
+  $scope.addMessage = function() {
+   $ionicPopup.prompt({
+     title: 'Need to get something off your chest?',
+     template: 'Let everybody know!'
+   }).then(function(res) {
+      $scope.messages.$add({
+        "message": res
+      });
+   });
+  };
+  $scope.logout = function() {
+    var ref = new Firebase(firebaseUrl);
+    ref.unauth();
+    $state.go('login');
+  };
+})
 
 .controller('SendMailCtrl', function($scope) {
 	$scope.sendMail = function(){

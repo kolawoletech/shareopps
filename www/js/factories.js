@@ -1,11 +1,15 @@
 angular.module('your_app_name.factories', [])
 
-
 .factory('Auth', function($firebaseAuth) {
   var firebaseUrl = "https://shareopps.firebaseio.com/"
 
   var usersRef = new Firebase(firebaseUrl+'/users');
   return $firebaseAuth(usersRef);
+})
+
+.factory('Messages', function($firebaseArray) {
+  var messagesRef = new Firebase(firebaseUrl);
+  return $firebaseArray(messagesRef);
 })
 
 
