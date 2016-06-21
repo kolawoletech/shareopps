@@ -39,15 +39,71 @@ angular.module('your_app_name.controllers', [])
 
 })
 
-.controller('SignupCtrl', function($scope, $state) {
+.controller('SignupCtrl', function(Auth, $scope, $state, $ionicModal, $state, $firebaseAuth, $ionicLoading, $rootScope) {
 	$scope.user = {};
+	$scope.createUser = function (user) {
+	    console.log("Create User Function called");
+	    if (user && user.email && user.password) {
+	        $ionicLoading.show({
+	            template: 'Signing Up...'
+	        });
+
+	        Auth.$createUser({
+	            email: user.email,
+	            password: user.password
+	        }).then(function (userData) {
+	            alert("User created successfully!");
+	            ref.child("users").child(userData.uid).set({
+	                email: user.email,
+	                displayName: user.displayname
+	            });
+	            $ionicLoading.hide();
+	            $scope.modal.hide();
+	        }).catch(function (error) {
+	            alert("Error: " + error);
+	            $ionicLoading.hide();
+	        });
+	    } else
+	        alert("Please fill all details");
+	}
+
+	$scope.signIn = function (user) {
+
+	    if (user && user.email && user.pwdForLogin) {
+	        $ionicLoading.show({
+	            template: 'Signing In...'
+	        });
+	        Auth.$authWithPassword({
+	            email: user.email,
+	            password: user.pwdForLogin
+	        }).then(function (authData) {
+	            console.log("Logged in as:" + authData.uid);
+	            ref.child("users").child(authData.uid).once('value', function (snapshot) {
+	                var val = snapshot.val();
+	                // To Update AngularJS $scope either use $apply or $timeout
+	                $scope.$apply(function () {
+	                    $rootScope.displayName = val;
+	                });
+	            });
+	            $ionicLoading.hide();
+	            $state.go('tab.rooms');
+	        }).catch(function (error) {
+	            alert("Authentication failed:" + error.message);
+	            $ionicLoading.hide();
+	        });
+	    } else
+	        alert("Please enter email and password both");
+	}
+
+/*	$scope.user = {};
 
 	$scope.user.email = "john@doe.com";
 
 	$scope.doSignUp = function(){
 		$state.go('app.feeds-categories');
-	};
+	};*/
 })
+
 
 .controller('ForgotPasswordCtrl', function($scope, $state) {
 	$scope.recoverPassword = function(){
@@ -86,7 +142,7 @@ angular.module('your_app_name.controllers', [])
    });
   };
   $scope.logout = function() {
-    var ref = new Firebase(firebaseUrl);
+    var ref = new Firebase("https://shareopps.firebaseio.com/");
     ref.unauth();
     $state.go('login');
   };
