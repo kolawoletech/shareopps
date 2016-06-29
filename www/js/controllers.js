@@ -34,18 +34,20 @@ angular.module('your_app_name.controllers', [])
 	$scope.$on('my-tabs-changed', function (event, data) {
 		$scope.selected_tab = data.title;
 	});
-
-
-
 })
 
-.controller('SignupCtrl', function($scope, $state) {
-	$scope.user = {};
+.controller('SignupCtrl', function(AuthService, $scope, $state) {
+	$scope.data = {};
 
-	$scope.user.email = "john@doe.com";
+	$scope.createUser = function(signupForm){
+		if (signupForm.$valid) {
+			var newEmail = $scope.data.email;
+			var newPassword = $scope.data.password;
+			var newFullName = $scope.data.fullName;
+			var selectedPlan = $state.params.pId;
+			AuthService.signupEmail(newEmail, newPassword, newFullName, selectedPlan);
+		};
 
-	$scope.doSignUp = function(){
-		$state.go('app.feeds-categories');
 	};
 })
 

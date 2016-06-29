@@ -56,6 +56,16 @@ angular.module('your_app_name', [
       }, 0);
     }
   });
+
+            /*
+            Cath the stateError for un-authenticated users
+            */
+  $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error){
+      if (error === "AUTH_REQUIRED") {
+        $state.go('login');
+      };
+    });
+
   $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams){
     if(toState.name.indexOf('app.feeds-categories') > -1)
     {
@@ -76,8 +86,10 @@ angular.module('your_app_name', [
 
 })
 
+        
+.config(function($firebaseRefProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  $firebaseRefProvider.registerUrl("https://shareopps.firebaseio.com/");
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   $stateProvider
 
   //INTRO
