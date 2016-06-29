@@ -27,7 +27,7 @@
               </my-tab> -->
             </my-tabs>
             <div class="item item-body bottom-content">
-              <button type="submit" class="button button-positive button-block" ng-click="loginWithGoogle()" ng-disabled="(selected_tab=='Email') ? (login_form.user_email.$invalid || login_form.user_password.$invalid) : ((selected_tab=='Phone') ? (login_form.user_phone.$invalid || login_form.user_pin.$invalid) : false)">
+              <button type="submit" class="button button-positive button-block" ng-click="signIn(user)" ng-disabled="(selected_tab=='Email') ? (login_form.user_email.$invalid || login_form.user_password.$invalid) : ((selected_tab=='Phone') ? (login_form.user_phone.$invalid || login_form.user_pin.$invalid) : false)">
                 Log In
               </button>
             </div>

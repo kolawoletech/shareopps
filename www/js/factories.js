@@ -146,7 +146,7 @@ angular.module('your_app_name.factories', [])
 
 
 .factory('Messages', function($firebaseArray) {
-  var messagesRef = new Firebase(firebaseUrl);
+  var messagesRef = new Firebase("https://shareopps.firebaseio.com/");
   return $firebaseArray(messagesRef);
 })
 
