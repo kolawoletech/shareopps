@@ -11,29 +11,22 @@ angular.module('your_app_name.controllers', [])
 
 
 //LOGIN
-.controller('LoginCtrl', function(Auth, $scope, $state, $templateCache, $q, $rootScope) {
-	$scope.loginWithGoogle = function loginWithGoogle() {
-	    Auth.$authWithOAuthPopup('facebook')
-	      .then(function(authData) {
-	        $state.go('app.wordpress');
-	    });
-  	};
+.controller('LoginCtrl', function(AuthService, $scope, $state, $templateCache, $q, $rootScope) {
+// We create a variable called 'data', we asign it to an empty object and bind it to scope, to handle the form data.
+	$scope.data = {};
 
-	$scope.doLogIn = function(){
-		$state.go('app.wordpress');
-	};
-
-	$scope.user = {};
-
-	$scope.user.email = "john@doe.com";
-	$scope.user.pin = "12345";
-
-	// We need this for the form validation
-	$scope.selected_tab = "";
-
-	$scope.$on('my-tabs-changed', function (event, data) {
-		$scope.selected_tab = data.title;
-	});
+/**
+ * Our function is pretty simple, get the username and password from the form, and send it to our auth service, that's it.
+ * The auth service will take care of everything else for you!
+ * @return {[type]} [description]
+ */
+	$scope.loginEmail = function(loginForm){
+		if (loginForm.$valid) {
+			var email = $scope.data.email;
+			var password = $scope.data.password;
+			AuthService.loginUser(email, password);
+		};
+	}
 
 
 
@@ -59,7 +52,7 @@ angular.module('your_app_name.controllers', [])
 		$state.go('app.feeds-categories');
 	};
 
-	$scope.user = {};
+	$scope.data = {};
 })
 
 /*.controller('RateApp', function($scope) {
@@ -75,6 +68,50 @@ angular.module('your_app_name.controllers', [])
 		}
 	};
 })*/
+
+
+
+.controller('ProfileCtrl', function($scope, user, AuthService, $state){
+	// Creating an empty object called data and binding it to the $scope.
+	$scope.data = {};
+		// Creating a userProfile object that will hold the userProfile.userId node
+	$scope.userProfile = AuthService.userProfileData(user.uid);
+
+	/**
+	 * This function will call our service and log the user out.
+	 */
+	$scope.logoutUser = function(){
+		AuthService.logoutUser();
+	};
+
+	/**
+	 * This function will get the oldPassword and newPassword values from the form and then pass them
+	 * to our changePassword() function inside the auth service.
+	 */
+	$scope.changePassword = function(changePasswordForm){
+	  if (changePasswordForm.$valid) {
+	    var oldPassword = $scope.data.oldPassword;
+	    var newPassword = $scope.data.newPassword;
+	    AuthService.changePassword(user.password.email, oldPassword, newPassword);
+	  }
+	};
+
+		/**
+		 * This will take the user's old email, the new email he wants and the user password and pass it to our
+		 * changeEmail() function inside the auth service.
+		 *
+		 * Then it's going to change the email in our userProfile variable (which points to the userProfile
+		 * node in Firebase) and it's going to save that new value.
+		 */
+	$scope.changeEmail = function(changeEmailForm){
+	  if (changeEmailForm.$valid) {
+	    AuthService.changeEmail(user.password.email, $scope.data.newEmail, $scope.data.password);
+	    $scope.userProfile.email = $scope.data.newEmail;
+	    $scope.userProfile.$save();
+	  };
+	};
+})
+
 
 .controller('ChatCtrl', function($scope, $state, $ionicPopup, Messages) {
 

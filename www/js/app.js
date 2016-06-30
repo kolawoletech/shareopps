@@ -285,7 +285,8 @@ angular.module('your_app_name', [
     url: "/profile",
     views: {
       'menuContent': {
-        templateUrl: "views/app/profile.html"
+        templateUrl: "views/app/profile.html",
+        controller: 'ProfileCtrl'
       }
     }
   })
