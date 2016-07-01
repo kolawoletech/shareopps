@@ -9,7 +9,6 @@ angular.module('your_app_name.factories', [])
 
 .factory('AuthService', function($firebaseAuth, $firebaseObject, $firebaseArray, $state, $firebaseRef){
 
-  var firebaseUrl = "https://shareopps.firebaseio.com/"
   var authUser = $firebaseAuth($firebaseRef.default);
 
   return {
@@ -41,20 +40,20 @@ angular.module('your_app_name.factories', [])
             name: newFullName,
             email: newEmail,
           });
-          $state.go('profile');
-        });           
-      }).catch(function(error){
-          switch (error.code) {
-            case "EMAIL_TAKEN":
-              alert("Bro, someone's using that email!");
-              break;
-            case "INVALID_EMAIL":
-              alert("Dude, that is not an email address!");
-              break;
-            default:
-              alert("Error creating user:", error);
-          }
-      });
+          $state.go('app.profile');
+        });
+        }).catch(function(error){
+            switch (error.code) {
+              case "EMAIL_TAKEN":
+                alert("Bro, someone's using that email!");
+                break;
+              case "INVALID_EMAIL":
+                alert("Dude, that is not an email address!");
+                break;
+              default:
+                alert("Error creating user:", error);
+            }
+        });
     },
 
   /**
@@ -66,7 +65,7 @@ angular.module('your_app_name.factories', [])
         "email": email,
         "password": password
       }).then (function(authData){
-        $state.go('profile');
+        $state.go('app.wordpress');
       }).catch(function(error){
         console.log(error);
       });
@@ -74,7 +73,7 @@ angular.module('your_app_name.factories', [])
 
     logoutUser: function(){
       authUser.$unauth();
-      $state.go('login');
+      $state.go('auth.login');
     },
 
   /**
@@ -146,7 +145,7 @@ angular.module('your_app_name.factories', [])
 
 
 .factory('Messages', function($firebaseArray) {
-  var messagesRef = new Firebase("https://shareopps.firebaseio.com/");
+  var messagesRef = new Firebase(firebaseUrl);
   return $firebaseArray(messagesRef);
 })
 

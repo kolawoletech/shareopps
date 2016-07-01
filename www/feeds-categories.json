@@ -1,7 +1,7 @@
 [
 	{
 		"id":"news",
-		"title":"News",
+		"title":"Technology(Innovation)",
 		"image":"img/feeds/news.jpg",
 		"feed_sources":[
 			{
@@ -9,7 +9,7 @@
 				"title":"BBC",
 				"description":"The latest stories from the World section of the BBC News web site.",
 				"image":"img/feeds/logos/bbc.jpg",
-				"url":"http://feeds.bbci.co.uk/news/world/rss.xml"
+				"url":"http://shareopps.co.za/app/api/get_category_posts/?slug=tech"
 			},
 			{
 				"id":"reuters",
@@ -36,7 +36,7 @@
 	},
 	{
 		"id":"sports",
-		"title":"Sports",
+		"title":"Humanities",
 		"image":"img/feeds/sports.jpg",
 		"feed_sources":[
 			{
@@ -71,7 +71,7 @@
 	},
 	{
 		"id":"business",
-		"title":"Business",
+		"title":"Engineering",
 		"image":"img/feeds/business.jpg",
 		"feed_sources":[
 			{
@@ -106,7 +106,7 @@
 	},
 	{
 		"id":"entertainment",
-		"title":"Entertainment",
+		"title":"Business, Arts and Design",
 		"image":"img/feeds/entertainment.jpg",
 		"feed_sources":[
 			{
@@ -134,7 +134,7 @@
 	},
 	{
 		"id":"politics",
-		"title":"Politics",
+		"title":"Natural Sciences",
 		"image":"img/feeds/politics.jpg",
 		"feed_sources":[
 			{
@@ -162,7 +162,119 @@
 	},
 	{
 		"id":"technology",
-		"title":"Technology",
+		"title":"Bursaries & Scholarships",
+		"image":"img/feeds/technology.jpg",
+		"feed_sources":[
+			{
+				"id":"techcrunch",
+				"title":"TechCrunch",
+				"description":"Startup and Technology News",
+				"image":"img/feeds/logos/techcrunch.jpg",
+				"url":"http://feeds.feedburner.com/TechCrunch/social"
+			},
+			{
+				"id":"techradar",
+				"title":"Techradar",
+				"description":"Get all the latest tech news from Techradar.com",
+				"image":"img/feeds/logos/techradar.jpg",
+				"url":"http://feeds2.feedburner.com/techradar/allnews"
+			},
+			{
+				"id":"cnet",
+				"title":"CNET",
+				"description":"CNET news editors and reporters provide top technology news, with investigative reporting and in-depth coverage of tech issues and events",
+				"image":"img/feeds/logos/cnet.jpg",
+				"url":"http://www.cnet.com/rss/news/"
+			}
+		]
+	},
+	{
+		"id":"technology",
+		"title":"Jobs & Graduate Programs",
+		"image":"img/feeds/technology.jpg",
+		"feed_sources":[
+			{
+				"id":"techcrunch",
+				"title":"TechCrunch",
+				"description":"Startup and Technology News",
+				"image":"img/feeds/logos/techcrunch.jpg",
+				"url":"http://feeds.feedburner.com/TechCrunch/social"
+			},
+			{
+				"id":"techradar",
+				"title":"Techradar",
+				"description":"Get all the latest tech news from Techradar.com",
+				"image":"img/feeds/logos/techradar.jpg",
+				"url":"http://feeds2.feedburner.com/techradar/allnews"
+			},
+			{
+				"id":"cnet",
+				"title":"CNET",
+				"description":"CNET news editors and reporters provide top technology news, with investigative reporting and in-depth coverage of tech issues and events",
+				"image":"img/feeds/logos/cnet.jpg",
+				"url":"http://www.cnet.com/rss/news/"
+			}
+		]
+	},
+	{
+		"id":"technology",
+		"title":"Conferences",
+		"image":"img/feeds/technology.jpg",
+		"feed_sources":[
+			{
+				"id":"techcrunch",
+				"title":"TechCrunch",
+				"description":"Startup and Technology News",
+				"image":"img/feeds/logos/techcrunch.jpg",
+				"url":"http://feeds.feedburner.com/TechCrunch/social"
+			},
+			{
+				"id":"techradar",
+				"title":"Techradar",
+				"description":"Get all the latest tech news from Techradar.com",
+				"image":"img/feeds/logos/techradar.jpg",
+				"url":"http://feeds2.feedburner.com/techradar/allnews"
+			},
+			{
+				"id":"cnet",
+				"title":"CNET",
+				"description":"CNET news editors and reporters provide top technology news, with investigative reporting and in-depth coverage of tech issues and events",
+				"image":"img/feeds/logos/cnet.jpg",
+				"url":"http://www.cnet.com/rss/news/"
+			}
+		]
+	},
+	{
+		"id":"technology",
+		"title":"Personal Developments",
+		"image":"img/feeds/technology.jpg",
+		"feed_sources":[
+			{
+				"id":"techcrunch",
+				"title":"TechCrunch",
+				"description":"Startup and Technology News",
+				"image":"img/feeds/logos/techcrunch.jpg",
+				"url":"http://feeds.feedburner.com/TechCrunch/social"
+			},
+			{
+				"id":"techradar",
+				"title":"Techradar",
+				"description":"Get all the latest tech news from Techradar.com",
+				"image":"img/feeds/logos/techradar.jpg",
+				"url":"http://feeds2.feedburner.com/techradar/allnews"
+			},
+			{
+				"id":"cnet",
+				"title":"CNET",
+				"description":"CNET news editors and reporters provide top technology news, with investigative reporting and in-depth coverage of tech issues and events",
+				"image":"img/feeds/logos/cnet.jpg",
+				"url":"http://www.cnet.com/rss/news/"
+			}
+		]
+	},
+	{
+		"id":"technology",
+		"title":"Competitions",
 		"image":"img/feeds/technology.jpg",
 		"feed_sources":[
 			{

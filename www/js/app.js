@@ -11,13 +11,12 @@ angular.module('underscore', [])
 angular.module('your_app_name', [
   'ionic',
   'angularMoment',
-    'your_app_name.config',
+  'your_app_name.config',
   'your_app_name.controllers',
   'your_app_name.directives',
   'your_app_name.filters',
   'your_app_name.services',
   'your_app_name.factories',
-
   'your_app_name.views',
   'underscore',
   'ngMap',
@@ -288,9 +287,34 @@ angular.module('your_app_name', [
         templateUrl: "views/app/profile.html",
         controller: 'ProfileCtrl'
       }
+    },
+    resolve: {
+      user: function($firebaseAuthService) {
+        return $firebaseAuthService.$requireAuth();
+      }
+    }
+  })
+  .state('changeEmail', {
+    url: '/changeEmail',
+    templateUrl: 'views/app/changeEmail.html',
+    controller: 'ProfileCtrl',
+    resolve: {
+      user: function($firebaseAuthService) {
+        return $firebaseAuthService.$requireAuth();
+      }
     }
   })
 
+  .state('changePassword', {
+    url: '/changePassword',
+    templateUrl: 'views/app/changePassword.html',
+    controller: 'ProfileCtrl',
+    resolve: {
+      user: function($firebaseAuthService) {
+        return $firebaseAuthService.$requireAuth();
+      }
+    }
+  })
   .state('app.bookmarks', {
     url: "/bookmarks",
     views: {
