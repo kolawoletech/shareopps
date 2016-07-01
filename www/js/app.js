@@ -129,61 +129,12 @@ angular.module('your_app_name', [
     controller: 'AppCtrl'
   })
 
-  //MISCELLANEOUS
-  .state('app.miscellaneous', {
-    url: "/miscellaneous",
+  .state('app.feedback', {
+    url: "/feedback",
     views: {
       'menuContent': {
-        templateUrl: "views/app/miscellaneous/miscellaneous.html"
-      }
-    }
-  })
-
-  .state('app.maps', {
-    url: "/miscellaneous/maps",
-    views: {
-      'menuContent': {
-        templateUrl: "views/app/miscellaneous/maps.html",
-        controller: 'MapsCtrl'
-      }
-    }
-  })
-
-  .state('app.image-picker', {
-    url: "/miscellaneous/image-picker",
-    views: {
-      'menuContent': {
-        templateUrl: "views/app/miscellaneous/image-picker.html",
-        controller: 'ImagePickerCtrl'
-      }
-    }
-  })
-
-  //LAYOUTS
-  .state('app.layouts', {
-    url: "/layouts",
-    views: {
-      'menuContent': {
-        templateUrl: "views/app/layouts/layouts.html"
-      }
-    }
-  })
-
-  .state('app.tinder-cards', {
-    url: "/layouts/tinder-cards",
-    views: {
-      'menuContent': {
-        templateUrl: "views/app/layouts/tinder-cards.html",
-        controller: 'TinderCardsCtrl'
-      }
-    }
-  })
-
-  .state('app.slider', {
-    url: "/layouts/slider",
-    views: {
-      'menuContent': {
-        templateUrl: "views/app/layouts/slider.html"
+        templateUrl: "views/app/feedback/feedback.html",
+        controller: 'SendMailCtrl'
       }
     }
   })
@@ -240,46 +191,6 @@ angular.module('your_app_name', [
     }
   })
 
-  .state('app.post', {
-    url: "/wordpress/:postId",
-    views: {
-      'menuContent': {
-        templateUrl: "views/app/wordpress/wordpress_post.html",
-        controller: 'WordpressPostCtrl'
-      }
-    },
-    resolve: {
-      post_data: function(PostService, $ionicLoading, $stateParams) {
-        $ionicLoading.show({
-          template: 'Loading ...'
-        });
-
-        var postId = $stateParams.postId;
-        return PostService.getPost(postId);
-      }
-    }
-  })
-
-  //OTHERS
-  .state('app.settings', {
-    url: "/settings",
-    views: {
-      'menuContent': {
-        templateUrl: "views/app/settings.html",
-        controller: 'SettingsCtrl'
-      }
-    }
-  })
-
-  .state('app.forms', {
-    url: "/forms",
-    views: {
-      'menuContent': {
-        templateUrl: "views/app/forms.html"
-      }
-    }
-  })
-
   .state('app.profile', {
     url: "/profile",
     views: {
@@ -294,6 +205,7 @@ angular.module('your_app_name', [
       }
     }
   })
+
   .state('changeEmail', {
     url: '/changeEmail',
     templateUrl: 'views/app/changeEmail.html',
