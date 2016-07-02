@@ -151,6 +151,121 @@ angular.module('your_app_name.controllers', [])
 	};
 })
 
+.controller('MapsCtrl', function($scope, $ionicLoading) {
+
+	$scope.info_position = {
+		lat: 43.07493,
+		lng: -89.381388
+	};
+
+	$scope.center_position = {
+		lat: 43.07493,
+		lng: -89.381388
+	};
+
+	$scope.my_location = "";
+
+	$scope.$on('mapInitialized', function(event, map) {
+		$scope.map = map;
+	});
+
+	$scope.centerOnMe= function(){
+
+		$scope.positions = [];
+
+		$ionicLoading.show({
+			template: 'Loading...'
+		});
+
+		// with this function you can get the user’s current position
+		// we use this plugin: https://github.com/apache/cordova-plugin-geolocation/
+		navigator.geolocation.getCurrentPosition(function(position) {
+			var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+			$scope.current_position = {lat: pos.G,lng: pos.K};
+			$scope.my_location = pos.G+", "+pos.K;
+			$scope.map.setCenter(pos);
+			$ionicLoading.hide();
+		});
+	};
+})
+
+/*.controller('AdsCtrl', function($scope, $ionicActionSheet, AdMob, iAd) {
+
+	$scope.manageAdMob = function() {
+
+		// Show the action sheet
+		var hideSheet = $ionicActionSheet.show({
+			//Here you can add some more buttons
+			buttons: [
+				{ text: 'Show Banner' },
+				{ text: 'Show Interstitial' }
+			],
+			destructiveText: 'Remove Ads',
+			titleText: 'Choose the ad to show',
+			cancelText: 'Cancel',
+			cancel: function() {
+				// add cancel code..
+			},
+			destructiveButtonClicked: function() {
+				console.log("removing ads");
+				AdMob.removeAds();
+				return true;
+			},
+			buttonClicked: function(index, button) {
+				if(button.text == 'Show Banner')
+				{
+					console.log("show banner");
+					AdMob.showBanner();
+				}
+
+				if(button.text == 'Show Interstitial')
+				{
+					console.log("show interstitial");
+					AdMob.showInterstitial();
+				}
+
+				return true;
+			}
+		});
+	};
+
+	$scope.manageiAd = function() {
+
+		// Show the action sheet
+		var hideSheet = $ionicActionSheet.show({
+			//Here you can add some more buttons
+			buttons: [
+			{ text: 'Show iAd Banner' },
+			{ text: 'Show iAd Interstitial' }
+			],
+			destructiveText: 'Remove Ads',
+			titleText: 'Choose the ad to show - Interstitial only works in iPad',
+			cancelText: 'Cancel',
+			cancel: function() {
+				// add cancel code..
+			},
+			destructiveButtonClicked: function() {
+				console.log("removing ads");
+				iAd.removeAds();
+				return true;
+			},
+			buttonClicked: function(index, button) {
+				if(button.text == 'Show iAd Banner')
+				{
+					console.log("show iAd banner");
+					iAd.showBanner();
+				}
+				if(button.text == 'Show iAd Interstitial')
+				{
+					console.log("show iAd interstitial");
+					iAd.showInterstitial();
+				}
+				return true;
+			}
+		});
+	};
+})*/
+
 // FEED
 //brings all feed categories
 .controller('FeedsCategoriesCtrl', function($scope, $http) {
@@ -173,8 +288,6 @@ angular.module('your_app_name.controllers', [])
 		$scope.category_sources = category.feed_sources;
 	});
 })
-
-
 
 //this method brings posts for a source provider
 .controller('FeedEntriesCtrl', function($scope, $stateParams, $http, FeedList, $q, $ionicLoading, BookMarkService) {
@@ -336,7 +449,7 @@ angular.module('your_app_name.controllers', [])
 
 	$scope.doRefresh = function() {
 		$ionicLoading.show({
-			template: 'Loading ...'
+			template: 'Loading posts...'
 		});
 
 		//Always bring me the latest posts => page=1

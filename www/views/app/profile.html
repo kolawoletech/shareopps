@@ -3,18 +3,15 @@
     <span>Profile</span>
   </ion-nav-title>
   <ion-content>
-    <div class="top-content row">
+    <div>
       <div class="profile-container">
-        <div class="user-image-container">
+<!--         <div class="user-image-container">
           <pre-img ratio="_1_1" helper-class="rounded-image">
             <img class="user-image" ng-src="https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg" spinner-on-load>
           </pre-img>
         </div>
         <div class="user-name">Brynn Evans</div>
-        <div class="user-twitter">@brynn</div>
-                      <div class="col">
-            <ion-profile-picture ng-model="myPicture" />
-              </div>
+        <div class="user-twitter">@brynn</div>  -->
       </div>
       <div class="user-background-image-outer">
         <div multi-bg="['https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg']">
@@ -22,6 +19,17 @@
         </div>
       </div>
     </div>
+    <div>
+
+    <ion-list>
+    <h4>Select Your Opportunities Interest</h4>
+      <ion-checkbox ng-model="filter.red">Technology and Innovation</ion-checkbox>
+      <ion-checkbox ng-model="filter.yellow">Humanities</ion-checkbox>
+      <ion-checkbox ng-model="filter.pink">Natural Sciences</ion-checkbox>
+      <ion-checkbox ng-model="filter.yellow">Business, Arts and Design</ion-checkbox>
+      <ion-checkbox ng-model="filter.yellow">Engineering</ion-checkbox>
+    </ion-list>
+  </div>
     <div class="bottom-content">
       <div class="user-bio">
         <p></p>

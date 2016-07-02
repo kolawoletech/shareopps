@@ -190,7 +190,25 @@ angular.module('your_app_name', [
       }
     }
   })
+  .state('app.post', {
+    url: "/wordpress/:postId",
+    views: {
+      'menuContent': {
+        templateUrl: "views/app/wordpress/wordpress_post.html",
+        controller: 'WordpressPostCtrl'
+      }
+    },
+    resolve: {
+      post_data: function(PostService, $ionicLoading, $stateParams) {
+        $ionicLoading.show({
+          template: 'Loading ...'
+        });
 
+        var postId = $stateParams.postId;
+        return PostService.getPost(postId);
+      }
+    }
+  })
   .state('app.profile', {
     url: "/profile",
     views: {

@@ -1,15 +1,15 @@
 [
 	{
-		"id":"technology",
-		"title":"Technology",
-		"image":"img/feeds/news.jpg",
+		"id":"competitions",
+		"title":"Competitions",
+		"image":"img/feeds/technology.jpg",
 		"feed_sources":[
 			{
-				"id":"bbc",
-				"title":"Tech",
-				"description":"The latest stories from the World section of the BBC News web site.",
-				"image":"img/feeds/logos/bbc.jpg",
-				"url":"http://shareopps.co.za/app/api/get_category_posts/?slug=tech"
+				"id":"techcrunch",
+				"title":"TechCrunch",
+				"description":"Startup and Technology News",
+				"image":"img/feeds/logos/techcrunch.jpg",
+				"url":"http://feeds.feedburner.com/TechCrunch/social"
 			}
 		]
 	},
