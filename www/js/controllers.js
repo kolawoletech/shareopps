@@ -55,22 +55,6 @@ angular.module('your_app_name.controllers', [])
 	$scope.data = {};
 })
 
-/*.controller('RateApp', function($scope) {
-	$scope.rateApp = function(){
-		if(ionic.Platform.isIOS()){
-			//you need to set your own ios app id
-			AppRate.preferences.storeAppURL.ios = '1234555553>';
-			AppRate.promptForRating(true);
-		}else if(ionic.Platform.isAndroid()){
-			//you need to set your own android app id
-			AppRate.preferences.storeAppURL.android = 'market://details?id=ionFB';
-			AppRate.promptForRating(true);
-		}
-	};
-})*/
-
-
-
 .controller('ProfileCtrl', function($scope, user, AuthService, $state){
 	// Creating an empty object called data and binding it to the $scope.
 	$scope.data = {};
@@ -113,7 +97,7 @@ angular.module('your_app_name.controllers', [])
 })
 
 
-.controller('ChatCtrl', function($scope, $state, $ionicPopup, Messages) {
+/*.controller('ChatCtrl', function($scope, $state, $ionicPopup, Messages) {
 
   $scope.messages = Messages;
 
@@ -133,7 +117,7 @@ angular.module('your_app_name.controllers', [])
     $state.go('login');
   };
 })
-
+*/
 .controller('SendMailCtrl', function($scope) {
 	$scope.sendMail = function(){
 		cordova.plugins.email.isAvailable(
@@ -141,8 +125,7 @@ angular.module('your_app_name.controllers', [])
 				// alert('Service is not available') unless isAvailable;
 				cordova.plugins.email.open({
 					to:      'mail@shareopps.co.za',
-					cc:      'admin@sthareopps.co.za',
-					// bcc:     ['john@doe.com', 'jane@doe.com'],
+					cc:      'admin@shareopps.co.za',
 					subject: 'MAIL sent from App User',
 					body:    'Yet to Implement'
 				});
@@ -151,145 +134,20 @@ angular.module('your_app_name.controllers', [])
 	};
 })
 
-.controller('MapsCtrl', function($scope, $ionicLoading) {
-
-	$scope.info_position = {
-		lat: 43.07493,
-		lng: -89.381388
-	};
-
-	$scope.center_position = {
-		lat: 43.07493,
-		lng: -89.381388
-	};
-
-	$scope.my_location = "";
-
-	$scope.$on('mapInitialized', function(event, map) {
-		$scope.map = map;
-	});
-
-	$scope.centerOnMe= function(){
-
-		$scope.positions = [];
-
-		$ionicLoading.show({
-			template: 'Loading...'
-		});
-
-		// with this function you can get the user’s current position
-		// we use this plugin: https://github.com/apache/cordova-plugin-geolocation/
-		navigator.geolocation.getCurrentPosition(function(position) {
-			var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-			$scope.current_position = {lat: pos.G,lng: pos.K};
-			$scope.my_location = pos.G+", "+pos.K;
-			$scope.map.setCenter(pos);
-			$ionicLoading.hide();
-		});
-	};
-})
-
-/*.controller('AdsCtrl', function($scope, $ionicActionSheet, AdMob, iAd) {
-
-	$scope.manageAdMob = function() {
-
-		// Show the action sheet
-		var hideSheet = $ionicActionSheet.show({
-			//Here you can add some more buttons
-			buttons: [
-				{ text: 'Show Banner' },
-				{ text: 'Show Interstitial' }
-			],
-			destructiveText: 'Remove Ads',
-			titleText: 'Choose the ad to show',
-			cancelText: 'Cancel',
-			cancel: function() {
-				// add cancel code..
-			},
-			destructiveButtonClicked: function() {
-				console.log("removing ads");
-				AdMob.removeAds();
-				return true;
-			},
-			buttonClicked: function(index, button) {
-				if(button.text == 'Show Banner')
-				{
-					console.log("show banner");
-					AdMob.showBanner();
-				}
-
-				if(button.text == 'Show Interstitial')
-				{
-					console.log("show interstitial");
-					AdMob.showInterstitial();
-				}
-
-				return true;
-			}
-		});
-	};
-
-	$scope.manageiAd = function() {
-
-		// Show the action sheet
-		var hideSheet = $ionicActionSheet.show({
-			//Here you can add some more buttons
-			buttons: [
-			{ text: 'Show iAd Banner' },
-			{ text: 'Show iAd Interstitial' }
-			],
-			destructiveText: 'Remove Ads',
-			titleText: 'Choose the ad to show - Interstitial only works in iPad',
-			cancelText: 'Cancel',
-			cancel: function() {
-				// add cancel code..
-			},
-			destructiveButtonClicked: function() {
-				console.log("removing ads");
-				iAd.removeAds();
-				return true;
-			},
-			buttonClicked: function(index, button) {
-				if(button.text == 'Show iAd Banner')
-				{
-					console.log("show iAd banner");
-					iAd.showBanner();
-				}
-				if(button.text == 'Show iAd Interstitial')
-				{
-					console.log("show iAd interstitial");
-					iAd.showInterstitial();
-				}
-				return true;
-			}
-		});
-	};
-})*/
-
 // FEED
 //brings all feed categories
-.controller('FeedsCategoriesCtrl', function($scope, $http) {
+/*.controller('FeedsCategoriesCtrl', function($scope, $http) {
 	$scope.feeds_categories = [];
 
 	$http.get('feeds-categories.json').success(function(response) {
 		$scope.feeds_categories = response;
 	});
 })
-
+*/
 //bring specific category providers
-.controller('CategoryFeedsCtrl', function($scope, $http, $stateParams) {
-	$scope.category_sources = [];
 
-	$scope.categoryId = $stateParams.categoryId;
 
-	$http.get('feeds-categories.json').success(function(response) {
-		var category = _.find(response, {id: $scope.categoryId});
-		$scope.categoryTitle = category.title;
-		$scope.category_sources = category.feed_sources;
-	});
-})
-
-//this method brings posts for a source provider
+/*//this method brings posts for a source provider
 .controller('FeedEntriesCtrl', function($scope, $stateParams, $http, FeedList, $q, $ionicLoading, BookMarkService) {
 	$scope.feed = [];
 
@@ -328,9 +186,9 @@ angular.module('your_app_name.controllers', [])
 		BookMarkService.bookmarkFeedPost(post);
 	};
 })
-
+*/
 // SETTINGS
-.controller('SettingsCtrl', function($scope, $ionicActionSheet, $state) {
+/*.controller('SettingsCtrl', function($scope, $ionicActionSheet, $state) {
 	$scope.airplaneMode = true;
 	$scope.wifi = false;
 	$scope.bluetooth = true;
@@ -372,54 +230,6 @@ angular.module('your_app_name.controllers', [])
 		});
 
 	};
-})
-
-// TINDER CARDS
-/*.controller('TinderCardsCtrl', function($scope, $http) {
-
-	$scope.cards = [];
-
-
-	$scope.addCard = function(img, name) {
-		var newCard = {image: img, name: name};
-		newCard.id = Math.random();
-		$scope.cards.unshift(angular.extend({}, newCard));
-	};
-
-	$scope.addCards = function(count) {
-		$http.get('http://api.randomuser.me/?results=' + count).then(function(value) {
-			angular.forEach(value.data.results, function (v) {
-				$scope.addCard(v.user.picture.large, v.user.name.first + " " + v.user.name.last);
-			});
-		});
-	};
-
-	$scope.addFirstCards = function() {
-		$scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/left.png","Nope");
-		$scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/right.png", "Yes");
-	};
-
-	$scope.addFirstCards();
-	$scope.addCards(5);
-
-	$scope.cardDestroyed = function(index) {
-		$scope.cards.splice(index, 1);
-		$scope.addCards(1);
-	};
-
-	$scope.transitionOut = function(card) {
-		console.log('card transition out');
-	};
-
-	$scope.transitionRight = function(card) {
-		console.log('card removed to the right');
-		console.log(card);
-	};
-
-	$scope.transitionLeft = function(card) {
-		console.log('card removed to the left');
-		console.log(card);
-	};
 })*/
 
 
@@ -440,6 +250,22 @@ angular.module('your_app_name.controllers', [])
 		$state.go('app.post', {postId: postId});
 	};
 })
+
+/*.controller('CatsPostsCtrl', function($scope, $http, $stateParams) {
+	console.log($stateParams);
+	// You can change this url to experiment with other endpoints
+	//http://localhost/khaliddev/azkarserv/api/?json=get_category_posts&slug=azkar-for-morning&status=publish
+	var postsApi = 'http://shareopps.co.za/app/api/?json=get_category_posts&slug=' + $stateParams.slug + '&status=publish=JSON_CALLBACK';
+	$scope.category = $stateParams.category.name;
+	// This should go in a service so we can reuse it
+	$http.jsonp( postsApi, {cache:true} ).success(function(data, status, headers, config) {
+		$scope.posts = data;
+		console.log( data );
+	}).
+	error(function(data, status, headers, config) {
+		console.log( 'Post load error.' );
+	});
+})*/
 
 // WORDPRESS
 .controller('WordpressCtrl', function($scope, $http, $ionicLoading, PostService, BookMarkService) {
@@ -489,6 +315,7 @@ angular.module('your_app_name.controllers', [])
 	$scope.doRefresh();
 })
 
+
 // WORDPRESS POST
 .controller('WordpressPostCtrl', function($scope, post_data, $ionicLoading) {
 
@@ -501,38 +328,108 @@ angular.module('your_app_name.controllers', [])
 })
 
 
-.controller('ImagePickerCtrl', function($scope, $rootScope, $cordovaCamera) {
 
-	$scope.images = [];
+/*// WORDPRESS
+.controller('CategoryCtrl', function($scope, $http, $ionicLoading, PostService, BookMarkService) {
+	$scope.posts = [];
+	$scope.category = [];
+	$scope.page = 1;
+	$scope.totalPages = 1;
 
-	$scope.selImages = function() {
+	$scope.doRefresh = function() {
+		$ionicLoading.show({
+			template: 'Loading ...'
+		});
 
-		window.imagePicker.getPictures(
-			function(results) {
-				for (var i = 0; i < results.length; i++) {
-					console.log('Image URI: ' + results[i]);
-					$scope.images.push(results[i]);
-				}
-				if(!$scope.$$phase) {
-					$scope.$apply();
-				}
-			}, function (error) {
-				console.log('Error: ' + error);
-			}
-		);
+		//Always bring me the latest posts => page=1
+		$http.jsonp('http://shareopps.co.za/app/?json=get_category_index' +
+		'&callback=JSON_CALLBACK')
+		.success(function(data) {
+			$scope.category = data.categories;
+			$scope.slug = data.slug;
+			console.log(data.categories);
+			console.log(data.slug);
+		})
+		.error(function(data) {
+			console.log('data.categories');
+		})
 	};
 
-	$scope.removeImage = function(image) {
-		$scope.images = _.without($scope.images, image);
+	$scope.loadMoreData = function(){
+		$scope.page += 1;
+
+		PostService.getCategoryPosts($scope.page)
+		.then(function(data){
+			//We will update this value in every request because new posts can be created
+			$scope.totalPages = data.pages;
+			var new_posts = PostService.shortenPosts(data.posts);
+			$scope.posts = $scope.posts.concat(new_posts);
+
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+		});
 	};
 
-	$scope.shareImage = function(image) {
-		window.plugins.socialsharing.share(null, null, image);
+	$scope.moreDataCanBeLoaded = function(){
+		return $scope.totalPages > $scope.page;
 	};
 
-	$scope.shareAll = function() {
-		window.plugins.socialsharing.share(null, null, $scope.images);
+	$scope.bookmarkPost = function(post){
+		$ionicLoading.show({ template: 'Post Saved!', noBackdrop: true, duration: 1000 });
+		BookMarkService.bookmarkWordpressPost(post);
 	};
+
+	$scope.doRefresh();
 })
+*/
+
+// WORDPRESS
+.controller('WordpressCtrl2', function($state,$scope, $stateParams, $http, $ionicLoading, PostService, BookMarkService) {
+	$scope.category = [];
+	$scope.posts = [];
+	$scope.page = 1;
+	$scope.totalPages = 1;
+
+	$scope.doRefresh = function() {
+		$ionicLoading.show({
+			template: 'Loading Opportunities...'
+		});
+
+		//Always bring me the latest posts => page=1
+		PostService.getCategoryPosts(1)
+		.then(function(data){
+			$scope.totalPages = data.pages;
+			$scope.category = data.categories;
+			$ionicLoading.hide();
+			$scope.$broadcast('scroll.refreshComplete');
+
+		});
+	};
+
+	$scope.loadMoreData = function(){
+		$scope.page += 1;
+
+		PostService.getCategoryPosts($scope.page)
+		.then(function(data){
+			//We will update this value in every request because new posts can be created
+			$scope.totalPages = data.pages;
+			var new_posts = PostService.shortenPosts(data.posts);
+			$scope.category = $scope.posts.concat(new_posts);
+
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+		});
+	};
+
+	$scope.moreDataCanBeLoaded = function(){
+		return $scope.totalPages > $scope.page;
+	};
+
+	$scope.bookmarkPost = function(post){
+		$ionicLoading.show({ template: 'Post Saved!', noBackdrop: true, duration: 1000 });
+		BookMarkService.bookmarkWordpressPost(post);
+	};
+
+	$scope.doRefresh();
+})
+
 
 ;

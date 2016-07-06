@@ -85,7 +85,6 @@ angular.module('your_app_name', [
 
 })
 
-        
 .config(function($firebaseRefProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   $firebaseRefProvider.registerUrl("https://shareopps.firebaseio.com/");
 
@@ -165,7 +164,7 @@ angular.module('your_app_name', [
     views: {
       'menuContent': {
         templateUrl: "views/app/feeds/category-feeds.html",
-        controller: 'CategoryFeedsCtrl'
+        controller: 'CatsPostsCtrl'
       }
     }
   })
@@ -187,6 +186,35 @@ angular.module('your_app_name', [
       'menuContent': {
         templateUrl: "views/app/wordpress/wordpress.html",
         controller: 'WordpressCtrl'
+      }
+    }
+  })
+  //WORDPRESS
+  .state('app.category', {
+    url: "/category",
+    views: {
+      'menuContent': {
+        templateUrl: "views/app/wordpress/categories.html",
+        controller: 'WordpressCtrl2'
+      }
+    }
+  })
+  .state('app.category_detail', {
+    url: "/category/:slug",
+    views: {
+      'menuContent': {
+        templateUrl: "views/app/wordpress/categories_post.html",
+        controller: 'CategoryPostCtrl'
+      }
+    },
+    resolve: {
+      post_data: function(PostService, $ionicLoading, $stateParams) {
+        $ionicLoading.show({
+          template: 'Loading ...'
+        });
+
+        var slug = $stateParams.slug;
+        return PostService.getPost(slug);
       }
     }
   })

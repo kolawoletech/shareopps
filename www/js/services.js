@@ -167,7 +167,7 @@ angular.module('your_app_name.services', [])
 
 
 // WP POSTS RELATED FUNCTIONS
-.service('PostService', function ($rootScope, $http, $q, WORDPRESS_API_URL){
+.service('PostService', function ($rootScope, $http, $q, WORDPRESS_API_URL, $stateParams){
 
 	this.getRecentPosts = function(page) {
 		var deferred = $q.defer();
@@ -185,6 +185,23 @@ angular.module('your_app_name.services', [])
 		return deferred.promise;
 	};
 
+	this.getCategoryPosts = function(post) {
+		var deferred = $q.defer();
+
+		$http.jsonp('http://shareopps.co.za/app/?json=get_category_index' +
+		'&callback=JSON_CALLBACK')
+		.success(function(data) {
+			deferred.resolve(data);
+			console.log(data.categories);
+		})
+		.error(function(data) {
+			deferred.reject(data);
+		});
+
+		return deferred.promise;
+	};
+
+
 
 	this.getPost = function(postId) {
 		var deferred = $q.defer();
@@ -201,6 +218,7 @@ angular.module('your_app_name.services', [])
 
 		return deferred.promise;
 	};
+
 
 	this.shortenPosts = function(posts) {
 		//we will shorten the post

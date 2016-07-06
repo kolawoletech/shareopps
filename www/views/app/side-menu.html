@@ -16,26 +16,26 @@
       <ion-list>
         <ion-item class="heading-item item item-avatar" nav-clear menu-close ui-sref="app.profile">
           <div class="user-image-container">
-<!--             <pre-img ratio="_1_1" helper-class="rounded-image">
+<!--        <pre-img ratio="_1_1" helper-class="rounded-image">
               <img class="user-image" ng-src="https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg" spinner-on-load>
           	</pre-img> -->
           </div>
-          <h2 class="greeting">Hi {{user}}</h2>
+          <h2 class="greeting">Hi {{data.fullName}}</h2>
           <p class="message">Welcome back</p>
         </ion-item>
         <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.wordpress">
           <i class="icon ion-social-wordpress"></i>
-          <h2 class="menu-text">Recent Opportunities</h2>
+          <h2 class="menu-text">My Opportunities</h2>
         </ion-item>
         <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.bookmarks">
           <i class="icon ion-bookmark"></i>
           <h2 class="menu-text">Saved Opportunities</h2>
         </ion-item>
-        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.feeds-categories">
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.category">
           <i class="icon ion-radio-waves"></i>
           <h2 class="menu-text">Categories</h2>
         </ion-item>
-        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.feeds-categories">
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.wordpress">
           <i class="icon ion-radio-waves"></i>
           <h2 class="menu-text">All Opportunities</h2>
         </ion-item>
