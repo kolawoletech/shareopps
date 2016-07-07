@@ -201,13 +201,27 @@ angular.module('your_app_name.services', [])
 		return deferred.promise;
 	};
 
-
-
 	this.getPost = function(postId) {
 		var deferred = $q.defer();
 
 		$http.jsonp(WORDPRESS_API_URL + 'get_post/' +
 		'?post_id='+ postId +
+		'&callback=JSON_CALLBACK')
+		.success(function(data) {
+			deferred.resolve(data);
+		})
+		.error(function(data) {
+			deferred.reject(data);
+		});
+
+		return deferred.promise;
+	};
+	//slug = postId
+	this.getCatPost = function(slug) {
+		var deferred = $q.defer();
+
+		$http.jsonp(WORDPRESS_API_URL + 'get_category_post/' +
+		'?slug='+ slug +
 		'&callback=JSON_CALLBACK')
 		.success(function(data) {
 			deferred.resolve(data);

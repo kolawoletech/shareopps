@@ -206,16 +206,6 @@ angular.module('your_app_name', [
         templateUrl: "views/app/wordpress/categories_post.html",
         controller: 'CategoryPostCtrl'
       }
-    },
-    resolve: {
-      post_data: function(PostService, $ionicLoading, $stateParams) {
-        $ionicLoading.show({
-          template: 'Loading ...'
-        });
-
-        var slug = $stateParams.slug;
-        return PostService.getPost(slug);
-      }
     }
   })
   .state('app.post', {

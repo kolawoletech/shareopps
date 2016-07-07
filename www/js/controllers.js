@@ -388,10 +388,10 @@ angular.module('your_app_name.controllers', [])
 	$scope.posts = [];
 	$scope.page = 1;
 	$scope.totalPages = 1;
-
+	var slug = $stateParams.slug;
 	$scope.doRefresh = function() {
 		$ionicLoading.show({
-			template: 'Loading Opportunities...'
+			template: 'Loading Categories...'
 		});
 
 		//Always bring me the latest posts => page=1
@@ -431,5 +431,19 @@ angular.module('your_app_name.controllers', [])
 	$scope.doRefresh();
 })
 
+.controller('CategoryPostCtrl', function(WORDPRESS_API_URL, $state,$scope, $stateParams, $http, $ionicLoading, PostService, BookMarkService){
+	$http.jsonp(WORDPRESS_API_URL + 'get_category_posts/?slug='+$stateParams.slug+'&callback=JSON_CALLBACK')
+	.success(function(data) {
+		$scope.posts =  data.posts;
+		console.log(data.posts);
+	})
+})
 
+.controller('CategoryPostCtrl2', function(WORDPRESS_API_URL, $state,$scope, $stateParams, $http, $ionicLoading, PostService, BookMarkService){
+	$http.jsonp(WORDPRESS_API_URL + 'get_category_posts/?slug='+'tech'+'&callback=JSON_CALLBACK')
+	.success(function(data) {
+		$scope.posts =  data.posts;
+		console.log(data.posts);
+	})
+})
 ;

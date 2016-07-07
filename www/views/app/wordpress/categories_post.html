@@ -1,4 +1,4 @@
-<ion-view class="wordpress-view">
+<ion-view hide-back-button class="wordpress-view">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
@@ -25,7 +25,7 @@
               <a class="button button-icon icon ion-bookmark" ng-click="bookmarkPost(post)"></a>
             </div>
             <div class="read-more col col-center col-33">
-              <a ui-sref="app.category_detail({postId: post.id})" class="button button-small button-block button-assertive">
+              <a ui-sref="app.category_detail({slug: post.id})" class="button button-small button-block button-assertive">
                 Read more
               </a>
             </div>

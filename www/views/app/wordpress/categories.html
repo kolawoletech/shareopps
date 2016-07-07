@@ -1,9 +1,9 @@
-<ion-view class="wordpress-view">
+<ion-view hide-back-button class="wordpress-view">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-nav-title>
-    <span>Opportunities</span>
+    <span>Categories</span>
   </ion-nav-title>
   <ion-content>
     <!-- Refresh to get the new posts -->
@@ -17,11 +17,12 @@
 
     <div class="row categories-list">
       <div ng-repeat="cat in category" class="col col-50">
-        <a class="feed-category" ui-sref="app.category_detail({slug:slug})">
+        <a class="feed-category" ui-sref="app.category_detail({slug:cat.slug})">
           <pre-img ratio="_1_1" helper-class="square-image">
             <img class="category-image" ng-src="{{category.image}}">
-            <h3 class="category-title assertive">{{cat.title}}</h3>
+            <h3 class="category-title assertive">{{cat.title}} -- {{cat.slug}}</h3>
             <h3 class="category-title assertive">{{cat.description}}</h3>
+
           </pre-img>
           <div class="category-bg"></div>
         </a>
