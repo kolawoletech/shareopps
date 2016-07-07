@@ -64,6 +64,7 @@ angular.module('your_app_name.controllers', [])
 	/**
 	 * This function will call our service and log the user out.
 	 */
+	$scope.myPicture = {};
 	$scope.logoutUser = function(){
 		AuthService.logoutUser();
 	};
