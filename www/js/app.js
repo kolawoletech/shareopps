@@ -9,7 +9,7 @@ angular.module('underscore', [])
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 angular.module('your_app_name', [
-  'ionic',
+  'ionic','ionic.service.core',
   'angularMoment',
   'your_app_name.config',
   'your_app_name.controllers',
@@ -60,10 +60,10 @@ angular.module('your_app_name', [
             Cath the stateError for un-authenticated users
             */
   $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error){
-      if (error === "AUTH_REQUIRED") {
-        $state.go('login');
-      };
-    });
+    if (error === "AUTH_REQUIRED") {
+      $state.go('login');
+    }
+  });
 
   $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams){
     if(toState.name.indexOf('app.feeds-categories') > -1)

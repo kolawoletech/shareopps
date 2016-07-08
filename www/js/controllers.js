@@ -11,7 +11,7 @@ angular.module('your_app_name.controllers', [])
 
 
 //LOGIN
-.controller('LoginCtrl', function(AuthService, $scope, $state, $templateCache, $q, $rootScope) {
+.controller('LoginCtrl', function(Auth, AuthService, $scope, $state, $templateCache, $q, $rootScope) {
 // We create a variable called 'data', we asign it to an empty object and bind it to scope, to handle the form data.
 	$scope.data = {};
 
@@ -25,10 +25,26 @@ angular.module('your_app_name.controllers', [])
 			var email = $scope.data.email;
 			var password = $scope.data.password;
 			AuthService.loginUser(email, password);
-		};
-	}
-
-
+		}
+	};
+	$scope.loginWithGoogle = function loginWithGoogle() {
+	    Auth.$authWithOAuthPopup('google')
+	      .then(function(authData) {
+	        $state.go('app.wordpress');
+	    });
+  	};
+	$scope.loginWithFacebook = function loginWithFacebook() {
+	    Auth.$authWithOAuthPopup('facebook')
+	      .then(function(authData) {
+	        $state.go('app.wordpress');
+	    });
+  	};
+	$scope.loginWithTwitter = function loginWithFacebook() {
+	    Auth.$authWithOAuthPopup('twitter')
+	      .then(function(authData) {
+	        $state.go('app.wordpress');
+	    });
+  	};
 
 })
 
@@ -42,7 +58,7 @@ angular.module('your_app_name.controllers', [])
 			var newFullName = $scope.data.fullName;
 			var selectedPlan = $state.params.pId;
 			AuthService.signupEmail(newEmail, newPassword, newFullName, selectedPlan);
-		};
+		}
 
 	};
 })
@@ -93,7 +109,7 @@ angular.module('your_app_name.controllers', [])
 	    AuthService.changeEmail(user.password.email, $scope.data.newEmail, $scope.data.password);
 	    $scope.userProfile.email = $scope.data.newEmail;
 	    $scope.userProfile.$save();
-	  };
+	  }
 	};
 })
 
@@ -324,7 +340,7 @@ angular.module('your_app_name.controllers', [])
 	$ionicLoading.hide();
 
 	$scope.sharePost = function(link){
-		window.plugins.socialsharing.share('Check this post here: ', null, null, link);
+		window.plugins.socialsharing.share('Check this student opportunity here: ', null, null, link);
 	};
 })
 
@@ -437,7 +453,7 @@ angular.module('your_app_name.controllers', [])
 	.success(function(data) {
 		$scope.posts =  data.posts;
 		console.log(data.posts);
-	})
+	});
 })
 
 .controller('CategoryPostCtrl2', function(WORDPRESS_API_URL, $state,$scope, $stateParams, $http, $ionicLoading, PostService, BookMarkService){
@@ -445,6 +461,6 @@ angular.module('your_app_name.controllers', [])
 	.success(function(data) {
 		$scope.posts =  data.posts;
 		console.log(data.posts);
-	})
+	});
 })
 ;

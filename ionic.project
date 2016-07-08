@@ -1,6 +1,6 @@
 {
   "name": "ionFullApp",
-  "app_id": "",
+  "app_id": "3e75001b",
   "gulpStartupTasks": [
     "sass",
     "templatecache",

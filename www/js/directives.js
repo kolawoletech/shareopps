@@ -15,7 +15,7 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $docume
     replace: true,
     link: function(scope, element, attrs, ngModel) {
       var $input = angular.element(element.find('input'));
-      var file = undefined;
+      var file;
 
       if(!ngModel){
         console.error('ion-profile-picture:', 'Need to set ng-model');
@@ -35,7 +35,7 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $docume
           scope.$apply(function(){
             ngModel.$setViewValue(_e.target.result);
             ngModel.$render();
-          })
+          });
         };
 
         file = e.target.files[0];

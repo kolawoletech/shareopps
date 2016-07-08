@@ -1,11 +1,11 @@
 angular.module('your_app_name.factories', [])
 
-/*.factory('Auth', function($firebaseAuth) {
-  var firebaseUrl = "https://shareopps.firebaseio.com/"
+.factory('Auth', function($firebaseAuth) {
+  var firebaseUrl = "https://shareopps.firebaseio.com/";
 
   var usersRef = new Firebase(firebaseUrl+'/users');
   return $firebaseAuth(usersRef);
-})*/
+})
 
 .factory('AuthService', function($firebaseAuth, $firebaseObject, $firebaseArray, $state, $firebaseRef){
 
@@ -70,6 +70,16 @@ angular.module('your_app_name.factories', [])
         console.log(error);
       });
     },
+
+    loginWithFacebook: function loginWithFacebook(){
+      AuthService.$authWithOAuthPopup('facebook')
+        .then(function(authData) {
+          $state.go('app.wordpress');
+      }).catch(function(error){
+        console.log(error);
+      });
+    },
+
 
     logoutUser: function(){
       authUser.$unauth();
@@ -138,7 +148,7 @@ angular.module('your_app_name.factories', [])
       return $firebaseObject(userProfileRef);
     }
 
-  }
+  };
 
 })
 
