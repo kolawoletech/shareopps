@@ -33,13 +33,13 @@ angular.module('your_app_name.controllers', [])
 	        $state.go('app.wordpress');
 	    });
   	};
-	$scope.loginWithFacebook = function loginWithFacebook() {
+/*	$scope.loginWithFacebook = function loginWithFacebook() {
 	    Auth.$authWithOAuthPopup('facebook')
 	      .then(function(authData) {
 	        $state.go('app.wordpress');
 	    });
   	};
-	$scope.loginWithTwitter = function loginWithFacebook() {
+*/	$scope.loginWithTwitter = function loginWithFacebook() {
 	    Auth.$authWithOAuthPopup('twitter')
 	      .then(function(authData) {
 	        $state.go('app.wordpress');
@@ -48,8 +48,11 @@ angular.module('your_app_name.controllers', [])
 
 })
 
-.controller('SignupCtrl', function(AuthService, $scope, $state) {
+.controller('SignupCtrl', function(AuthService, Auth, $scope, $state) {
 	$scope.data = {};
+  var firebaseUrl = "https://sopps.firebaseio.com/";
+
+  var usersRef = new Firebase(firebaseUrl+'/userProfile');
 
 	$scope.createUser = function(signupForm){
 		if (signupForm.$valid) {
@@ -61,6 +64,51 @@ angular.module('your_app_name.controllers', [])
 		}
 
 	};
+	$scope.signupWithGoogle = function() {
+	    Auth.$authWithOAuthPopup('google')
+	      .then(function(authData) {
+	        $state.go('app.profile');
+	    });
+  	};
+	$scope.signupWithFacebook = function() {
+	    Auth.$authWithOAuthPopup('facebook')
+	      .then(function(authData) {
+	        $state.go('app.profile');
+	    });
+  	};
+  	$scope.Facebook = function(){
+      Auth.$authWithOAuthPopup('facebook')
+      .then(function(authData) {
+       usersRef.child(authData.uid).set({
+        provider: authData.provider,
+        name: authData.facebook.displayName
+        }).catch(function(error){
+          console.log(error);
+        })
+      });
+    };
+  	$scope.Twitter = function(){
+      Auth.$authWithOAuthPopup('twitter')
+      .then(function(authData) {
+       usersRef.child(authData.uid).set({
+        provider: authData.provider,
+        name: authData.twitter.displayName
+        }).catch(function(error){
+          console.log(error);
+        })
+      });
+    };
+  	$scope.Google = function(){
+      Auth.$authWithOAuthPopup('google')
+      .then(function(authData) {
+       usersRef.child(authData.uid).set({
+        provider: authData.provider,
+        name: authData.google.displayName
+        }).catch(function(error){
+          console.log(error);
+        })
+      });
+    };
 })
 
 .controller('ForgotPasswordCtrl', function($scope, $state) {
@@ -76,6 +124,8 @@ angular.module('your_app_name.controllers', [])
 	$scope.data = {};
 		// Creating a userProfile object that will hold the userProfile.userId node
 	$scope.userProfile = AuthService.userProfileData(user.uid);
+
+	
 
 	/**
 	 * This function will call our service and log the user out.

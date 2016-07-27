@@ -86,7 +86,7 @@ angular.module('your_app_name', [
 })
 
 .config(function($firebaseRefProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-  $firebaseRefProvider.registerUrl("https://shareopps.firebaseio.com/");
+  $firebaseRefProvider.registerUrl("https://sopps.firebaseio.com/");
 
   $stateProvider
 

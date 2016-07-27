@@ -1,7 +1,7 @@
 angular.module('your_app_name.factories', [])
 
 .factory('Auth', function($firebaseAuth) {
-  var firebaseUrl = "https://shareopps.firebaseio.com/";
+  var firebaseUrl = "https://sopps.firebaseio.com/";
 
   var usersRef = new Firebase(firebaseUrl+'/users');
   return $firebaseAuth(usersRef);
@@ -73,10 +73,13 @@ angular.module('your_app_name.factories', [])
 
     loginWithFacebook: function loginWithFacebook(){
       AuthService.$authWithOAuthPopup('facebook')
-        .then(function(authData) {
-          $state.go('app.wordpress');
-      }).catch(function(error){
-        console.log(error);
+      .then(function(authData) {
+        $firebaseRef.default.child("userProfile").child(authData.uid).set({
+        provider: authData.provider,
+        name: authData.facebook.displayName
+        }).catch(function(error){
+          console.log(error);
+        })
       });
     },
 
