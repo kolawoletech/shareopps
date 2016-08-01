@@ -28,7 +28,7 @@ angular.module('your_app_name', [
   'youtube-embed'
 ])
 
-.run(function($ionicPlatform, PushNotificationsService, $rootScope, $ionicConfig, $timeout) {
+.run(function($ionicPlatform, PushNotificationsService, $rootScope, $ionicConfig, $timeout, $cordovaLocalNotification) {
 
   $ionicPlatform.on("deviceready", function(){
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -42,7 +42,6 @@ angular.module('your_app_name', [
 
     PushNotificationsService.register();
   });
-
   // This fixes transitions for transparent background views
   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
     if(toState.name.indexOf('auth.walkthrough') > -1)
@@ -82,6 +81,11 @@ angular.module('your_app_name', [
   $ionicPlatform.on("resume", function(){
     PushNotificationsService.register();
   });
+
+  $ionicPlatform.ready(function () {
+    if (ionic.Platform.isWebView()) {
+    }
+  })
 
 })
 

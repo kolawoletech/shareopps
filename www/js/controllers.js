@@ -16,6 +16,7 @@ angular.module('your_app_name.controllers', [])
 	$scope.data = {};
 
 /**
+**https://sopps.firebaseio.com/
  * Our function is pretty simple, get the username and password from the form, and send it to our auth service, that's it.
  * The auth service will take care of everything else for you!
  * @return {[type]} [description]
@@ -109,6 +110,8 @@ angular.module('your_app_name.controllers', [])
         })
       });
     };
+
+ 
 })
 
 .controller('ForgotPasswordCtrl', function($scope, $state) {
@@ -119,13 +122,27 @@ angular.module('your_app_name.controllers', [])
 	$scope.data = {};
 })
 
-.controller('ProfileCtrl', function($scope, user, AuthService, $state){
+.controller('ProfileCtrl', function($firebaseRef, $scope, user, AuthService, $state, $ionicPopup, $firebaseObject){
 	// Creating an empty object called data and binding it to the $scope.
 	$scope.data = {};
 		// Creating a userProfile object that will hold the userProfile.userId node
 	$scope.userProfile = AuthService.userProfileData(user.uid);
+	$scope.updateProfile =   function(){
+	    $ionicPopup.prompt({
+	     title: '<input type="text" ng-model="userProfile.institution" >',
+	     template: 'Enter Institution!',
+	     scope: $scope
+	    }).then(function(authData) {
+	    	var firebaseUrl = "https://sopps.firebaseio.com/";
+	    	console.log(user.uid);
+	        $firebaseRef.default.child("userProfile").child(user.uid).update({
+	        "institution": syncObject.$bindTo($scope.userProfile.institution)
+        }).catch(function(error){
+        	console.log(error);
+        })
+      });
+	};
 
-	
 
 	/**
 	 * This function will call our service and log the user out.
@@ -164,27 +181,6 @@ angular.module('your_app_name.controllers', [])
 })
 
 
-/*.controller('ChatCtrl', function($scope, $state, $ionicPopup, Messages) {
-
-  $scope.messages = Messages;
-
-  $scope.addMessage = function() {
-   $ionicPopup.prompt({
-     title: 'Need to get something off your chest?',
-     template: 'Let everybody know!'
-   }).then(function(res) {
-      $scope.messages.$add({
-        "message": res
-      });
-   });
-  };
-  $scope.logout = function() {
-    var ref = new Firebase(firebaseUrl);
-    ref.unauth();
-    $state.go('login');
-  };
-})
-*/
 .controller('SendMailCtrl', function($scope) {
 	$scope.sendMail = function(){
 		cordova.plugins.email.isAvailable(
@@ -318,21 +314,6 @@ angular.module('your_app_name.controllers', [])
 	};
 })
 
-/*.controller('CatsPostsCtrl', function($scope, $http, $stateParams) {
-	console.log($stateParams);
-	// You can change this url to experiment with other endpoints
-	//http://localhost/khaliddev/azkarserv/api/?json=get_category_posts&slug=azkar-for-morning&status=publish
-	var postsApi = 'http://shareopps.co.za/app/api/?json=get_category_posts&slug=' + $stateParams.slug + '&status=publish=JSON_CALLBACK';
-	$scope.category = $stateParams.category.name;
-	// This should go in a service so we can reuse it
-	$http.jsonp( postsApi, {cache:true} ).success(function(data, status, headers, config) {
-		$scope.posts = data;
-		console.log( data );
-	}).
-	error(function(data, status, headers, config) {
-		console.log( 'Post load error.' );
-	});
-})*/
 
 // WORDPRESS
 .controller('WordpressCtrl', function($scope, $http, $ionicLoading, PostService, BookMarkService) {
@@ -384,70 +365,52 @@ angular.module('your_app_name.controllers', [])
 
 
 // WORDPRESS POST
-.controller('WordpressPostCtrl', function($scope, post_data, $ionicLoading) {
+.controller('WordpressPostCtrl', function($scope, post_data, $ionicLoading, $ionicPopup,$cordovaSocialSharing,  $cordovaLocalNotification) {
 
 	$scope.post = post_data.post;
 	$ionicLoading.hide();
 
+
 	$scope.sharePost = function(link){
 		window.plugins.socialsharing.share('Check this student opportunity here: ', null, null, link);
 	};
+
+	$scope.openDatePicker = function() {
+      var remindWhen = $ionicPopup.show({
+        template: '<datetimepicker ng-model="tmp.newDate"></datetimepicker>',
+        title: "When to Remind",
+        scope: $scope,
+        buttons: [{
+          text: 'Cancel'
+        }, {
+          text: '<b>Select</b>',
+          type: 'button-stable',
+          onTap: function () {
+			var alarmTime = new Date();
+			alarmTime.setMinutes(alarmTime.getMinutes() + 1);
+			$cordovaLocalNotification.schedule({
+			id: 1,
+			text: 'shareopps Notification',
+			title: 'You created a Reminder',
+			date: alarmTime,
+			autoCancel: true,
+			sound: null
+		    }).then(function () {
+		      alert("Instant Notification set");
+		    });
+  		}
+        }]
+      });
+    };
+
+    $scope.isScheduled = function() {
+        $cordovaLocalNotification.isScheduled("1").then(function(isScheduled) {
+            alert("Notification 1234 Scheduled: " + isScheduled);
+        });
+    }
+
 })
 
-
-
-/*// WORDPRESS
-.controller('CategoryCtrl', function($scope, $http, $ionicLoading, PostService, BookMarkService) {
-	$scope.posts = [];
-	$scope.category = [];
-	$scope.page = 1;
-	$scope.totalPages = 1;
-
-	$scope.doRefresh = function() {
-		$ionicLoading.show({
-			template: 'Loading ...'
-		});
-
-		//Always bring me the latest posts => page=1
-		$http.jsonp('http://shareopps.co.za/app/?json=get_category_index' +
-		'&callback=JSON_CALLBACK')
-		.success(function(data) {
-			$scope.category = data.categories;
-			$scope.slug = data.slug;
-			console.log(data.categories);
-			console.log(data.slug);
-		})
-		.error(function(data) {
-			console.log('data.categories');
-		})
-	};
-
-	$scope.loadMoreData = function(){
-		$scope.page += 1;
-
-		PostService.getCategoryPosts($scope.page)
-		.then(function(data){
-			//We will update this value in every request because new posts can be created
-			$scope.totalPages = data.pages;
-			var new_posts = PostService.shortenPosts(data.posts);
-			$scope.posts = $scope.posts.concat(new_posts);
-
-			$scope.$broadcast('scroll.infiniteScrollComplete');
-		});
-	};
-
-	$scope.moreDataCanBeLoaded = function(){
-		return $scope.totalPages > $scope.page;
-	};
-
-	$scope.bookmarkPost = function(post){
-		$ionicLoading.show({ template: 'Post Saved!', noBackdrop: true, duration: 1000 });
-		BookMarkService.bookmarkWordpressPost(post);
-	};
-
-	$scope.doRefresh();
-})
-*/
 
 // WORDPRESS
 .controller('WordpressCtrl2', function($state,$scope, $stateParams, $http, $ionicLoading, PostService, BookMarkService) {

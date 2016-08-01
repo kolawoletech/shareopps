@@ -15,17 +15,21 @@
   </ion-content>
   <ion-footer-bar class="post-footer bar bar-footer bar-dark">
     <div class="row">
-      <div class="col col-20 col-center">
+      <div class="col col-15 col-center">
         <a class="button button-icon icon icon-right ion-plus" bigger-text=".post-view .post-text">A</a>
       </div>
-      <div class="col col-20 col-center">
+      <div class="col col-15 col-center">
         <a class="button button-icon icon icon-right ion-minus" smaller-text=".post-view .post-text">A</a>
       </div>
-      <div class="col col-20 col-offset-20 col-center">
+
+      <div class="col col-15 col-offset-15 col-center">
         <a class="button button-icon icon ion-heart"></a>
       </div>
-      <div class="col col-20 col-center">
+      <div class="col col-15 col-center">
         <a class="button button-icon icon ion-android-share-alt" ng-click="sharePost(post.url)"></a>
+      </div>
+            <div class="col col-15 col-offset-15 col-center">
+        <a class="button button-icon icon ion-ios-bell-outline" ng-click="openDatePicker()"></a>
       </div>
     </div>
   </ion-footer-bar>

@@ -24,18 +24,21 @@
     <li href="#/changeEmail" class="item item-icon-left">
       <i class="icon assertive ion-man"></i>
       Name: {{userProfile.name}}
+
     </li>
     <li href="#/changePassword" class="item item-icon-left item-icon-right">
       <i class="icon assertive ion-university"></i>
-            <i class="icon assertive ion-edit"></i>
+           
       Institution/School: {{userProfile.institution}}
+       <button class="icon  ion-edit" ng-click="updateProfile()"></button>
     </li>
     <li href="#/changePassword" class="item item-icon-left item-icon-right">
       <i class="icon assertive ion-document-text"></i>
-      <i class="icon assertive ion-edit"></i>
+      
       Course of Study: {{userProfile.courseofstudy}}
+      <button class="icon  ion-edit" ng-click="sendMsg()"></button>
+      {{userProfile}}
     </li>
-
   </div>
           <ion-list>
             <h4>Select Your  Interest</h4>
