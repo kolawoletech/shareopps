@@ -85,7 +85,7 @@ angular.module('your_app_name', [
   $ionicPlatform.ready(function () {
     if (ionic.Platform.isWebView()) {
     }
-  })
+  });
 
 })
 

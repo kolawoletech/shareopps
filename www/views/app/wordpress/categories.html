@@ -15,14 +15,13 @@
     <span> Categories</span>
   </ion-nav-title>
 
-    <div class="row categories-list">
-      <div ng-repeat="cat in category" class="col col-50">
-        <a class="feed-category" ui-sref="app.category_detail({slug:cat.slug})">
+    <div class="row col-cat ">
+      <div ng-repeat="cat in category" class="list">
+        <a ui-sref="app.category_detail({slug:cat.slug})">
           <pre-img ratio="_1_1" helper-class="square-image">
             <img class="category-image" ng-src="{{category.image}}">
-            <h3 class="category-title assertive">{{cat.title}} -- {{cat.slug}}</h3>
-            <h3 class="category-title assertive">{{cat.description}}</h3>
-
+            <h1 class="title">{{cat.title}}</h1>
+            <h2 class="title">{{cat.description}}</h2>
           </pre-img>
           <div class="category-bg"></div>
         </a>

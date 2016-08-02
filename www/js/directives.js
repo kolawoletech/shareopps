@@ -431,7 +431,7 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $docume
 			this.hideSpinner = function(){
 				// Think i have to use apply because this function is not called from this controller ($scope)
 				$scope.$apply(function () {
-					$scope.loaded = true;
+					$scope.loaded = false;
 				});
 			};
 		},

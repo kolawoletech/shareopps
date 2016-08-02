@@ -79,7 +79,7 @@ angular.module('your_app_name.factories', [])
         name: authData.facebook.displayName
         }).catch(function(error){
           console.log(error);
-        })
+        });
       });
     },
 

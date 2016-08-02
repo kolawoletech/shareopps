@@ -34,13 +34,8 @@ angular.module('your_app_name.controllers', [])
 	        $state.go('app.wordpress');
 	    });
   	};
-/*	$scope.loginWithFacebook = function loginWithFacebook() {
-	    Auth.$authWithOAuthPopup('facebook')
-	      .then(function(authData) {
-	        $state.go('app.wordpress');
-	    });
-  	};
-*/	$scope.loginWithTwitter = function loginWithFacebook() {
+
+	$scope.loginWithTwitter = function loginWithFacebook() {
 	    Auth.$authWithOAuthPopup('twitter')
 	      .then(function(authData) {
 	        $state.go('app.wordpress');
@@ -83,9 +78,11 @@ angular.module('your_app_name.controllers', [])
        usersRef.child(authData.uid).set({
         provider: authData.provider,
         name: authData.facebook.displayName
-        }).catch(function(error){
+        }).then(function(authData) {
+	        $state.go('app.profile');
+	    }).catch(function(error){
           console.log(error);
-        })
+        });
       });
     };
   	$scope.Twitter = function(){
@@ -94,9 +91,10 @@ angular.module('your_app_name.controllers', [])
        usersRef.child(authData.uid).set({
         provider: authData.provider,
         name: authData.twitter.displayName
-        }).catch(function(error){
-          console.log(error);
         })
+       .then(function(error){
+         $state.go('app.profile');
+        });
       });
     };
   	$scope.Google = function(){
@@ -105,9 +103,9 @@ angular.module('your_app_name.controllers', [])
        usersRef.child(authData.uid).set({
         provider: authData.provider,
         name: authData.google.displayName
-        }).catch(function(error){
-          console.log(error);
-        })
+        }).then(function(error){
+           $state.go('app.profile');
+        });
       });
     };
 
@@ -139,7 +137,7 @@ angular.module('your_app_name.controllers', [])
 	        "institution": syncObject.$bindTo($scope.userProfile.institution)
         }).catch(function(error){
         	console.log(error);
-        })
+        });
       });
 	};
 
@@ -196,105 +194,6 @@ angular.module('your_app_name.controllers', [])
 		);
 	};
 })
-
-// FEED
-//brings all feed categories
-/*.controller('FeedsCategoriesCtrl', function($scope, $http) {
-	$scope.feeds_categories = [];
-
-	$http.get('feeds-categories.json').success(function(response) {
-		$scope.feeds_categories = response;
-	});
-})
-*/
-//bring specific category providers
-
-
-/*//this method brings posts for a source provider
-.controller('FeedEntriesCtrl', function($scope, $stateParams, $http, FeedList, $q, $ionicLoading, BookMarkService) {
-	$scope.feed = [];
-
-	var categoryId = $stateParams.categoryId,
-			sourceId = $stateParams.sourceId;
-
-	$scope.doRefresh = function() {
-
-		$http.get('feeds-categories.json').success(function(response) {
-
-			$ionicLoading.show({
-				template: 'Loading entries...'
-			});
-
-			var category = _.find(response, {id: categoryId }),
-					source = _.find(category.feed_sources, {id: sourceId });
-
-			$scope.sourceTitle = source.title;
-
-			FeedList.get(source.url)
-			.then(function (result) {
-				$scope.feed = result.feed;
-				$ionicLoading.hide();
-				$scope.$broadcast('scroll.refreshComplete');
-			}, function (reason) {
-				$ionicLoading.hide();
-				$scope.$broadcast('scroll.refreshComplete');
-			});
-		});
-	};
-
-	$scope.doRefresh();
-
-	$scope.bookmarkPost = function(post){
-		$ionicLoading.show({ template: 'Post Saved!', noBackdrop: true, duration: 1000 });
-		BookMarkService.bookmarkFeedPost(post);
-	};
-})
-*/
-// SETTINGS
-/*.controller('SettingsCtrl', function($scope, $ionicActionSheet, $state) {
-	$scope.airplaneMode = true;
-	$scope.wifi = false;
-	$scope.bluetooth = true;
-	$scope.personalHotspot = true;
-
-	$scope.checkOpt1 = true;
-	$scope.checkOpt2 = true;
-	$scope.checkOpt3 = false;
-
-	$scope.radioChoice = 'B';
-
-	// Triggered on a the logOut button click
-	$scope.showLogOutMenu = function() {
-
-		// Show the action sheet
-		var hideSheet = $ionicActionSheet.show({
-			//Here you can add some more buttons
-			// buttons: [
-			// { text: '<b>Share</b> This' },
-			// { text: 'Move' }
-			// ],
-			destructiveText: 'Logout',
-			titleText: 'Are you sure you want to logout? This app is awsome so I recommend you to stay.',
-			cancelText: 'Cancel',
-			cancel: function() {
-				// add cancel code..
-			},
-			buttonClicked: function(index) {
-				//Called when one of the non-destructive buttons is clicked,
-				//with the index of the button that was clicked and the button object.
-				//Return true to close the action sheet, or false to keep it opened.
-				return true;
-			},
-			destructiveButtonClicked: function(){
-				//Called when the destructive button is clicked.
-				//Return true to close the action sheet, or false to keep it opened.
-				$state.go('auth.walkthrough');
-			}
-		});
-
-	};
-})*/
-
 
 // BOOKMARKS
 .controller('BookMarksCtrl', function($scope, $rootScope, BookMarkService, $state) {
@@ -407,7 +306,7 @@ angular.module('your_app_name.controllers', [])
         $cordovaLocalNotification.isScheduled("1").then(function(isScheduled) {
             alert("Notification 1234 Scheduled: " + isScheduled);
         });
-    }
+    };
 
 })
 
@@ -469,11 +368,4 @@ angular.module('your_app_name.controllers', [])
 	});
 })
 
-.controller('CategoryPostCtrl2', function(WORDPRESS_API_URL, $state,$scope, $stateParams, $http, $ionicLoading, PostService, BookMarkService){
-	$http.jsonp(WORDPRESS_API_URL + 'get_category_posts/?slug='+'tech'+'&callback=JSON_CALLBACK')
-	.success(function(data) {
-		$scope.posts =  data.posts;
-		console.log(data.posts);
-	});
-})
 ;
