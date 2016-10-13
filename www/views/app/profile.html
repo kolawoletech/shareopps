@@ -4,69 +4,61 @@
   </ion-nav-title>
   <ion-content>
     <div>
-      <div class="profile-container">
-
-      </div>
+      <div class="profile-container"></div>
       <div class="user-background-image-outer">
 
-<ion-profile-picture ng-model="myPicture" />
-        </div>
+        <ion-profile-picture ng-model="myPicture" />
       </div>
+    </div>
 
     <div>
-<ion-profile-picture ng-model="myPicture" />
+      <ion-profile-picture ng-model="myPicture" />
 
-  </div>
+    </div>
     <div class="bottom-content">
       <div class="user-bio">
 
         <div class="list card">
-    <li href="#/changeEmail" class="item item-icon-left">
-      <i class="icon assertive ion-man"></i>
-      Name: {{userProfile.name}}
-
-    </li>
-    <li href="#/changePassword" class="item item-icon-left item-icon-right">
-      <i class="icon assertive ion-university"></i>
-           
-      Institution/School: {{userProfile.institution}}
-       <button class="icon  ion-edit" ng-click="updateProfile()"></button>
-    </li>
-    <li href="#/changePassword" class="item item-icon-left item-icon-right">
-      <i class="icon assertive ion-document-text"></i>
-      
-      Course of Study: {{userProfile.courseofstudy}}
-      <button class="icon  ion-edit" ng-click="sendMsg()"></button>
-      {{userProfile}}
-    </li>
-  </div>
-          <ion-list>
-            <h4>Select Your  Interest</h4>
-              <ion-checkbox ng-model="filter.tech">Technology and Innovation</ion-checkbox>
-              <ion-checkbox ng-model="filter.humanities">Humanities</ion-checkbox>
-              <ion-checkbox ng-model="filter.sciences">Natural Sciences</ion-checkbox>
-              <ion-checkbox ng-model="filter.business">Business, Arts and Design</ion-checkbox>
-              <ion-checkbox ng-model="filter.engineering">Engineering</ion-checkbox>
-          </ion-list>
+          <li href="#/changeEmail" class="item item-icon-left"> <i class="icon assertive ion-man"></i>
+            Name: {{userProfile.name}}
+          </li>
+          <li href="#/changePassword" class="item item-icon-left item-icon-right"> <i class="icon assertive ion-university"></i>
+            Institution/School: {{userProfile.institution}}
+            <button class="icon  ion-edit" ng-click="updateProfile()"></button>
+          </li>
+          <li href="#/changePassword" class="item item-icon-left item-icon-right">
+            <i class="icon assertive ion-document-text"></i>
+            Course of Study: {{userProfile.courseofstudy}}
+            <button class="icon  ion-edit" ng-click="sendMsg()"></button>
+          </li>
+        </div>
+        <ion-list>
+          <h4>Select Your  Interest</h4>
+          <ion-checkbox ng-model="filter.busry">Bursaries</ion-checkbox>
+          <ion-checkbox ng-model="filter.conf">Conferences</ion-checkbox>
+          <ion-checkbox ng-model="filter.compt">Competitions</ion-checkbox>
+          <ion-checkbox ng-model="filter.vacwork">Vacation Work</ion-checkbox>
+          <ion-checkbox ng-model="filter.studjob">Student Jobs</ion-checkbox>
+          <ion-checkbox ng-model="filter.gradjob">Graduate Jobs</ion-checkbox>
+        </ion-list>
       </div>
-  <div class="list card">
-    <a href="#/changeEmail" class="item item-icon-left">
-      <i class="icon assertive ion-email"></i>
-      Change your email
-    </a>
-    {{MetaData.profileImageURL}}
+      <div class="list card">
+        <a href="#/changeEmail" class="item item-icon-left">
+          <i class="icon assertive ion-email"></i>
+          Change your email
+        </a>
+        {{MetaData.profileImageURL}}
     {{MetaData.name}}
+        <a href="#/changePassword" class="item item-icon-left">
+          <i class="icon assertive ion-lock-combination"></i>
+          Change your password
+        </a>
 
-    <a href="#/changePassword" class="item item-icon-left">
-      <i class="icon assertive ion-lock-combination"></i>
-      Change your password
-    </a>
-
-    <div ng-click="logoutUser()" class="item item-icon-left">
-      <i class="icon assertive ion-log-out"></i>
-      Log Out
+        <div ng-click="logoutUser()" class="item item-icon-left">
+          <i class="icon assertive ion-log-out"></i>
+          Log Out
+        </div>
+      </div>
     </div>
-  </div>
-  </div>
   </ion-content>
 </ion-view>

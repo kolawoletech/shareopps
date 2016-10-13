@@ -14,11 +14,11 @@
         ng-messages="loginForm.email.$error">
         <div class="error" ng-message="required">
           <i class="ion-information-circled"></i>
-          This field is required
+         
         </div>
         <div class="error" ng-show="loginForm.email.$invalid && !loginForm.email.$pristine">
           <i class="ion-information-circled"></i>
-          This needs to be a valid email.
+          
         </div>
       </div>
 
@@ -33,7 +33,7 @@
         ng-show="loginForm.password.$error && loginForm.$submitted" >
         <div class="error" ng-message="required">
           <i class="ion-information-circled"></i>
-          This field is required
+          
         </div>
       </div>
             <div class="row">
@@ -42,9 +42,6 @@
               </div>
               <div class="col">
                   <a class="button button-block button-positive button icon icon-center ion-social-twitter center" ng-click="loginWithTwitter()"></a>
-              </div>
-              <div class="col">
-                  <a class="button button-block button-positive button icon icon-center   ion-social-google center" ng-click="loginWithGoogle()"></a>
               </div>
             </div>
       <ion-input class="item-input padding">
@@ -58,7 +55,7 @@
       Or create an account
     </a>
 
-    <a href="#/passwordResetForm" class="button button-royal button-clear button-block button-small">
+    <a  ui-sref="auth.forgot-password" class="button button-royal button-clear button-block button-small">
       I forgot my password :'(
     </a>
 

@@ -2,7 +2,7 @@ angular.module('your_app_name.factories', [])
 
 .factory('Auth', function($firebaseAuth) {
   var firebaseUrl = "https://sopps.firebaseio.com/";
-
+  //Creation of U
   var usersRef = new Firebase(firebaseUrl+'/users');
   return $firebaseAuth(usersRef);
 })
@@ -76,7 +76,8 @@ angular.module('your_app_name.factories', [])
       .then(function(authData) {
         $firebaseRef.default.child("userProfile").child(authData.uid).set({
         provider: authData.provider,
-        name: authData.facebook.displayName
+        name: authData.facebook.displayName,
+        email: authData.facebook.email
         }).catch(function(error){
           console.log(error);
         });

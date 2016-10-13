@@ -12,7 +12,7 @@
         ng-messages="signupForm.fullName.$error">
         <div class="error" ng-message="required">
           <i class="ion-information-circled"></i>
-          This field is required.
+         
         </div>
       </div>
 
@@ -27,11 +27,11 @@
         ng-messages="signupForm.email.$error">
         <div class="error" ng-message="required">
           <i class="ion-information-circled"></i>
-          This field is required!
+          
         </div>
         <div class="error" ng-show="signupForm.email.$invalid && !signupForm.email.$pristine">
           <i class="ion-information-circled"></i>
-          This needs to be a valid email address
+         
         </div>
       </div>
 
@@ -47,18 +47,18 @@
         ng-messages="signupForm.password.$error">
         <div class="error" ng-message="required">
           <i class="ion-information-circled"></i>
-          This field is required!
+          
         </div>
       </div>
             <div class="row">
               <div class="col">
-                  <a class="button button-block button-positive button icon icon-center ion-social-facebook center" ng-click="Facebook()"></a>
+                  <a class="button button-block button-positive button icon icon-center ion-social-facebook center" ng-click="signupWithFacebook()"></a>
               </div>
+<!--               <div class="col">
+                  <a class="button button-block button-positive button icon icon-center ion-social-google center" ng-click="signupWithGoogle()"></a>
+              </div> -->
               <div class="col">
-                  <a class="button button-block button-positive button icon icon-center ion-social-twitter center" ng-click="Twitter()"></a>
-              </div>
-              <div class="col">
-                  <a class="button button-block button-positive button icon icon-center   ion-social-google center" ng-click="Google()"></a>
+                  <a class="button button-block button-positive button icon icon-center   ion-social-twitter center" ng-click="signupWithTwitter()"></a>
               </div>
             </div>
       <ion-input class="item-input padding">

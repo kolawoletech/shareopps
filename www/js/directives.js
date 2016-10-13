@@ -11,7 +11,7 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $docume
   return {
     require: '?ngModel',
     restrict: 'E',
-    template: '<div class="ion-profile-picture no-picture"><input type="file" accept="image/*" capture /></div>',
+    template: '<div class="ion-profile-picture no-picture"><input type="file" accept="image/*" /></div>',
     replace: true,
     link: function(scope, element, attrs, ngModel) {
       var $input = angular.element(element.find('input'));

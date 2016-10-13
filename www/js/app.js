@@ -184,6 +184,17 @@ angular.module('your_app_name', [
   })
 
   //WORDPRESS
+  .state('app.my', {
+    url: "/my",
+    views: {
+      'menuContent': {
+        templateUrl: "views/app/wordpress/my-opportunity.html",
+        controller: 'MyOpportunityCtrl'
+      }
+    }
+  })
+
+  //WORDPRESS
   .state('app.wordpress', {
     url: "/wordpress",
     views: {
