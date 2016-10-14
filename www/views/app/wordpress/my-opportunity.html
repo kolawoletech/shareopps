@@ -12,12 +12,15 @@
     <!-- Refresh to get the new posts -->
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
     </ion-refresher>
-      <span ng-click="category = {type: 1}">Type 1</span> | 
-  <span ng-click="category = {type: 2}">Type 2</span> |
-  <span ng-click="category = null">No filter</span>
-
+      <span ng-click="categoriesFilter = {'id':8}">Competitions</span> | 
+      <span ng-click="categoriesFilter = {'id':11}">Graduate Jobs</span> |
+      <span ng-click="categoriesFilter = {'id':6}">Bursaries</span> | 
+      <span ng-click="categoriesFilter= {'id':9}">Vacation Works</span> |
+      <span ng-click="categoriesFilter = {'id':10}">Student Jobs</span> | 
+      <span ng-click="categoriesFilter = {'id':7}">Conferences</span> |
+      <span ng-click="categoriesFilter = null">No filter</span>
     <div class="posts-list">
-      <div ng-repeat="category in categories |   filter:category" class="list card post-item">
+      <div ng-repeat="post in posts | filter: categoriesFilter" class="list card post-item">
         <div class="post-heading item item-text-wrap">
           <h2 class="post-title" ng-bind-html="post.title | rawHtml"></h2>
           <p class="post-author">

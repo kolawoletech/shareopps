@@ -332,15 +332,16 @@ angular.module('your_app_name.controllers', [])
 			template: 'Loading Opportunities...'
 		});
 
-
 		//Always bring me the latest posts => page=1
 		PostService.getRecentPosts(1)
 		.then(function(data){
 			$scope.totalPages = data.pages;
 			$scope.posts = PostService.shortenPosts(data.posts);
 			$scope.categories = [];
-			angular.forEach(data.posts, function(posts, title) {
-	        	$scope.categories.push(title);
+			angular.forEach(data.posts, function(post, index) {
+	        	angular.forEach(post.categories, function(category, index){
+       				 $scope.categories.push(category);
+      			});
 	    	});
 
 			
@@ -420,7 +421,7 @@ angular.module('your_app_name.controllers', [])
 	};
 
 	$scope.bookmarkPost = function(post){
-		$ionicLoading.show({ template: 'Post Saved!', noBackdrop: true, duration: 1000 });
+		$ionicLoading.show({ template: 'Opportunity Saved!', noBackdrop: true, duration: 1000 });
 		BookMarkService.bookmarkWordpressPost(post);
 	};
 
