@@ -15,6 +15,18 @@
          
         </div>
       </div>
+      <ion-input class="item item-input item-stacked-label"
+        ng-class="{ 'has-errors' : signupForm.institution.$invalid && signupForm.$submitted,
+        'no-errors' : signupForm.institution.$valid && signupForm.$submitted}">
+        <ion-label >Institution</ion-label>
+        <input type="text" name="institution" placeholder="College, University etc" ng-model="data.institution" required>
+      </ion-input>
+      <ion-input class="item item-input item-stacked-label"
+        ng-class="{ 'has-errors' : signupForm.courseOfStudy.$invalid && signupForm.$submitted,
+        'no-errors' : signupForm.courseOfStudy.$valid && signupForm.$submitted}">
+        <ion-label >Course of Study</ion-label>
+        <input type="text" name="courseOfStudy" placeholder="Course of Study" ng-model="data.courseOfStudy" required>
+      </ion-input>
 
       <ion-input class="item item-input item-stacked-label"
         ng-class="{ 'has-errors' : signupForm.email.$invalid && signupForm.$submitted,
@@ -50,17 +62,7 @@
           
         </div>
       </div>
-            <div class="row">
-              <div class="col">
-                  <a class="button button-block button-positive button icon icon-center ion-social-facebook center" ng-click="signupWithFacebook()"></a>
-              </div>
-<!--               <div class="col">
-                  <a class="button button-block button-positive button icon icon-center ion-social-google center" ng-click="signupWithGoogle()"></a>
-              </div> -->
-              <div class="col">
-                  <a class="button button-block button-positive button icon icon-center   ion-social-twitter center" ng-click="signupWithTwitter()"></a>
-              </div>
-            </div>
+
       <ion-input class="item-input padding">
         <input type="submit" class="button button-positive" value="Signup"
           ng-disabled="signupForm.$invalid && signupForm.$submitted">
@@ -70,3 +72,4 @@
 
   </ion-content>
 </ion-view>
+

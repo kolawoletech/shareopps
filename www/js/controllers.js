@@ -1,14 +1,18 @@
 angular.module('your_app_name.controllers', [])
 
-.controller('AuthCtrl', function($scope, $ionicConfig) {
-
-})
-
-// APP
 .controller('AppCtrl', function($scope, $ionicConfig) {
 
 })
 
+
+.controller('AuthCtrl', function($scope, $ionicConfig) {
+
+})
+
+
+.controller('AuthCtrl', function($scope, $ionicConfig) {
+
+})
 
 //LOGIN
 .controller('LoginCtrl', function(Auth, AuthService, $scope, $state, $templateCache, $q, $rootScope) {
@@ -28,131 +32,57 @@ angular.module('your_app_name.controllers', [])
 			AuthService.loginUser(email, password);
 		}
 	};
-	$scope.loginWithGoogle = function loginWithGoogle() {
-	    Auth.$authWithOAuthPopup('google')
-	      .then(function(authData) {
-	        $state.go('app.wordpress');
-	    });
-  	};
-	$scope.loginWithFacebook = function loginWithFacebook() {
-	    Auth.$authWithOAuthPopup('facebook')
-	      .then(function(authData) {
-	        $state.go('app.wordpress');
-	    });
-  	};
-	$scope.loginWithTwitter = function loginWithFacebook() {
-	    Auth.$authWithOAuthPopup('twitter')
-	      .then(function(authData) {
-	        $state.go('app.wordpress');
-	    });
-  	};
 
 })
 
 .controller('SignupCtrl', function(AuthService, Auth, $scope, $state) {
+	
 	$scope.data = {};
-  var firebaseUrl = "https://sopps.firebaseio.com/";
 
-  var usersRef = new Firebase(firebaseUrl+'/userProfile');
+	var firebaseUrl = "https://sopps.firebaseio.com/";
+
+	var usersRef = new Firebase(firebaseUrl+'/userProfile');
 
 	$scope.createUser = function(signupForm){
 		if (signupForm.$valid) {
 			var newEmail = $scope.data.email;
 			var newPassword = $scope.data.password;
 			var newFullName = $scope.data.fullName;
-			var selectedPlan = $state.params.pId;
-			AuthService.signupEmail(newEmail, newPassword, newFullName, selectedPlan);
+			var newInstitution = $scope.data.institution;
+			var newCourseOfStudy = $scope.data.courseOfStudy;
+			AuthService.signupEmail(newEmail, newPassword, newFullName, newInstitution, newCourseOfStudy);
 		}
 
 	};
-	$scope.signupWithGoogle = function() {
-	    Auth.$authWithOAuthPopup('google')
-	      .then(function(authData) {
-	        $state.go('app.profile');
-	    });
-  	};
-	$scope.signupWithTwitter = function() {
-      Auth.$authWithOAuthPopup('twitter')
-      .then(function(authData) {
-       usersRef.child(authData.uid).set({
-        provider: authData.provider,
-        name: authData.twitter.displayName,
-        avi: authData.twitter.username
-        }).then(function(error){
-          $state.go('app.profile');
-        }).catch(function(error){
-          console.log(error);
-        });
-      });
-  	};
 
-	$scope.signupWithFacebook = function() {
-      Auth.$authWithOAuthPopup('facebook')
-      .then(function(authData) {
-       usersRef.child(authData.uid).set({
-        provider: authData.provider,
-        name: authData.facebook.displayName
-        }).then(function(error){
-          $state.go('app.profile');
-        }).catch(function(error){
-          console.log(error);
-        });
-      });
-  	};
-	$scope.signupWithGoogle = function() {
-      Auth.$authWithOAuthPopup('google')
-      .then(function(authData) {
-       usersRef.child(authData.uid).set({
-        provider: authData.provider,
-        name: authData.google.displayName,
-        email: authData.google.email
-        }).then(function(error){
-          $state.go('app.profile');
-        }).catch(function(error){
-          console.log(error);
-        });
-      });
-  	};
-
- 
 })
 
-.controller('ForgotPasswordCtrl', function($scope, $state) {
-	$scope.recoverPassword = function(){
-		$state.go('app.feeds-categories');
-	};
-
-	$scope.data = {};
-})
 
 .controller('ProfileCtrl', function($firebaseRef, $scope, user, AuthService, $state, $ionicPopup, $firebaseObject){
 	// Creating an empty object called data and binding it to the $scope.
 	$scope.data = {};
+
 		// Creating a userProfile object that will hold the userProfile.userId node
 	$scope.userProfile = AuthService.userProfileData(user.uid);
-	$scope.updateProfile =   function(){
-	    $ionicPopup.prompt({
-	     title: '<input type="text" ng-model="userProfile.institution" >',
-	     template: 'Enter Institution!',
-	     scope: $scope
-	    }).then(function(authData) {
-	    	var firebaseUrl = "https://sopps.firebaseio.com/";
-	    	console.log(user.uid);
-	        $firebaseRef.default.child("userProfile").child(user.uid).update({
-	        "institution": ("poop")
-        }).catch(function(error){
-        	console.log(error);
-        });
-      });
-	};
+
 
 
 	/**
 	 * This function will call our service and log the user out.
 	 */
-	$scope.myPicture = {};
 	$scope.logoutUser = function(){
 		AuthService.logoutUser();
+	};
+
+	$scope.changeInstitution = function(changeInstitutionForm){
+	  if (changeInstitutionForm.$valid) {
+	    var email = $scope.data.email;
+	    var password = $scope.data.password;
+	    var newInstitution = $scope.data.newInstitution;
+
+	    
+	    AuthService.changeInstitution(user.password.email, oldPassword, newInstitution);
+	  }
 	};
 
 	/**
@@ -201,103 +131,6 @@ angular.module('your_app_name.controllers', [])
 	};
 })
 
-// FEED
-//brings all feed categories
-/*.controller('FeedsCategoriesCtrl', function($scope, $http) {
-	$scope.feeds_categories = [];
-
-	$http.get('feeds-categories.json').success(function(response) {
-		$scope.feeds_categories = response;
-	});
-})
-*/
-//bring specific category providers
-
-
-/*//this method brings posts for a source provider
-.controller('FeedEntriesCtrl', function($scope, $stateParams, $http, FeedList, $q, $ionicLoading, BookMarkService) {
-	$scope.feed = [];
-
-	var categoryId = $stateParams.categoryId,
-			sourceId = $stateParams.sourceId;
-
-	$scope.doRefresh = function() {
-
-		$http.get('feeds-categories.json').success(function(response) {
-
-			$ionicLoading.show({
-				template: 'Loading entries...'
-			});
-
-			var category = _.find(response, {id: categoryId }),
-					source = _.find(category.feed_sources, {id: sourceId });
-
-			$scope.sourceTitle = source.title;
-
-			FeedList.get(source.url)
-			.then(function (result) {
-				$scope.feed = result.feed;
-				$ionicLoading.hide();
-				$scope.$broadcast('scroll.refreshComplete');
-			}, function (reason) {
-				$ionicLoading.hide();
-				$scope.$broadcast('scroll.refreshComplete');
-			});
-		});
-	};
-
-	$scope.doRefresh();
-
-	$scope.bookmarkPost = function(post){
-		$ionicLoading.show({ template: 'Post Saved!', noBackdrop: true, duration: 1000 });
-		BookMarkService.bookmarkFeedPost(post);
-	};
-})
-*/
-// SETTINGS
-/*.controller('SettingsCtrl', function($scope, $ionicActionSheet, $state) {
-	$scope.airplaneMode = true;
-	$scope.wifi = false;
-	$scope.bluetooth = true;
-	$scope.personalHotspot = true;
-
-	$scope.checkOpt1 = true;
-	$scope.checkOpt2 = true;
-	$scope.checkOpt3 = false;
-
-	$scope.radioChoice = 'B';
-
-	// Triggered on a the logOut button click
-	$scope.showLogOutMenu = function() {
-
-		// Show the action sheet
-		var hideSheet = $ionicActionSheet.show({
-			//Here you can add some more buttons
-			// buttons: [
-			// { text: '<b>Share</b> This' },
-			// { text: 'Move' }
-			// ],
-			destructiveText: 'Logout',
-			titleText: 'Are you sure you want to logout? This app is awsome so I recommend you to stay.',
-			cancelText: 'Cancel',
-			cancel: function() {
-				// add cancel code..
-			},
-			buttonClicked: function(index) {
-				//Called when one of the non-destructive buttons is clicked,
-				//with the index of the button that was clicked and the button object.
-				//Return true to close the action sheet, or false to keep it opened.
-				return true;
-			},
-			destructiveButtonClicked: function(){
-				//Called when the destructive button is clicked.
-				//Return true to close the action sheet, or false to keep it opened.
-				$state.go('auth.walkthrough');
-			}
-		});
-
-	};
-})*/
 
 
 // BOOKMARKS
@@ -321,10 +154,11 @@ angular.module('your_app_name.controllers', [])
 })
 
 // WORDPRESS
-.controller('MyOpportunityCtrl', function($scope, $http, $ionicLoading, PostService, BookMarkService) {
+.controller('MyOpportunityCtrl', function($scope,$ionicPopup, $http, $ionicLoading, PostService, BookMarkService) {
 	$scope.posts = [];
 	$scope.page = 1;
 	$scope.totalPages = 1;
+
 
 
 	$scope.doRefresh = function() {
@@ -377,6 +211,7 @@ angular.module('your_app_name.controllers', [])
 		$ionicLoading.show({ template: 'Post Saved!', noBackdrop: true, duration: 1000 });
 		BookMarkService.bookmarkWordpressPost(post);
 	};
+
 
 	$scope.doRefresh();
 })

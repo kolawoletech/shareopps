@@ -5,20 +5,23 @@
   <ion-nav-title>
     <span>My Opportunities</span>
   </ion-nav-title>
-    <ion-nav-buttons side="right">
-    <button  class="button button-icon icon ion-navicon"></button>
-  </ion-nav-buttons>
-  <ion-content>
+<div class="bar bar-header">
+  <h1 class="title">Header</h1>
+</div>
+<div class="bar bar-subheader">
+  <span ng-click="categoriesFilter = {'slug':'competitions'}">Competitions</span> | 
+  <span ng-click="categoriesFilter = {'slug':'graduate-jobs'}">Graduate Jobs</span> |
+  <span ng-click="categoriesFilter = {'slug':'bursaries'}">Bursaries</span> | 
+  <span ng-click="categoriesFilter= {'slug':'vacation-works'}">Vacation Works</span> |
+  <span ng-click="categoriesFilter = {'slug':'student-jobs'}">Student Jobs</span> | 
+  <span ng-click="categoriesFilter = {'slug':'conferences'}">Conferences</span> |
+  <span ng-click="categoriesFilter = null">No filter</span>    
+</div>
+  <ion-content class="has-subheader">
+
     <!-- Refresh to get the new posts -->
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
     </ion-refresher>
-      <span ng-click="categoriesFilter = {'id':8}">Competitions</span> | 
-      <span ng-click="categoriesFilter = {'id':11}">Graduate Jobs</span> |
-      <span ng-click="categoriesFilter = {'id':6}">Bursaries</span> | 
-      <span ng-click="categoriesFilter= {'id':9}">Vacation Works</span> |
-      <span ng-click="categoriesFilter = {'id':10}">Student Jobs</span> | 
-      <span ng-click="categoriesFilter = {'id':7}">Conferences</span> |
-      <span ng-click="categoriesFilter = null">No filter</span>
     <div class="posts-list">
       <div ng-repeat="post in posts | filter: categoriesFilter" class="list card post-item">
         <div class="post-heading item item-text-wrap">
@@ -46,5 +49,8 @@
     <!-- Infinit scroll -->
     <ion-infinite-scroll ng-if="moreDataCanBeLoaded()" on-infinite="loadMoreData()" distance="1%" icon="ion-loading-c">
     </ion-infinite-scroll>
+
+
   </ion-content>
+
 </ion-view>

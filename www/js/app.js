@@ -10,7 +10,6 @@ angular.module('underscore', [])
 // the 2nd parameter is an array of 'requires'
 angular.module('your_app_name', [
   'ionic','ionic.service.core',
-  'angularMoment',
   'your_app_name.config',
   'your_app_name.controllers',
   'your_app_name.directives',
@@ -257,6 +256,17 @@ angular.module('your_app_name', [
     }
   })
 
+  .state('changeInstitution', {
+    url: '/changeInstitution',
+    templateUrl: 'views/app/changeInstitution.html',
+    controller: 'ProfileCtrl',
+    resolve: {
+      user: function($firebaseAuthService) {
+        return $firebaseAuthService.$requireAuth();
+      }
+    }
+  })
+
   .state('changeEmail', {
     url: '/changeEmail',
     templateUrl: 'views/app/changeEmail.html',
@@ -291,5 +301,5 @@ angular.module('your_app_name', [
 ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/auth/walkthrough');
+  $urlRouterProvider.otherwise('/auth/login');
 });
