@@ -141,15 +141,6 @@ angular.module('your_app_name', [
     }
   })
 
-  .state('app.chat', {
-    url: '/chat',
-    views: {
-      'menuContent': {
-        templateUrl: "views/app/chat/chats.html",
-        controller: 'ChatCtrl'
-      }
-    }
-})
 
   //FEEDS
   .state('app.feeds-categories', {
@@ -249,6 +240,17 @@ angular.module('your_app_name', [
         controller: 'ProfileCtrl'
       }
     },
+    resolve: {
+      user: function($firebaseAuthService) {
+        return $firebaseAuthService.$requireAuth();
+      }
+    }
+  })
+
+  .state('changeCourseOfStudy', {
+    url: '/changeCourseOfStudy',
+    templateUrl: 'views/app/changeCourseOfStudy.html',
+    controller: 'ProfileCtrl',
     resolve: {
       user: function($firebaseAuthService) {
         return $firebaseAuthService.$requireAuth();

@@ -129,46 +129,42 @@ angular.module('your_app_name.factories', [])
         password: password
       }).then(function(){
           alert('Email Successfully Changed!');
-          $state.go('profile');
+          $state.go('app.profile');
       }).catch(function(error){
         console.log(error);
       });
     },
 
-    changeInstitution : function(email, password, newFullName, newInstitution, newCourseOfStudy){
-
-      authUser.$createUser({
-        email: newEmail,
-        password: newPassword,
-        fullName: newFullName,
-        institution: newInstitution,
-        courseOfStudy: newCourseOfStudy
-      }).then(function(authData){
+    changeInstitution : function(email, password){
         authUser.$authWithPassword({
-          "email": newEmail,
-          "password": newPassword
-        }).then (function(authData){
+          email: email
+        }).then(function(authData){
             $firebaseRef.default.child("userProfile").child(authData.uid).set({
-            name: newFullName,
-            email: newEmail,
-            institution: newInstitution,
-            newCourseOfStudy: newCourseOfStudy
-          });
-          $state.go('app.profile');
-        });
+            institution: newInstitution,          
+          }).then(function(){
+            alert('Institution Successfully Changed!');
+            $state.go('app.profile');
+          });       
         }).catch(function(error){
-            switch (error.code) {
-              case "EMAIL_TAKEN":
-                alert("Bro, someone's using that email!");
-                break;
-              case "INVALID_EMAIL":
-                alert("Dude, that is not an email address!");
-                break;
-              default:
-                alert("Error creating user:", error);
-            }
+           console.log(error);
         });
     },
+    changeCourseOfStudy : function(email, password){
+        authUser.$authWithPassword({
+          email: email,
+          password: password
+        }).then(function(authData){
+            $firebaseRef.default.child("userProfile").child(authData.uid).set({
+            courseOfStudy: newCourseOfStudy,          
+          }).then(function(){
+            alert('Institution Successfully Changed!');
+            $state.go('app.profile');
+            }) ;
+          }) .catch(function(error){
+             console.log(error); 
+        });
+    },
+
 
     /**
      * This will return the userProfile.userId node so we can update the email.

@@ -3,6 +3,7 @@
 
 		<form name="changeInstitutionForm" novalidate="" ng-submit="changeInstitution(changeInstitutionForm)"
       class="list card no-margin">
+      {{data}}
 
 			<ion-input class="item item-input item-stacked-label"
 				ng-class="{ 'has-errors' : changeInstitutionForm.newInstituion.$invalid && changeInstitutionForm.$submitted,
@@ -13,30 +14,29 @@
 			</ion-input>
 
 			<div class="error-container last-error-container"
-        ng-show="changeInstitutionForm.newInstition.$error && changeInstitutionForm.$submitted"
+        ng-show="changeInstitutionForm.newInstitution.$error && changeInstitutionForm.$submitted"
 				ng-messages="changeInstitutionForm.newInstitution.$error">
 				<div class="error" ng-message="required">
 		      <i class="ion-information-circled"></i>
 		      This field is required
 		    </div>
 			</div>
-
-			<ion-input class="item item-input item-stacked-label"
-				ng-class="{ 'has-errors' : changeInstitutionForm.password.$invalid && changeInstitutionForm.$submitted,
-          'no-errors' : changeInstitutionForm.password.$valid && changeInstitutionForm.$submitted}">
+<!-- 			<ion-input class="item item-input item-stacked-label"
+				ng-class="{ 'has-errors' : changeEmailForm.password.$invalid && changeEmailForm.$submitted,
+          'no-errors' : changeEmailForm.password.$valid && changeEmailForm.$submitted}">
 				<ion-label >Your Password</ion-label>
 				<input type="password" name="password" placeholder="Your password"
           ng-model="data.password" required />
 			</ion-input>
 
 			<div class="error-container last-error-container"
-        ng-show="changeInstitutionForm.password.$error && changeInstitutionForm.$submitted"
-				ng-messages="changeInstitutionForm.password.$error">
+        ng-show="changeEmailForm.password.$error && changeEmailForm.$submitted"
+				ng-messages="changeEmailForm.password.$error">
 				<div class="error" ng-message="required">
 		      <i class="ion-information-circled"></i>
 		      This field is required
 		    </div>
-			</div>
+			</div> -->
 
 			<ion-input class="item-input padding">
 				<input type="submit" class="button button-positive" value="Change Institution"

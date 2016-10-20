@@ -76,12 +76,17 @@ angular.module('your_app_name.controllers', [])
 
 	$scope.changeInstitution = function(changeInstitutionForm){
 	  if (changeInstitutionForm.$valid) {
-	    var email = $scope.data.email;
-	    var password = $scope.data.password;
-	    var newInstitution = $scope.data.newInstitution;
+	    AuthService.changeInstitution(user.password.email, $scope.data.newInstitution, $scope.data.password);
+	    $scope.userProfile.institution = $scope.data.newInstitution;
+	    $scope.userProfile.$save();
+	  }
+	};
 
-	    
-	    AuthService.changeInstitution(user.password.email, oldPassword, newInstitution);
+	$scope.changeCourseOfStudy = function(changeCourseForm){
+	  if (changeCourseForm.$valid) { 
+	    AuthService.changeCourseOfStudy(user.password.email, $scope.data.newCourseOfStudy, $scope.data.password);
+	    $scope.userProfile.courseOfStudy = $scope.data.newCourseOfStudy;
+	    $scope.userProfile.$save();
 	  }
 	};
 
@@ -284,19 +289,19 @@ angular.module('your_app_name.controllers', [])
           text: 'Cancel'
         }, {
           text: '<b>Select</b>',
-          type: 'button-stable',
+          type: 'date',
           onTap: function () {
 			var alarmTime = new Date();
 			alarmTime.setMinutes(alarmTime.getMinutes() + 1);
 			$cordovaLocalNotification.schedule({
 			id: 1,
-			text: 'shareopps Notification',
+			text: 'shareOpps Notification',
 			title: 'You created a Reminder',
 			date: alarmTime,
 			autoCancel: true,
 			sound: null
 		    }).then(function () {
-		      alert("Instant Notification set");
+		      alert(" Notification set");
 		    });
   		}
         }]

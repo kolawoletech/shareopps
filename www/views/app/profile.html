@@ -25,15 +25,20 @@
           </li>
           <li href="#/changePassword" class="item item-icon-left item-icon-right"> <i class="icon assertive ion-university"></i>
             Institution/School: {{userProfile.institution}}
+            
           </li>
           <li href="#/changePassword" class="item item-icon-left item-icon-right">
             <i class="icon assertive ion-document-text"></i>
-            Course of Study: {{userProfile.courseofstudy}}
-            <button class="icon  ion-edit" ng-click="sendMsg()"></button>
+            Course of Study: {{userProfile.courseOfStudy}}
+            
           </li>
         </div>
       </div>
       <div class="list card">
+        <a href="#/changeCourseOfStudy" class="item item-icon-left">
+          <i class="icon assertive ion-email"></i>
+          Change your Course Of Study
+        </a>
         <a href="#/changeInstitution" class="item item-icon-left">
           <i class="icon assertive ion-email"></i>
           Change your Institution
