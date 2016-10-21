@@ -129,7 +129,7 @@ angular.module('your_app_name.controllers', [])
 					to:      'mail@shareopps.co.za',
 					cc:      'admin@shareopps.co.za',
 					subject: 'MAIL sent from App User',
-					body:    'Yet to Implement'
+					body:    'Write Feedback'
 				});
 			}
 		);
@@ -270,49 +270,38 @@ angular.module('your_app_name.controllers', [])
 
 
 // WORDPRESS POST
-.controller('WordpressPostCtrl', function($scope, post_data, $ionicLoading, $ionicPopup,$cordovaSocialSharing,  $cordovaLocalNotification) {
+.controller('WordpressPostCtrl', function($scope, $cordovaCalendar, post_data, $ionicLoading,BookMarkService, $ionicPopup,$cordovaSocialSharing,  $cordovaLocalNotification) {
 
 	$scope.post = post_data.post;
 	$ionicLoading.hide();
 
-
-	$scope.sharePost = function(link){
-		window.plugins.socialsharing.share('Check this student opportunity here: ', null, null, link);
+	$scope.bookmarkPost = function(post){
+		$ionicLoading.show({ template: 'Opportunity Saved!', noBackdrop: true, duration: 1000 });
+		BookMarkService.bookmarkWordpressPost(post);
 	};
 
-	$scope.openDatePicker = function() {
-      var remindWhen = $ionicPopup.show({
-        template: '<datetimepicker ng-model="tmp.newDate"></datetimepicker>',
-        title: "When to Remind",
-        scope: $scope,
-        buttons: [{
-          text: 'Cancel'
-        }, {
-          text: '<b>Select</b>',
-          type: 'date',
-          onTap: function () {
-			var alarmTime = new Date();
-			alarmTime.setMinutes(alarmTime.getMinutes() + 1);
-			$cordovaLocalNotification.schedule({
-			id: 1,
-			text: 'shareOpps Notification',
-			title: 'You created a Reminder',
-			date: alarmTime,
-			autoCancel: true,
-			sound: null
-		    }).then(function () {
-		      alert(" Notification set");
-		    });
-  		}
-        }]
-      });
-    };
+	$scope.sharePost = function(link){
+		window.plugins.socialsharing.share('Check this student opportunity here: ', post, null, link);
+	};
 
-    $scope.isScheduled = function() {
-        $cordovaLocalNotification.isScheduled("1").then(function(isScheduled) {
-            alert("Notification 1234 Scheduled: " + isScheduled);
+
+
+
+    $scope.createEvent = function() {
+        $cordovaCalendar.createEvent({
+            title: 'Enter title',
+            location: 'The Moon',
+            notes: 'ShareOpps',
+            startDate: new Date(2015, 0, 15, 18, 30, 0, 0, 0),
+            endDate: new Date(2015, 1, 17, 12, 0, 0, 0, 0)
+        }).then(function (result) {
+            console.log("Opportunity  Added to Calendar");
+        }, function (err) {
+            console.error("There was an error: " + err);
         });
     };
+
+
 
 })
 

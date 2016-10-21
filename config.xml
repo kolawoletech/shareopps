@@ -82,4 +82,6 @@
   <plugin name="com.ionic.keyboard" spec="https://github.com/driftyco/ionic-plugins-keyboard.git"/>
   <plugin name="cordova-plugin-geolocation" spec="^1.0.1"/>
   <plugin name="cordova-plugin-splashscreen" spec="^2.1.0"/>
+  <plugin name="cordova-plugin-calendar" spec="4.5.5"/>
+  <plugin name="cordova-plugin-socialsharing" spec="^4.3.81"/>
 </widget>

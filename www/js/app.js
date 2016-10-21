@@ -22,9 +22,7 @@ angular.module('your_app_name', [
   'ngResource',
   'ngCordova',
   'slugifier',
-  'firebase',
-  'ionic.contrib.ui.tinderCards',
-  'youtube-embed'
+  'firebase'
 ])
 
 .run(function($ionicPlatform, PushNotificationsService, $rootScope, $ionicConfig, $timeout, $cordovaLocalNotification) {
@@ -43,7 +41,7 @@ angular.module('your_app_name', [
   });
   // This fixes transitions for transparent background views
   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
-    if(toState.name.indexOf('auth.walkthrough') > -1)
+    if(toState.name.indexOf('auth.login') > -1)
     {
       // set transitions to android to avoid weird visual effect in the walkthrough transitions
       $timeout(function(){
@@ -57,14 +55,23 @@ angular.module('your_app_name', [
             /*
             Cath the stateError for un-authenticated users
             */
-  $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error){
+/*  $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error){
     if (error === "AUTH_REQUIRED") {
       $state.go('login');
     }
+  });*/
+
+  //stateChange event
+  $rootScope.$on("$stateChangeStart", function(Auth, event, toState, toParams, fromState, fromParams){
+      if (toState.authRequired && !Auth.isAuthenticated()){ //Assuming the AuthService holds authentication logic
+        // User isn’t authenticated
+        $state.go("app.my");
+        event.preventDefault(); 
+      }
   });
 
   $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams){
-    if(toState.name.indexOf('app.feeds-categories') > -1)
+    if(toState.name.indexOf('app.wordpress') > -1)
     {
       // Restore platform default transition. We are just hardcoding android transitions to auth views.
       $ionicConfig.views.transition('platform');
@@ -142,16 +149,7 @@ angular.module('your_app_name', [
   })
 
 
-  //FEEDS
-  .state('app.feeds-categories', {
-    url: "/feeds-categories",
-    views: {
-      'menuContent': {
-        templateUrl: "views/app/feeds/feeds-categories.html",
-        controller: 'FeedsCategoriesCtrl'
-      }
-    }
-  })
+
 
   .state('app.category-feeds', {
     url: "/category-feeds/:categoryId",
@@ -179,7 +177,8 @@ angular.module('your_app_name', [
     views: {
       'menuContent': {
         templateUrl: "views/app/wordpress/my-opportunity.html",
-        controller: 'MyOpportunityCtrl'
+        controller: 'MyOpportunityCtrl',
+           authRequired: true
       }
     }
   })
@@ -190,7 +189,8 @@ angular.module('your_app_name', [
     views: {
       'menuContent': {
         templateUrl: "views/app/wordpress/wordpress.html",
-        controller: 'WordpressCtrl'
+        controller: 'WordpressCtrl',
+           authRequired: true
       }
     }
   })

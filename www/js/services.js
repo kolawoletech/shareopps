@@ -251,7 +251,7 @@ angular.module('your_app_name.services', [])
 	};
 
 	this.sharePost = function(link){
-		window.plugins.socialsharing.share('Check this post here: ', null, null, link);
+		window.plugins.socialsharing.share('Check this student opportunity here: ', null, null, link);
 	};
 
 })

@@ -7,7 +7,7 @@ angular.module('your_app_name.factories', [])
   return $firebaseAuth(usersRef);
 })
 
-.factory('AuthService', function($firebaseAuth, $firebaseObject, $firebaseArray, $state, $firebaseRef){
+.factory('AuthService', function($firebaseAuth,  $firebaseObject, $firebaseArray, $state, $firebaseRef){
 
   var authUser = $firebaseAuth($firebaseRef.default);
 
