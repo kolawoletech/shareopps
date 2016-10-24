@@ -148,25 +148,12 @@ angular.module('your_app_name', [
     }
   })
 
-
-
-
   .state('app.category-feeds', {
     url: "/category-feeds/:categoryId",
     views: {
       'menuContent': {
         templateUrl: "views/app/feeds/category-feeds.html",
         controller: 'CatsPostsCtrl'
-      }
-    }
-  })
-
-  .state('app.feed-entries', {
-    url: "/feed-entries/:categoryId/:sourceId",
-    views: {
-      'menuContent': {
-        templateUrl: "views/app/feeds/feed-entries.html",
-        controller: 'FeedEntriesCtrl'
       }
     }
   })
@@ -180,6 +167,11 @@ angular.module('your_app_name', [
         controller: 'MyOpportunityCtrl',
            authRequired: true
       }
+    },   
+    resolve: {
+      user: function($firebaseAuthService) {
+        return $firebaseAuthService.$requireAuth();
+      }
     }
   })
 
@@ -192,8 +184,14 @@ angular.module('your_app_name', [
         controller: 'WordpressCtrl',
            authRequired: true
       }
+    },    
+    resolve: {
+      user: function($firebaseAuthService) {
+        return $firebaseAuthService.$requireAuth();
+      }
     }
   })
+
   //WORDPRESS
   .state('app.category', {
     url: "/category",
@@ -204,6 +202,7 @@ angular.module('your_app_name', [
       }
     }
   })
+
   .state('app.category_detail', {
     url: "/category/:slug",
     views: {
@@ -213,6 +212,7 @@ angular.module('your_app_name', [
       }
     }
   })
+
   .state('app.post', {
     url: "/wordpress/:postId",
     views: {
@@ -232,6 +232,7 @@ angular.module('your_app_name', [
       }
     }
   })
+
   .state('app.profile', {
     url: "/profile",
     views: {
@@ -290,6 +291,7 @@ angular.module('your_app_name', [
       }
     }
   })
+
   .state('app.bookmarks', {
     url: "/bookmarks",
     views: {

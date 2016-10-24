@@ -281,24 +281,26 @@ angular.module('your_app_name.controllers', [])
 	};
 
 	$scope.sharePost = function(link){
-		window.plugins.socialsharing.share('Check this student opportunity here: ', post, null, link);
+		window.plugins.socialsharing.share('Check this student opportunity here: ', null, null, link);
 	};
 
 
 
-
     $scope.createEvent = function() {
-        $cordovaCalendar.createEvent({
-            title: 'Enter title',
-            location: 'The Moon',
-            notes: 'ShareOpps',
-            startDate: new Date(2015, 0, 15, 18, 30, 0, 0, 0),
-            endDate: new Date(2015, 1, 17, 12, 0, 0, 0, 0)
-        }).then(function (result) {
-            console.log("Opportunity  Added to Calendar");
-        }, function (err) {
-            console.error("There was an error: " + err);
-        });
+
+	  $cordovaCalendar.createEventInteractively({
+	    title: 'Set Title',
+	    location: 'Set Location',
+	    notes: 'ShareOpps Opportunities',
+	    startDate: new Date(2016, 0, 6, 18, 30, 0, 0, 0),
+	    endDate: new Date(2016, 1, 6, 12, 0, 0, 0, 0)
+	  }).then(function (result) {
+	    // success
+	    console.log("Opportunity Reminder created successfully");
+	  }, function (err) {
+	    // error
+	    console.error("There was an error: " + err);
+	  });
     };
 
 
