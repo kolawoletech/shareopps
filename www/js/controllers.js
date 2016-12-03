@@ -1,124 +1,87 @@
-angular.module('your_app_name.controllers', [])
+angular.module('sopps.controllers', [])
+
+.controller('AuthCtrl', function($scope, $state, $ionicConfig, AuthService) {
+
+})
 
 .controller('AppCtrl', function($scope, $ionicConfig) {
 
 })
 
+.controller('LogInCtrl', function($scope, $state, AuthService, $ionicLoading) {
+  $scope.login = function(user){
+    $ionicLoading.show({
+      template: 'Logging in ...'
+    });
 
-.controller('AuthCtrl', function($scope, $ionicConfig) {
+    AuthService.doLogin(user)
+    .then(function(user){
+      // success
+      $state.go('app.user');
+      $ionicLoading.hide();
+    },function(err){
+      // error
+      $scope.errors = err;
+      $ionicLoading.hide();
+    });
+  };
 
+  $scope.facebookLogin = function(){
+    $ionicLoading.show({
+      template: 'Logging in with Facebook ...'
+    });
+
+    AuthService.doFacebookLogin()
+    .then(function(user){
+      // success
+      $state.go('app.user');
+      $ionicLoading.hide();
+    },function(err){
+      // error
+      $scope.errors = err;
+      $ionicLoading.hide();
+    });
+  };
 })
 
+.controller('SignUpCtrl', function($scope, $state, AuthService, $ionicLoading) {
+  $scope.signup = function(user){
+    $ionicLoading.show({
+      template: 'Signing up ...'
+    });
 
-.controller('AuthCtrl', function($scope, $ionicConfig) {
-
+    AuthService.doSignup(user)
+    .then(function(user){
+      // success
+      $state.go('app.user');
+      $ionicLoading.hide();
+    },function(err){
+      // error
+      $scope.errors = err;
+      $ionicLoading.hide();
+    });
+  };
 })
 
-//LOGIN
-.controller('LoginCtrl', function(Auth, AuthService, $scope, $state, $templateCache, $q, $rootScope) {
-// We create a variable called 'data', we asign it to an empty object and bind it to scope, to handle the form data.
-	$scope.data = {};
+.controller('UserCtrl', function($scope, $state, AuthService){
+  $scope.current_user = {};
 
-/**
-**https://sopps.firebaseio.com/
- * Our function is pretty simple, get the username and password from the form, and send it to our auth service, that's it.
- * The auth service will take care of everything else for you!
- * @return {[type]} [description]
- */
-	$scope.loginEmail = function(loginForm){
-		if (loginForm.$valid) {
-			var email = $scope.data.email;
-			var password = $scope.data.password;
-			AuthService.loginUser(email, password);
-		}
-	};
+  var current_user = AuthService.getUser();
 
+  if(current_user && current_user.provider == "facebook"){
+    $scope.current_user.email = current_user.facebook.displayName;
+    $scope.current_user.image = current_user.facebook.profileImageURL;
+  } else {
+    $scope.current_user.email = current_user.password.email;
+    $scope.current_user.image = current_user.password.profileImageURL;
+  }
+
+  $scope.logout = function(){
+    AuthService.doLogout();
+
+    $state.go('auth.login');
+  };
 })
-
-.controller('SignupCtrl', function(AuthService, Auth, $scope, $state) {
-	
-	$scope.data = {};
-
-	var firebaseUrl = "https://sopps.firebaseio.com/";
-
-	var usersRef = new Firebase(firebaseUrl+'/userProfile');
-
-	$scope.createUser = function(signupForm){
-		if (signupForm.$valid) {
-			var newEmail = $scope.data.email;
-			var newPassword = $scope.data.password;
-			var newFullName = $scope.data.fullName;
-			var newInstitution = $scope.data.institution;
-			var newCourseOfStudy = $scope.data.courseOfStudy;
-			AuthService.signupEmail(newEmail, newPassword, newFullName, newInstitution, newCourseOfStudy);
-		}
-
-	};
-
-})
-
-
-.controller('ProfileCtrl', function($firebaseRef, $scope, user, AuthService, $state, $ionicPopup, $firebaseObject){
-	// Creating an empty object called data and binding it to the $scope.
-	$scope.data = {};
-
-		// Creating a userProfile object that will hold the userProfile.userId node
-	$scope.userProfile = AuthService.userProfileData(user.uid);
-
-
-
-	/**
-	 * This function will call our service and log the user out.
-	 */
-	$scope.logoutUser = function(){
-		AuthService.logoutUser();
-	};
-
-	$scope.changeInstitution = function(changeInstitutionForm){
-	  if (changeInstitutionForm.$valid) {
-	    AuthService.changeInstitution(user.password.email, $scope.data.newInstitution, $scope.data.password);
-	    $scope.userProfile.institution = $scope.data.newInstitution;
-	    $scope.userProfile.$save();
-	  }
-	};
-
-	$scope.changeCourseOfStudy = function(changeCourseForm){
-	  if (changeCourseForm.$valid) { 
-	    AuthService.changeCourseOfStudy(user.password.email, $scope.data.newCourseOfStudy, $scope.data.password);
-	    $scope.userProfile.courseOfStudy = $scope.data.newCourseOfStudy;
-	    $scope.userProfile.$save();
-	  }
-	};
-
-	/**
-	 * This function will get the oldPassword and newPassword values from the form and then pass them
-	 * to our changePassword() function inside the auth service.
-	 */
-	$scope.changePassword = function(changePasswordForm){
-	  if (changePasswordForm.$valid) {
-	    var oldPassword = $scope.data.oldPassword;
-	    var newPassword = $scope.data.newPassword;
-	    
-	    AuthService.changePassword(user.password.email, oldPassword, newPassword);
-	  }
-	};
-
-		/**
-		 * This will take the user's old email, the new email he wants and the user password and pass it to our
-		 * changeEmail() function inside the auth service.
-		 *
-		 * Then it's going to change the email in our userProfile variable (which points to the userProfile
-		 * node in Firebase) and it's going to save that new value.
-		 */
-	$scope.changeEmail = function(changeEmailForm){
-	  if (changeEmailForm.$valid) {
-	    AuthService.changeEmail(user.password.email, $scope.data.newEmail, $scope.data.password);
-	    $scope.userProfile.email = $scope.data.newEmail;
-	    $scope.userProfile.$save();
-	  }
-	};
-})
-
 
 .controller('SendMailCtrl', function($scope) {
 	$scope.sendMail = function(){
@@ -221,7 +184,7 @@ angular.module('your_app_name.controllers', [])
 	$scope.doRefresh();
 })
 // WORDPRESS
-.controller('WordpressCtrl', function($scope, $http, $ionicLoading, PostService, BookMarkService) {
+.controller('WordpressCtrl', function(WORDPRESS_API_URL, $scope, $http, $ionicLoading, PostService, BookMarkService) {
 	$scope.posts = [];
 	$scope.page = 1;
 	$scope.totalPages = 1;
@@ -255,6 +218,9 @@ angular.module('your_app_name.controllers', [])
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 		});
 	};
+
+
+
 
 	$scope.moreDataCanBeLoaded = function(){
 		return $scope.totalPages > $scope.page;
@@ -365,11 +331,51 @@ angular.module('your_app_name.controllers', [])
 	});
 })
 
-.controller('CategoryPostCtrl2', function(WORDPRESS_API_URL, $state,$scope, $stateParams, $http, $ionicLoading, PostService, BookMarkService){
-	$http.jsonp(WORDPRESS_API_URL + 'get_category_posts/?slug='+'tech'+'&callback=JSON_CALLBACK')
-	.success(function(data) {
-		$scope.posts =  data.posts;
-		console.log(data.posts);
-	});
+.controller('SubmitCtrl', function(WORDPRESS_API_URL, $state,$scope, $stateParams, $http, $ionicLoading, PostService, BookMarkService){
+	$scope.sendFeedback= function() {
+        if(window.plugins && window.plugins.emailComposer) {
+            window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+                console.log("Response -> " + result);
+            }, 
+            "Opportunity Submitted For Review", // Subject
+            "",                      // Body
+            ["admin@shareopps.co.za"],    // To
+            null,                    // CC
+            null,                    // BCC
+            false,                   // isHTML
+            null,                    // Attachments
+            null);                   // Attachment Data
+        }
+    };
+
+/*
+	$scope.createPost = function() {
+ 		var createPostDraft;
+		$http.jsonp(WORDPRESS_API_URL + '/get_nonce/?controller=posts&method=create_post' +
+		'&callback=JSON_CALLBACK')
+		.success(function(data) {
+			console.log(data.nonce);
+			 createPostDraft = $http.jsonp(WORDPRESS_API_URL + '/posts/create_post/?nonce='+data.nonce+'&title=NewPostUser&status=draft'+'&callback=JSON_CALLBACK');
+
+		}, function(){
+			console.log(data.nonce);
+		});
+		$http.jsonp(WORDPRESS_API_URL + '/get_nonce/?controller=posts&method=create_post' +
+		'&callback=JSON_CALLBACK')
+          .then(function(result) {
+           
+            console.log(result);
+            console.log(result.nonce);
+
+            // make the next call
+            return $http.jsonp(WORDPRESS_API_URL + '/posts/create_post/?nonce='+result.nonce+'&title=NewPostUser&status=draft'+'&callback=JSON_CALLBACK').toString();
+          }).then(function (result) {
+            // result of last call available here
+             console.log("Yes");
+             $http.jsonp(WORDPRESS_API_URL + '/posts/create_post/?nonce='+result.nonce+'&title=NewPostUser&status=draft'+'&callback=JSON_CALLBACK');
+          });
+
+	}; */
 })
+
 ;

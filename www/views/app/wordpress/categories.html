@@ -16,7 +16,7 @@
   </ion-nav-title>
 
     <div class="row col-cat ">
-      <div ng-repeat="cat in category" class="list">
+      <div ng-repeat="cat in category" class="cat-list">
         <a ui-sref="app.category_detail({slug:cat.slug})">
           <pre-img ratio="_1_1" helper-class="square-image">
             <img class="category-image" ng-src="{{category.image}}">
@@ -35,3 +35,4 @@
     </ion-infinite-scroll>
   </ion-content>
   </ion-view>
+  

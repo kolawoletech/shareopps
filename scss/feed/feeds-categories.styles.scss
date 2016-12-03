@@ -7,6 +7,10 @@
 		@include flex-wrap(wrap);
 	}
 
+	.col-cat 	{
+		background-color: black !important;
+	}
+
 	.feed-category
 	{
 		// THIS IS FUCKING AWESOME: http://caniuse.com/#feat=viewport-units

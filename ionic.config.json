@@ -1,0 +1,19 @@
+{
+  "name": "shareOpps",
+  "app_id": "3e75001b",
+  "v2": false,
+  "typescript": false,
+  "watch": {
+    "sass": [
+      "scss/**/*.scss"
+    ],
+    "html": [
+      "www/**/*.html"
+    ],
+    "livereload": [
+      "www/**/*.html",
+      "www/**/*.js",
+      "www/**/*.css"
+    ]
+  }
+}

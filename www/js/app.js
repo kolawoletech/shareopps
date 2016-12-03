@@ -8,15 +8,15 @@ angular.module('underscore', [])
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('your_app_name', [
+angular.module('sopps', [
   'ionic','ionic.service.core',
-  'your_app_name.config',
-  'your_app_name.controllers',
-  'your_app_name.directives',
-  'your_app_name.filters',
-  'your_app_name.services',
-  'your_app_name.factories',
-  'your_app_name.views',
+  'sopps.config',
+  'sopps.controllers',
+  'sopps.directives',
+  'sopps.filters',
+  'sopps.services',
+  'sopps.factories',
+  'sopps.views',
   'underscore',
   'ngMap',
   'ngResource',
@@ -25,82 +25,57 @@ angular.module('your_app_name', [
   'firebase'
 ])
 
-.run(function($ionicPlatform, PushNotificationsService, $rootScope, $ionicConfig, $timeout, $cordovaLocalNotification) {
+.run(function($ionicPlatform, $rootScope, $state, AuthService) {
+  $ionicPlatform.ready(function(){
+    AuthService.userIsLoggedIn().then(function(response)
+    {
+      if(response === true)
+      {
+        $state.go('app.user');
+      }
+      else
+      {
+        $state.go('auth.login');
+      }
+    });
 
-  $ionicPlatform.on("deviceready", function(){
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    if(window.cordova && window.cordova.plugins.Keyboard) {
+    if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      cordova.plugins.Keyboard.disableScroll(true);
     }
-    if(window.StatusBar) {
+    if (window.StatusBar) {
+      // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-
-    PushNotificationsService.register();
   });
-  // This fixes transitions for transparent background views
+
+  // UI Router Authentication Check
   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
-    if(toState.name.indexOf('auth.login') > -1)
+    if (toState.data.authenticate)
     {
-      // set transitions to android to avoid weird visual effect in the walkthrough transitions
-      $timeout(function(){
-        $ionicConfig.views.transition('android');
-        $ionicConfig.views.swipeBackEnabled(false);
-        console.log("setting transition to android and disabling swipe back");
-      }, 0);
-    }
-  });
-
-            /*
-            Cath the stateError for un-authenticated users
-            */
-/*  $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error){
-    if (error === "AUTH_REQUIRED") {
-      $state.go('login');
-    }
-  });*/
-
-  //stateChange event
-  $rootScope.$on("$stateChangeStart", function(Auth, event, toState, toParams, fromState, fromParams){
-      if (toState.authRequired && !Auth.isAuthenticated()){ //Assuming the AuthService holds authentication logic
-        // User isn’t authenticated
-        $state.go("app.my");
-        event.preventDefault(); 
-      }
-  });
-
-  $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams){
-    if(toState.name.indexOf('app.wordpress') > -1)
-    {
-      // Restore platform default transition. We are just hardcoding android transitions to auth views.
-      $ionicConfig.views.transition('platform');
-      // If it's ios, then enable swipe back again
-      if(ionic.Platform.isIOS())
+      AuthService.userIsLoggedIn().then(function(response)
       {
-        $ionicConfig.views.swipeBackEnabled(true);
-      }
-      console.log("enabling swipe back and restoring transition to platform default", $ionicConfig.views.transition());
+        if(response === false)
+        {
+          event.preventDefault();
+          $state.go('auth.login');
+        }
+      });
     }
   });
-
-  $ionicPlatform.on("resume", function(){
-    PushNotificationsService.register();
-  });
-
-  $ionicPlatform.ready(function () {
-    if (ionic.Platform.isWebView()) {
-    }
-  });
-
 })
 
-.config(function($firebaseRefProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-  $firebaseRefProvider.registerUrl("https://sopps.firebaseio.com/");
+.config(function($stateProvider, $urlRouterProvider) {
 
+  // Ionic uses AngularUI Router which uses the concept of states
+  // Learn more here: https://github.com/angular-ui/ui-router
+  // Set up the various states which the app can be in.
+  // Each state's controller can be found in controllers.js
   $stateProvider
 
-  //INTRO
+  // setup an abstract state for the auth section
   .state('auth', {
     url: "/auth",
     templateUrl: "views/auth/auth.html",
@@ -108,21 +83,44 @@ angular.module('your_app_name', [
     controller: 'AuthCtrl'
   })
 
-  .state('auth.walkthrough', {
-    url: '/walkthrough',
-    templateUrl: "views/auth/walkthrough.html"
-  })
-
   .state('auth.login', {
     url: '/login',
-    templateUrl: "views/auth/login.html",
-    controller: 'LoginCtrl'
+    views: {
+      'auth-view': {
+        templateUrl: 'views/auth/login.html',
+        controller: 'LogInCtrl'
+      }
+    },
+    data: {
+      authenticate: false
+    }
   })
 
   .state('auth.signup', {
     url: '/signup',
-    templateUrl: "views/auth/signup.html",
-    controller: 'SignupCtrl'
+    views: {
+      'auth-view': {
+        templateUrl: 'views/auth/signup.html',
+        controller: 'SignUpCtrl'
+      }
+    },
+    data: {
+      authenticate: false
+    }
+  })
+
+
+  .state('app.user', {
+    url: '/user',
+    views: {
+      'main-view': {
+        templateUrl: 'views/app/user.html',
+        controller: 'UserCtrl'
+      }
+    },
+    data: {
+      authenticate: true
+    }
   })
 
   .state('auth.forgot-password', {
@@ -141,7 +139,7 @@ angular.module('your_app_name', [
   .state('app.feedback', {
     url: "/feedback",
     views: {
-      'menuContent': {
+      'main-view': {
         templateUrl: "views/app/feedback/feedback.html",
         controller: 'SendMailCtrl'
       }
@@ -151,7 +149,7 @@ angular.module('your_app_name', [
   .state('app.category-feeds', {
     url: "/category-feeds/:categoryId",
     views: {
-      'menuContent': {
+      'main-view': {
         templateUrl: "views/app/feeds/category-feeds.html",
         controller: 'CatsPostsCtrl'
       }
@@ -162,16 +160,14 @@ angular.module('your_app_name', [
   .state('app.my', {
     url: "/my",
     views: {
-      'menuContent': {
+      'main-view': {
         templateUrl: "views/app/wordpress/my-opportunity.html",
         controller: 'MyOpportunityCtrl',
-           authRequired: true
+        
       }
     },   
-    resolve: {
-      user: function($firebaseAuthService) {
-        return $firebaseAuthService.$requireAuth();
-      }
+    data: {
+      authenticate: true
     }
   })
 
@@ -179,7 +175,7 @@ angular.module('your_app_name', [
   .state('app.wordpress', {
     url: "/wordpress",
     views: {
-      'menuContent': {
+      'main-view': {
         templateUrl: "views/app/wordpress/wordpress.html",
         controller: 'WordpressCtrl',
            authRequired: true
@@ -196,7 +192,7 @@ angular.module('your_app_name', [
   .state('app.category', {
     url: "/category",
     views: {
-      'menuContent': {
+      'main-view': {
         templateUrl: "views/app/wordpress/categories.html",
         controller: 'WordpressCtrl2'
       }
@@ -206,7 +202,7 @@ angular.module('your_app_name', [
   .state('app.category_detail', {
     url: "/category/:slug",
     views: {
-      'menuContent': {
+      'main-view': {
         templateUrl: "views/app/wordpress/categories_post.html",
         controller: 'CategoryPostCtrl'
       }
@@ -216,7 +212,7 @@ angular.module('your_app_name', [
   .state('app.post', {
     url: "/wordpress/:postId",
     views: {
-      'menuContent': {
+      'main-view': {
         templateUrl: "views/app/wordpress/wordpress_post.html",
         controller: 'WordpressPostCtrl'
       }
@@ -236,7 +232,7 @@ angular.module('your_app_name', [
   .state('app.profile', {
     url: "/profile",
     views: {
-      'menuContent': {
+      'main-view': {
         templateUrl: "views/app/profile.html",
         controller: 'ProfileCtrl'
       }
@@ -295,7 +291,7 @@ angular.module('your_app_name', [
   .state('app.bookmarks', {
     url: "/bookmarks",
     views: {
-      'menuContent': {
+      'main-view': {
         templateUrl: "views/app/bookmarks.html",
         controller: 'BookMarksCtrl'
       }
@@ -303,7 +299,6 @@ angular.module('your_app_name', [
   })
 
 ;
-
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/auth/login');
+  $urlRouterProvider.otherwise('/app/user');
 });

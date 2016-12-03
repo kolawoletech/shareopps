@@ -1,72 +1,42 @@
 <ion-view view-title="Create an Account">
   <ion-content class="padding has-header">
-    <form name="signupForm" novalidate="" ng-submit="createUser(signupForm)" class="list card no-margin">
-      <ion-input class="item item-input item-stacked-label"
-        ng-class="{ 'has-errors' : signupForm.fullName.$invalid && signupForm.$submitted,
-        'no-errors' : signupForm.fullName.$valid && signupForm.$submitted}">
+    <form name="signup_form"   class="list card no-margin" novalidate>
+      <ion-input class="item item-input item-stacked-label">
         <ion-label >Name</ion-label>
-        <input type="text" name="fullName" placeholder="Your full name" ng-model="data.fullName" required>
+        <input type="text" name="full_name" placeholder="Your full name" ng-model="data.full_name" required>
       </ion-input>
 
-      <div class="error-container" ng-show="signupForm.fullName.$error && signupForm.$submitted"
-        ng-messages="signupForm.fullName.$error">
-        <div class="error" ng-message="required">
-          <i class="ion-information-circled"></i>
-         
-        </div>
+      <div class="error-container" ng-show="signup_form.full_name.$error">
       </div>
-      <ion-input class="item item-input item-stacked-label"
-        ng-class="{ 'has-errors' : signupForm.institution.$invalid && signupForm.$submitted,
-        'no-errors' : signupForm.institution.$valid && signupForm.$submitted}">
+      <ion-input class="item item-input item-stacked-label">
         <ion-label >Institution</ion-label>
         <input type="text" name="institution" placeholder="College, University etc" ng-model="data.institution" required>
       </ion-input>
-      <ion-input class="item item-input item-stacked-label"
-        ng-class="{ 'has-errors' : signupForm.courseOfStudy.$invalid && signupForm.$submitted,
-        'no-errors' : signupForm.courseOfStudy.$valid && signupForm.$submitted}">
+      <ion-input class="item item-input item-stacked-label">
         <ion-label >Course of Study</ion-label>
-        <input type="text" name="courseOfStudy" placeholder="Course of Study" ng-model="data.courseOfStudy" required>
+        <input type="text" name="courseOfStudy" placeholder="Course of Study" ng-model="data.course_of_study" required>
       </ion-input>
 
-      <ion-input class="item item-input item-stacked-label"
-        ng-class="{ 'has-errors' : signupForm.email.$invalid && signupForm.$submitted,
-        'no-errors' : signupForm.email.$valid && signupForm.$submitted}">
+      <ion-input class="item item-input item-stacked-label">
         <ion-label >Email</ion-label>
         <input type="email" name="email" placeholder="Your email..." ng-model="data.email" required>
       </ion-input>
 
-      <div class="error-container" ng-show="signupForm.email.$error && signupForm.$submitted"
-        ng-messages="signupForm.email.$error">
-        <div class="error" ng-message="required">
-          <i class="ion-information-circled"></i>
-          
-        </div>
-        <div class="error" ng-show="signupForm.email.$invalid && !signupForm.email.$pristine">
-          <i class="ion-information-circled"></i>
-         
-        </div>
+      <div class="error-container" ng-show="signupForm.email.$error && signupForm.$submitted">
+
       </div>
 
-      <ion-input class="item item-input item-stacked-label"
-        ng-class="{ 'has-errors' : signupForm.password.$invalid && signupForm.$submitted, '
-        no-errors' : signupForm.password.$valid && signupForm.$submitted}">
+      <ion-input class="item item-input item-stacked-label">
         <ion-label >Password</ion-label>
         <input type="password" name="password" placeholder="Your password (Don't tell anyone!)"
           ng-model="data.password" required>
       </ion-input>
 
-      <div class="error-container" ng-show="signupForm.password.$error && signupForm.$submitted"
-        ng-messages="signupForm.password.$error">
-        <div class="error" ng-message="required">
-          <i class="ion-information-circled"></i>
-          
-        </div>
-      </div>
-
-      <ion-input class="item-input padding">
-        <input type="submit" class="button button-positive" value="Signup"
-          ng-disabled="signupForm.$invalid && signupForm.$submitted">
-      </ion-input>
+      <button class="item-input padding"
+        ng-click="signup(data)" class="button button-positive" 
+          ng-disabled="signup_form.$invalid">
+          Submit
+      </button>
     </form>
 
 

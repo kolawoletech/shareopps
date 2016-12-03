@@ -1,4 +1,4 @@
-angular.module('your_app_name.directives', [])
+angular.module('sopps.directives', [])
 
 .directive('ionProfilePicture', [
 '$ionicTemplateLoader',

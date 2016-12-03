@@ -1,41 +1,22 @@
 <ion-view view-title="Login" hide-back-button="true">
   <ion-content class="has-header padding">
-    <form name="loginForm" novalidate="" ng-submit="loginEmail(loginForm)"
-      class="list card no-margin">
+    <form name="login_form"  
+      class="list card no-margin" novalidate>
 
       <ion-input class="item item-input item-stacked-label"
         ng-class="{ 'has-errors' : loginForm.email.$invalid && loginForm.$submitted,
         'no-errors' : loginForm.email.$valid && loginForm.$submitted}">
         <ion-label >Email</ion-label>
-        <input type="email" name="email" placeholder="Your email..." ng-model="data.email" required>
+        <input type="email" name="email" placeholder="Your email..." ng-model="user.email" required>
       </ion-input>
 
-      <div class="error-container" ng-show="loginForm.email.$error && loginForm.$submitted"
-        ng-messages="loginForm.email.$error">
-        <div class="error" ng-message="required">
-          <i class="ion-information-circled"></i>
-         
-        </div>
-        <div class="error" ng-show="loginForm.email.$invalid && !loginForm.email.$pristine">
-          <i class="ion-information-circled"></i>
-          
-        </div>
-      </div>
 
-      <ion-input class="item item-input item-stacked-label"
-        ng-class="{ 'has-errors' : loginForm.password.$invalid && loginForm.$submitted,
-        'no-errors' : loginForm.password.$valid && loginForm.$submitted}">
+      <ion-input class="item item-input item-stacked-label">
         <ion-label >Password</ion-label>
-        <input type="password" name="password" placeholder="Your Password" ng-model="data.password" required>
+        <input type="password" name="password" placeholder="Your Password" ng-model="user.password" required>
       </ion-input>
 
-      <div class="error-container last-error-container" ng-messages="loginForm.password.$error"
-        ng-show="loginForm.password.$error && loginForm.$submitted" >
-        <div class="error" ng-message="required">
-          <i class="ion-information-circled"></i>
-          
-        </div>
-      </div>
+
 <!--             <div class="row">
               <div class="col">
                   <a class="button button-block button-positive button icon icon-center ion-social-facebook center" ng-click="loginWithFacebook()"></a>
@@ -46,7 +27,7 @@
             </div> -->
       <ion-input class="item-input padding">
         <input type="submit" class="button button-positive" value="Login"
-          ng-disabled="loginForm.$invalid && loginForm.$submitted">
+          ng-click="login(user)"  ng-disabled="login_form.$invalid">
       </ion-input>
 
     </form>
