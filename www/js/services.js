@@ -1,7 +1,25 @@
+/* jshint ignore:start */
 angular.module('sopps.services', [])
 
-.service('AuthService', function($q){
+
+
+
+
+
+.service('AuthService', function($q,$firebaseRef, $firebaseObject, $firebaseArray){
   var _firebase = new Firebase("https://sopps.firebaseio.com/");
+  var authData = _firebase.getAuth();
+  //var ref = firebase.database().ref('/users/' + authData.uid);
+
+    this.userProfileData = function(){
+      var userProfileRef = $firebaseRef.default.child('users').child('f60fb101-4736-4fe6-a03c-c7f1bec7b80d');
+      return $firebaseObject(userProfileRef);
+    };
+  
+
+
+  //var userProfileRef =_firebase.child("users").child(authData.uid);
+
 
   this.userIsLoggedIn = function(){
     var deferred = $q.defer(),
@@ -16,6 +34,7 @@ angular.module('sopps.services', [])
   this.getUser = function(){
     return _firebase.getAuth();
   };
+
 
   this.doLogin = function(user){
     var deferred = $q.defer();
@@ -39,6 +58,7 @@ angular.module('sopps.services', [])
 
     return deferred.promise;
   };
+
 
   this.doFacebookLogin = function(){
     var deferred = $q.defer();
@@ -67,6 +87,9 @@ angular.module('sopps.services', [])
     _firebase.createUser({
       email    : user.email,
       password : user.password,
+      fullName : user.fullName,
+      institution: user.institution,
+      courseOfStudy: user.courseOfStudy
     }, function(errors, data) {
       if (errors) {
         var errors_list = [],
@@ -78,14 +101,21 @@ angular.module('sopps.services', [])
         deferred.reject(errors_list);
       } else {
         // After signup we should automatically login the user
-        authService.doLogin(user)
-        .then(function(data){
-          // success
-          deferred.resolve(data);
-        },function(err){
+        _firebase.child("users").child(authData.uid).set({
+	      email    : user.email,
+	      fullName : user.fullName,
+	      institution: user.institution,
+	      courseOfStudy: user.courseOfStudy
+        }).then() 
+        authService.doLogin(user)   // jshint ignore:line
+        .then(function(data){        // jshint ignore:line
+          // success     
+          deferred.resolve(data);      // jshint ignore:line
+        },function(err){             // jshint ignore:line
           // error
-          deferred.reject(err);
+          deferred.reject(err);        // jshint ignore:line
         });
+
       }
     });
 
@@ -115,9 +145,8 @@ this.doFacebookLogin = function(){
 
   return deferred.promise;
 };
- 
-})
 
+})
 
 
 .service('FeedList', function ($rootScope, FeedLoader, $q){
@@ -390,3 +419,4 @@ this.doFacebookLogin = function(){
 
 
 ;
+/* jshint ignore:end */

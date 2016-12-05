@@ -15,9 +15,9 @@ angular.module('sopps.controllers', [])
     });
 
     AuthService.doLogin(user)
-    .then(function(user){
+    .then(function(data){
       // success
-      $state.go('app.user');
+      $state.go('app.my');
       $ionicLoading.hide();
     },function(err){
       // error
@@ -65,15 +65,25 @@ angular.module('sopps.controllers', [])
 
 .controller('UserCtrl', function($scope, $state, AuthService){
   $scope.current_user = {};
+  $scope.userProfile = AuthService.userProfileData();
+  
+
 
   var current_user = AuthService.getUser();
+
+  //var userProfile = AuthService.userProfileData();
+
 
   if(current_user && current_user.provider == "facebook"){
     $scope.current_user.email = current_user.facebook.displayName;
     $scope.current_user.image = current_user.facebook.profileImageURL;
+    $scope.current_user.uid = current_user.uid;
+
   } else {
     $scope.current_user.email = current_user.password.email;
     $scope.current_user.image = current_user.password.profileImageURL;
+    $scope.current_user.uid = current_user.uid;
+
   }
 
   $scope.logout = function(){
@@ -348,34 +358,70 @@ angular.module('sopps.controllers', [])
         }
     };
 
-/*
-	$scope.createPost = function() {
- 		var createPostDraft;
-		$http.jsonp(WORDPRESS_API_URL + '/get_nonce/?controller=posts&method=create_post' +
-		'&callback=JSON_CALLBACK')
-		.success(function(data) {
-			console.log(data.nonce);
-			 createPostDraft = $http.jsonp(WORDPRESS_API_URL + '/posts/create_post/?nonce='+data.nonce+'&title=NewPostUser&status=draft'+'&callback=JSON_CALLBACK');
-
-		}, function(){
-			console.log(data.nonce);
-		});
-		$http.jsonp(WORDPRESS_API_URL + '/get_nonce/?controller=posts&method=create_post' +
-		'&callback=JSON_CALLBACK')
-          .then(function(result) {
-           
-            console.log(result);
-            console.log(result.nonce);
-
-            // make the next call
-            return $http.jsonp(WORDPRESS_API_URL + '/posts/create_post/?nonce='+result.nonce+'&title=NewPostUser&status=draft'+'&callback=JSON_CALLBACK').toString();
-          }).then(function (result) {
-            // result of last call available here
-             console.log("Yes");
-             $http.jsonp(WORDPRESS_API_URL + '/posts/create_post/?nonce='+result.nonce+'&title=NewPostUser&status=draft'+'&callback=JSON_CALLBACK');
-          });
-
-	}; */
 })
+
+
+.controller('ProfileCtrl', function($firebaseRef, $scope, user, AuthService, $state, $ionicPopup, $firebaseObject){
+	// Creating an empty object called data and binding it to the $scope.
+	$scope.data = {};
+
+		// Creating a userProfile object that will hold the userProfile.userId node
+	$scope.userProfile = AuthService.userProfileData(user.uid);
+
+
+
+	/**
+	 * This function will call our service and log the user out.
+	 */
+	$scope.logoutUser = function(){
+		AuthService.logoutUser();
+	};
+
+	$scope.changeInstitution = function(changeInstitutionForm){
+	  if (changeInstitutionForm.$valid) {
+	    AuthService.changeInstitution(user.password.email, $scope.data.newInstitution, $scope.data.password);
+	    $scope.userProfile.institution = $scope.data.newInstitution;
+	    $scope.userProfile.$save();
+	  }
+	};
+
+	$scope.changeCourseOfStudy = function(changeCourseForm){
+	  if (changeCourseForm.$valid) { 
+	    AuthService.changeCourseOfStudy(user.password.email, $scope.data.newCourseOfStudy, $scope.data.password);
+	    $scope.userProfile.courseOfStudy = $scope.data.newCourseOfStudy;
+	    $scope.userProfile.$save();
+	  }
+	};
+
+	/**
+	 * This function will get the oldPassword and newPassword values from the form and then pass them
+	 * to our changePassword() function inside the auth service.
+	 */
+	$scope.changePassword = function(changePasswordForm){
+	  if (changePasswordForm.$valid) {
+	    var oldPassword = $scope.data.oldPassword;
+	    var newPassword = $scope.data.newPassword;
+	    
+	    AuthService.changePassword(user.password.email, oldPassword, newPassword);
+	  }
+	};
+
+		/**
+		 * This will take the user's old email, the new email he wants and the user password and pass it to our
+		 * changeEmail() function inside the auth service.
+		 *
+		 * Then it's going to change the email in our userProfile variable (which points to the userProfile
+		 * node in Firebase) and it's going to save that new value.
+		 */
+	$scope.changeEmail = function(changeEmailForm){
+	  if (changeEmailForm.$valid) {
+	    AuthService.changeEmail(user.password.email, $scope.data.newEmail, $scope.data.password);
+	    $scope.userProfile.email = $scope.data.newEmail;
+	    $scope.userProfile.$save();
+	  }
+	};
+})
+
+
 
 ;

@@ -5,9 +5,55 @@
   <ion-content class="padding">
     <div class="list card">
       <div class="item item-avatar">
+          <div>
+      <ion-profile-picture ng-model="myPicture" />
+
+    </div>
         <img ng-src="{{ current_user.image }}">
         <h2>Welcome</h2>
         <p>{{ current_user.email }}</p>
+      </div>
+
+    </div>
+        <div class="bottom-content">
+      <div class="user-bio">
+
+        <div class="list card">
+          <li href="#/changeEmail" class="item item-icon-left"> 
+           <strong>Name:</strong>  {{userProfile.fullName}}
+            
+          </li>
+          <li href="#/changePassword" class="item item-icon-left item-icon-right"> 
+            <strong>Institution/School: </strong>{{userProfile.institution}}
+            
+            
+          </li>
+          <li href="#/changePassword" class="item item-icon-left item-icon-right">
+         
+            <strong>Course of Study: </strong>{{userProfile.courseOfStudy}}
+            
+          </li>
+        </div>
+
+      </div>
+      <div class="list card">
+        <a href="#/changeCourseOfStudy" class="item item-icon-left">
+          <i class="icon assertive ion-email"></i>
+          Change your Course Of Study
+        </a>
+        <a href="#/changeInstitution" class="item item-icon-left">
+          <i class="icon assertive ion-email"></i>
+          Change your Institution
+        </a>
+        <a href="#/changeEmail" class="item item-icon-left">
+          <i class="icon assertive ion-email"></i>
+          Change your email
+        </a>
+        <a href="#/changePassword" class="item item-icon-left">
+          <i class="icon assertive ion-lock-combination"></i>
+          Change your password
+        </a>
+
       </div>
     </div>
     <button class="button button-block button-clear button-assertive" ng-click="logout()">Log out</button>

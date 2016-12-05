@@ -67,7 +67,13 @@ angular.module('sopps', [
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $firebaseRefProvider) {
+
+ 
+  $firebaseRefProvider
+
+  .registerUrl('https://sopps.firebaseio.com/');
+
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -178,12 +184,7 @@ angular.module('sopps', [
       'main-view': {
         templateUrl: "views/app/wordpress/wordpress.html",
         controller: 'WordpressCtrl',
-           authRequired: true
-      }
-    },    
-    resolve: {
-      user: function($firebaseAuthService) {
-        return $firebaseAuthService.$requireAuth();
+        authRequired: true
       }
     }
   })
@@ -194,7 +195,8 @@ angular.module('sopps', [
     views: {
       'main-view': {
         templateUrl: "views/app/wordpress/categories.html",
-        controller: 'WordpressCtrl2'
+        controller: 'WordpressCtrl2',
+        authRequired: true
       }
     }
   })
@@ -298,7 +300,17 @@ angular.module('sopps', [
     }
   })
 
+    .state('app.submit', {
+    url: "/submit",
+    views: {
+      'main-view': {
+        templateUrl: "views/app/wordpress/post_opportunity.html",
+        controller: 'SendMailCtrl'
+      }
+    }
+  })
+
 ;
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/user');
+  $urlRouterProvider.otherwise('/auth/login');
 });

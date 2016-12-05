@@ -3,7 +3,7 @@
     <form name="signup_form"   class="list card no-margin" novalidate>
       <ion-input class="item item-input item-stacked-label">
         <ion-label >Name</ion-label>
-        <input type="text" name="full_name" placeholder="Your full name" ng-model="data.full_name" required>
+        <input type="text" name="full_name" placeholder="Your full name" ng-model="data.fullName" required>
       </ion-input>
 
       <div class="error-container" ng-show="signup_form.full_name.$error">
@@ -14,7 +14,7 @@
       </ion-input>
       <ion-input class="item item-input item-stacked-label">
         <ion-label >Course of Study</ion-label>
-        <input type="text" name="courseOfStudy" placeholder="Course of Study" ng-model="data.course_of_study" required>
+        <input type="text" name="courseOfStudy" placeholder="Course of Study" ng-model="data.courseOfStudy" required>
       </ion-input>
 
       <ion-input class="item item-input item-stacked-label">
@@ -32,12 +32,15 @@
           ng-model="data.password" required>
       </ion-input>
 
-      <button class="item-input padding"
-        ng-click="signup(data)" class="button button-positive" 
-          ng-disabled="signup_form.$invalid">
-          Submit
-      </button>
+      <ion-input class="item-input padding">
+        <input type="submit" class="button button-positive" value="Login"
+          ng-click="signup(data)"  ng-disabled="signup_form.$invalid">
+      </ion-input>
     </form>
+
+    <a href="#/auth/login" class="button button-royal button-clear button-block">
+      Or create an account
+    </a>
 
 
   </ion-content>
