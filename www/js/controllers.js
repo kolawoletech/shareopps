@@ -8,7 +8,7 @@ angular.module('sopps.controllers', [])
 
 })
 
-.controller('LogInCtrl', function($scope, $state, AuthService, $ionicLoading) {
+.controller('LogInCtrl', function($scope, $state, AuthService, $ionicLoading, $ionicPopup) {
   $scope.login = function(user){
     $ionicLoading.show({
       template: 'Logging in ...'
@@ -22,6 +22,11 @@ angular.module('sopps.controllers', [])
     },function(err){
       // error
       $scope.errors = err;
+      console.log(err);
+      $ionicPopup.alert({
+                title: 'Login failed!',
+                template: 'Please check your credentials!'
+      });
       $ionicLoading.hide();
     });
   };
