@@ -1,5 +1,5 @@
 {
-  "name": "shareOpps",
+  "name": "ShareOpps",
   "app_id": "3e75001b",
   "gulpStartupTasks": [
     "sass",

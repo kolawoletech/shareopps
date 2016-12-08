@@ -12,7 +12,7 @@ angular.module('sopps.services', [])
   //var ref = firebase.database().ref('/users/' + authData.uid);
 
     this.userProfileData = function(){
-      var userProfileRef = $firebaseRef.default.child('users').child('f60fb101-4736-4fe6-a03c-c7f1bec7b80d');
+      var userProfileRef = $firebaseRef.default.child('users').child(authData.uid);
       return $firebaseObject(userProfileRef);
     };
   
@@ -80,6 +80,7 @@ angular.module('sopps.services', [])
     return deferred.promise;
   };
 
+ 
   this.doSignup = function(user){
     var deferred = $q.defer(),
         authService = this;

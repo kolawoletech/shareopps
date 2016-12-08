@@ -5,11 +5,11 @@
   <ion-content class="padding">
     <div class="list card">
       <div class="item item-avatar">
-          <div>
+      <div>
       <ion-profile-picture ng-model="myPicture" />
 
     </div>
-        <img ng-src="{{ current_user.image }}">
+        <!-- <img ng-src="{{ current_user.image }}"> -->
         <h2>Welcome</h2>
         <p>{{ current_user.email }}</p>
       </div>
@@ -17,7 +17,7 @@
     </div>
         <div class="bottom-content">
       <div class="user-bio">
-
+      
         <div class="list card">
           <li href="#/changeEmail" class="item item-icon-left"> 
            <strong>Name:</strong>  {{userProfile.fullName}}

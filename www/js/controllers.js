@@ -70,13 +70,14 @@ angular.module('sopps.controllers', [])
 
 .controller('UserCtrl', function($scope, $state, AuthService){
   $scope.current_user = {};
-  $scope.userProfile = AuthService.userProfileData();
+   $scope.userProfile = AuthService.userProfileData();
   
 
 
   var current_user = AuthService.getUser();
 
-  //var userProfile = AuthService.userProfileData();
+  var userProfile = AuthService.userProfileData();
+  console.log(userProfile);
 
 
   if(current_user && current_user.provider == "facebook"){
