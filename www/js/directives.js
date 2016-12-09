@@ -1,5 +1,7 @@
 angular.module('sopps.directives', [])
 
+
+
 .directive('ionProfilePicture', [
 '$ionicTemplateLoader',
 '$ionicBackdrop',
@@ -205,6 +207,22 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $docume
 		replace: false,
 		transclude: false
 	};
+})
+
+.directive('autoComplete', function($timeout) {
+    return  {
+    	restrict: 'A',
+    	link: function(scope, iElement, iAttrs) {
+	        iElement.autocomplete({
+	            source: scope[iAttrs.uiItems],
+	            select: function() {
+	                $timeout(function() {
+	                  iElement.trigger('input');
+	                }, 0);
+	            }
+	        });
+    	}
+    };
 })
 
 

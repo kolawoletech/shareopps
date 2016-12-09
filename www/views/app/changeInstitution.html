@@ -1,6 +1,7 @@
 <ion-view view-title="Change your Institution">
 	<ion-content class="has-header padding">
-
+{{userProfile}}
+{{data}}
 		<form name="changeInstitutionForm" novalidate="" ng-submit="changeInstitution(changeInstitutionForm)"
       class="list card no-margin">
      
@@ -9,35 +10,14 @@
 				ng-class="{ 'has-errors' : changeInstitutionForm.newInstituion.$invalid && changeInstitutionForm.$submitted,
         'no-errors' : changeInstitutionForm.newInstitution.$valid && changeInstitutionForm.$submitted}">
 				<ion-label >New Institution</ion-label>
-				<input type="text" name="newInstitution" placeholder="Where you are currently enrolled"
+				<input type="text" name="newInstitution" placeholder="Currently enrolment"
           ng-model="data.newInstitution" required />
 			</ion-input>
 
 			<div class="error-container last-error-container"
         ng-show="changeInstitutionForm.newInstitution.$error && changeInstitutionForm.$submitted"
 				ng-messages="changeInstitutionForm.newInstitution.$error">
-				<div class="error" ng-message="required">
-		      <i class="ion-information-circled"></i>
-		      This field is required
-		    </div>
 			</div>
-<!-- 			<ion-input class="item item-input item-stacked-label"
-				ng-class="{ 'has-errors' : changeEmailForm.password.$invalid && changeEmailForm.$submitted,
-          'no-errors' : changeEmailForm.password.$valid && changeEmailForm.$submitted}">
-				<ion-label >Your Password</ion-label>
-				<input type="password" name="password" placeholder="Your password"
-          ng-model="data.password" required />
-			</ion-input>
-
-			<div class="error-container last-error-container"
-        ng-show="changeEmailForm.password.$error && changeEmailForm.$submitted"
-				ng-messages="changeEmailForm.password.$error">
-				<div class="error" ng-message="required">
-		      <i class="ion-information-circled"></i>
-		      This field is required
-		    </div>
-			</div> -->
-
 			<ion-input class="item-input padding">
 				<input type="submit" class="button button-positive" value="Change Institution"
           ng-disabled="changeInstitutionForm.$invalid && changeInstitutionForm.$submitted">

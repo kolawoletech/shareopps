@@ -1,11 +1,6 @@
 /* jshint ignore:start */
 angular.module('sopps.services', [])
 
-
-
-
-
-
 .service('AuthService', function($q,$firebaseRef, $firebaseObject, $firebaseArray){
   var _firebase = new Firebase("https://sopps.firebaseio.com/");
   var authData = _firebase.getAuth();
@@ -16,7 +11,18 @@ angular.module('sopps.services', [])
       return $firebaseObject(userProfileRef);
     };
   
-
+	this.changePassword = function(email, oldPassword, newPassword){
+	  authUser.$changePassword({
+	    email: email,
+	    oldPassword: oldPassword,
+	    newPassword: newPassword
+	  }).then(function(){
+	    alert('Password Changed!');
+	    $state.go('app.user');
+	  }).catch(function(error){
+	    console.log(error);
+	  });
+	};
 
   //var userProfileRef =_firebase.child("users").child(authData.uid);
 

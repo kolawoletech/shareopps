@@ -239,17 +239,15 @@ angular.module('sopps', [
         controller: 'ProfileCtrl'
       }
     },
-    resolve: {
-      user: function($firebaseAuthService) {
-        return $firebaseAuthService.$requireAuth();
-      }
+    data: {
+      authenticate: true
     }
   })
 
   .state('changeCourseOfStudy', {
     url: '/changeCourseOfStudy',
     templateUrl: 'views/app/changeCourseOfStudy.html',
-    controller: 'ProfileCtrl',
+    controller: 'UserCtrl',
     resolve: {
       user: function($firebaseAuthService) {
         return $firebaseAuthService.$requireAuth();
@@ -260,7 +258,7 @@ angular.module('sopps', [
   .state('changeInstitution', {
     url: '/changeInstitution',
     templateUrl: 'views/app/changeInstitution.html',
-    controller: 'ProfileCtrl',
+    controller: 'UserCtrl',
     resolve: {
       user: function($firebaseAuthService) {
         return $firebaseAuthService.$requireAuth();
@@ -271,7 +269,7 @@ angular.module('sopps', [
   .state('changeEmail', {
     url: '/changeEmail',
     templateUrl: 'views/app/changeEmail.html',
-    controller: 'ProfileCtrl',
+    controller: 'UserCtrl',
     resolve: {
       user: function($firebaseAuthService) {
         return $firebaseAuthService.$requireAuth();
@@ -282,7 +280,7 @@ angular.module('sopps', [
   .state('changePassword', {
     url: '/changePassword',
     templateUrl: 'views/app/changePassword.html',
-    controller: 'ProfileCtrl',
+    controller: 'UserCtrl',
     resolve: {
       user: function($firebaseAuthService) {
         return $firebaseAuthService.$requireAuth();
@@ -305,7 +303,7 @@ angular.module('sopps', [
     views: {
       'main-view': {
         templateUrl: "views/app/wordpress/post_opportunity.html",
-        controller: 'SendMailCtrl'
+        controller: 'SubmitCtrl'
       }
     }
   })

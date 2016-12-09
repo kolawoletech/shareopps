@@ -6,7 +6,23 @@
     <div class="list card">
       <div class="item item-avatar">
       <div>
-      <ion-profile-picture ng-model="myPicture" />
+      <!-- <ion-profile-picture ng-model="myPicture" />  -->
+      <div ng-repeat="img in imgs |  limitTo:quantity" class="col-xs-12 col-sm-6 col-md-3">
+        <img  class="ion-profile-picture no-picture inputimg" ng-src="{{img.base64}}">
+       <a class="button button-icon icon-assertive icon ion-trash-a" ng-click="deleteimg(img.$id)">Delete</a>
+      </div>
+      <form ng-submit="uploadFile()">
+        <input class="inputimg" type="file" name="file"  id="nameImg" accept="image/*">
+                 <span class="input-group-btn">
+                <button  type="submit" class="btn btn-block"> 
+                  <i class="icon ion-upload">Upload</i>
+          </button>
+          </span>
+        <br />
+
+      </form>
+            <hr />
+
 
     </div>
         <!-- <img ng-src="{{ current_user.image }}"> -->

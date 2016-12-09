@@ -10,11 +10,12 @@
       </div>
       <ion-input class="item item-input item-stacked-label">
         <ion-label >Institution</ion-label>
-        <input type="text" name="institution" placeholder="College, University etc" ng-model="data.institution" required>
+        <input auto-complete ui-items="institution" type="text" name="institution" placeholder="College, University etc" ng-model="data.institution" required>
+        {{data.institution}}
       </ion-input>
       <ion-input class="item item-input item-stacked-label">
         <ion-label >Course of Study</ion-label>
-        <input type="text" name="courseOfStudy" placeholder="Course of Study" ng-model="data.courseOfStudy" required>
+        <input  auto-complete ui-items="courseOfStudy" type="text" name="courseOfStudy" placeholder="Course of Study" ng-model="data.courseOfStudy" required>
       </ion-input>
 
       <ion-input class="item item-input item-stacked-label">

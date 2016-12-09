@@ -1,79 +1,43 @@
-<!-- <ion-view class="profile-view">
-  <ion-nav-title>
-    <span>Post An Opportunity</span>
-  </ion-nav-title>
-  <ion-content>
-<div  class="bar bar-header bar-dark">
-  <h2 class="title">Please Read</h2>
-</div>
-
-  <ol class="list">
-  <li></li>
-    <li class="item">
-      Leave your contact details in the submit email so we can get back to you for review
-    </li>
-    <li class="item">
-      Be as descriptive as possible 
-    </li>
-    <li class="item">
-      No spamming
-    </li>
-</ol>
-
-      <ion-input class="item-input padding">
-        <input type="submit" class="button button-positive" value="Submit"
-          ng-click="sendFeedback()">
-      </ion-input>
-    
-  </ion-content>
-</ion-view> -->
-<ion-view class="forms-view">
+<ion-view class="profile-view">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-nav-title>
-    <span>Forms</span>
+    <span>Post An Opportunity</span>
   </ion-nav-title>
+  <form>
   <ion-content>
-    <ul class="list">
-
-      <div class="item item-divider">Post Opportunity</div>
-      
+    <ul class="list"> 
       <label class="item item-input">
-        <span class="input-label">Name</span>
-        <input type="text">
+        <span class="input-label"></span>
+        <input ng-model="message.opportunityCompany" type="text" placeholder="Name of Company Offering the Opportunity">
       </label>
-
-
-      <label class="item item-input item-floating-label">
-        <span class="input-label">Eligibility</span>
-        <input type="tel" placeholder="Your phone">
+      <label class="item item-input">
+        <span class="input-label"></span>
+        <input ng-model="message.opportunityName" type="tel" placeholder="Name/Title of Opportunity">
       </label>
-      <div class="item item-divider">Category</div>
-
-      <ion-checkbox ng-model="checkOpt1">Option 1</ion-checkbox>
-      <ion-checkbox ng-model="checkOpt2">Option 2</ion-checkbox>
-      <ion-checkbox ng-model="checkOpt3">Option 3</ion-checkbox>
+      <label class="item item-input">
+        <span class="input-label"></span>
+        <input ng-model="message.opportunityDescription" type="tel" placeholder="Opportunity Description">
+      </label>
       <label class="item item-input item-stacked-label">
         <span class="input-label">Deadline</span>
-        <input type="date">
+        <input ng-model="message.opportunityDeadline" type="date">
       </label>
-      <label class="item item-input">
-        <textarea placeholder="Description"></textarea>
+      <label class="item item-input ">
+        <textarea ng-model="message.opportunityBenefits" placeholder="Benefits"></textarea>
       </label>
-      <label class="item item-input">
-        <input type="password" placeholder="Your password">
+      <label class="item item-input ">
+        <input ng-model="message.opportunityContactPerson" type="text" placeholder="Contact Person Name">
       </label>
-
-
-      <div class="item item-input-inset">
-        <label class="item-input-wrapper">
-          <input type="text" placeholder="Search...">
-        </label>
-        <button class="button button-small">
-          Submit
-        </button>
-      </div>
+      <label class="item item-input ">
+        <input ng-model="message.opportunityContactEmail" type="email" placeholder="Contact Person Email">
+      </label>
+      <ion-input class="item-input padding">
+        <input type="submit" class="button button-positive" value="Submit"
+          ng-click="sendOpportunity()">
+      </ion-input>
     </ul>
+    </form>
   </ion-content>
 </ion-view>

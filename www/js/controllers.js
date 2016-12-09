@@ -50,6 +50,32 @@ angular.module('sopps.controllers', [])
 })
 
 .controller('SignUpCtrl', function($scope, $state, AuthService, $ionicLoading) {
+       $scope.courseOfStudy =
+   [
+   "Civil Engineering",
+   "Electrical Engineering",
+   "Chemical Engineering",
+   "Mechanical Engineering",
+   "Metallurgical Engineering",
+   "Computer Science"
+   ];
+
+
+  $scope.institution =
+   [
+   "University of Pretoria",
+   "University of Witswaterand",
+   "Tshwane University of Technology",
+   "University of Johannesburg",
+   "University of Cape Town",
+   "University of Kwazulu-Natal",
+   "Stellenbosch University",
+   "Rhodes University",
+   "University of South Africa"
+   ];
+
+
+
   $scope.signup = function(user){
     $ionicLoading.show({
       template: 'Signing up ...'
@@ -68,9 +94,71 @@ angular.module('sopps.controllers', [])
   };
 })
 
-.controller('UserCtrl', function($scope, $state, AuthService){
+.controller('UserCtrl', function($scope, $state, $firebaseRef, $firebaseObject, $firebaseArray, AuthService){
   $scope.current_user = {};
-   $scope.userProfile = AuthService.userProfileData();
+  $scope.userProfile = AuthService.userProfileData();
+  $scope.quantity = 1;
+  
+  var img = new Firebase("https://sopps.firebaseio.com/images");
+  $scope.imgs = $firebaseArray(img);
+
+ var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+  $scope.uploadFile = function() {
+    var sFileName = $("#nameImg").val();
+    if (sFileName.length > 0) {
+      var blnValid = false;
+      for (var j = 0; j < _validFileExtensions.length; j++) {
+        var sCurExtension = _validFileExtensions[j];
+        if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+          blnValid = true;
+          var filesSelected = document.getElementById("nameImg").files;
+          if (filesSelected.length > 0) {
+            var fileToLoad = filesSelected[0];
+
+            var fileReader = new FileReader();
+
+            fileReader.onload = function(fileLoadedEvent) {
+              var textAreaFileContents = document.getElementById(
+                "textAreaFileContents"
+              );
+
+
+              $scope.imgs.$add({
+                date: Firebase.ServerValue.TIMESTAMP,
+                base64: fileLoadedEvent.target.result
+              });
+            };
+
+            fileReader.readAsDataURL(fileToLoad);
+          }
+          break;
+        }
+      }
+
+      if (!blnValid) {
+        alert('File is not valid');
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  
+
+  $scope.deleteimg = function(imgid) {
+    var r = confirm("Do you want to remove this image ?");
+    if (r == true) {
+      $scope.imgs.forEach(function(childSnapshot) {
+        if (childSnapshot.$id == imgid) {
+            $scope.imgs.$remove(childSnapshot).then(function(ref) {
+              ref.key() === childSnapshot.$id; // true
+            });
+        }
+      });
+    }
+  }
+
   
 
 
@@ -348,21 +436,36 @@ angular.module('sopps.controllers', [])
 })
 
 .controller('SubmitCtrl', function(WORDPRESS_API_URL, $state,$scope, $stateParams, $http, $ionicLoading, PostService, BookMarkService){
-	$scope.sendFeedback= function() {
-        if(window.plugins && window.plugins.emailComposer) {
-            window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
-                console.log("Response -> " + result);
-            }, 
-            "Opportunity Submitted For Review", // Subject
-            "",                      // Body
-            ["admin@shareopps.co.za"],    // To
-            null,                    // CC
-            null,                    // BCC
-            false,                   // isHTML
-            null,                    // Attachments
-            null);                   // Attachment Data
-        }
-    };
+	$scope.sendOpportunity = function () {
+
+		    
+		  $scope.message = {
+		    'opportunityContactEmail' : '',
+		    'opportunityName' :'',
+		    'opportunityDescription' : '',
+		    'opportunityContactPerson' : '',
+		    'opportunityBenefits' : '',
+		    'opportunityDeadline' : ''
+		  };
+
+	    // Simple POST request example (passing data) :
+	    $http.post('action.php', $scope.message).
+	        success(function(data, status, headers, config) {
+	            // this callback will be called asynchronously
+	            // when the response is available
+
+			$ionicLoading.show({ 
+				template: 'Opportunity Post Successfully sent to ShareOpps Admin!',
+				 noBackdrop: true, 
+				 duration: 1000 });
+
+	        }).
+	        error(function(data, status, headers, config) {
+	            // called asynchronously if an error occurs
+	            // or server returns response with an error status.
+	        });
+
+	};
 
 })
 
@@ -385,7 +488,7 @@ angular.module('sopps.controllers', [])
 
 	$scope.changeInstitution = function(changeInstitutionForm){
 	  if (changeInstitutionForm.$valid) {
-	    AuthService.changeInstitution(user.password.email, $scope.data.newInstitution, $scope.data.password);
+	    AuthService.changeInstitution($scope.userProfile.institution, $scope.data.newInstitution, $scope.data.password);
 	    $scope.userProfile.institution = $scope.data.newInstitution;
 	    $scope.userProfile.$save();
 	  }
@@ -412,13 +515,6 @@ angular.module('sopps.controllers', [])
 	  }
 	};
 
-		/**
-		 * This will take the user's old email, the new email he wants and the user password and pass it to our
-		 * changeEmail() function inside the auth service.
-		 *
-		 * Then it's going to change the email in our userProfile variable (which points to the userProfile
-		 * node in Firebase) and it's going to save that new value.
-		 */
 	$scope.changeEmail = function(changeEmailForm){
 	  if (changeEmailForm.$valid) {
 	    AuthService.changeEmail(user.password.email, $scope.data.newEmail, $scope.data.password);
