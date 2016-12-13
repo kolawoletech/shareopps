@@ -1,10 +1,10 @@
 /* jshint ignore:start */
 angular.module('sopps.services', [])
 
-.service('AuthService', function($q,$firebaseRef, $firebaseObject, $firebaseArray){
+.service('AuthService', function($q,$firebaseRef, $firebaseObject, $firebaseArray, $state){
   var _firebase = new Firebase("https://sopps.firebaseio.com/");
   var authData = _firebase.getAuth();
-  //var ref = firebase.database().ref('/users/' + authData.uid);
+
 
     this.userProfileData = function(){
       var userProfileRef = $firebaseRef.default.child('users').child(authData.uid);
@@ -12,7 +12,7 @@ angular.module('sopps.services', [])
     };
   
 	this.changePassword = function(email, oldPassword, newPassword){
-	  authUser.$changePassword({
+	  _firebase.changePassword({
 	    email: email,
 	    oldPassword: oldPassword,
 	    newPassword: newPassword
@@ -24,7 +24,50 @@ angular.module('sopps.services', [])
 	  });
 	};
 
-  //var userProfileRef =_firebase.child("users").child(authData.uid);
+	this.changeEmail = function(oldEmail, newEmail, password){
+	  _firebase.changeEmail({
+	    oldEmail: oldEmail,
+	    newEmail: newEmail,
+	    password: password
+	  }).then(function(){
+	    alert('Email Changed!');
+	    $state.go('app.user');
+	  }).catch(function(error){
+	    console.log(error);
+	  });
+	};
+
+    this.changeInstitution = function(email, password){
+        _firebase.authWithPassword({
+            email    : email,
+      		password : password
+        }).then(function(authData){
+            $firebaseRef.default.child("userProfile").child(authData.uid).set({
+            institution: newInstitution,          
+          }).then(function(){
+            alert('Institution Successfully Changed!');
+            $state.go('app.user');
+          });       
+        }).catch(function(error){
+           console.log(error);
+        });
+    };
+
+     this.changeCourseOfStudy = function(email, password){
+        _firebase.authWithPassword({
+            email    : email,
+      		password : password
+        }).then(function(authData){
+            $firebaseRef.default.child("userProfile").child(authData.uid).set({
+            institution: newCourseOfStudy         
+          }).then(function(){
+            alert('Course Of Study Successfully Changed!');
+            $state.go('app.user');
+          });       
+        }).catch(function(error){
+           console.log(error);
+        });
+    };
 
 
   this.userIsLoggedIn = function(){

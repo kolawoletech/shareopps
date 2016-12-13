@@ -1,4 +1,34 @@
 
+ changeInstitution : function(email, password){
+        authUser.$authWithPassword({
+          email: email
+        }).then(function(authData){
+            $firebaseRef.default.child("userProfile").child(authData.uid).set({
+            institution: newInstitution,          
+          }).then(function(){
+            alert('Institution Successfully Changed!');
+            $state.go('app.profile');
+          });       
+        }).catch(function(error){
+           console.log(error);
+        });
+    },
+    changeCourseOfStudy : function(email, password){
+        authUser.$authWithPassword({
+          email: email,
+          password: password
+        }).then(function(authData){
+            $firebaseRef.default.child("userProfile").child(authData.uid).set({
+            courseOfStudy: newCourseOfStudy,          
+          }).then(function(){
+            alert('Institution Successfully Changed!');
+            $state.go('app.profile');
+            }) ;
+          }) .catch(function(error){
+             console.log(error); 
+        });
+    },
+
 
 .directive('ionProfilePicture', [
 '$ionicTemplateLoader',

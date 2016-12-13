@@ -95,9 +95,15 @@ angular.module('sopps.controllers', [])
 })
 
 .controller('UserCtrl', function($scope, $state, $firebaseRef, $firebaseObject, $firebaseArray, AuthService){
+  $scope.data={};
   $scope.current_user = {};
   $scope.userProfile = AuthService.userProfileData();
   $scope.quantity = 1;
+
+  var current_user = AuthService.getUser();
+
+  var userProfile = AuthService.userProfileData();
+  console.log(userProfile);
   
   var img = new Firebase("https://sopps.firebaseio.com/images");
   $scope.imgs = $firebaseArray(img);
@@ -162,10 +168,7 @@ angular.module('sopps.controllers', [])
   
 
 
-  var current_user = AuthService.getUser();
 
-  var userProfile = AuthService.userProfileData();
-  console.log(userProfile);
 
 
   if(current_user && current_user.provider == "facebook"){
@@ -179,6 +182,44 @@ angular.module('sopps.controllers', [])
     $scope.current_user.uid = current_user.uid;
 
   }
+
+
+  	$scope.changeInstitution = function(changeInstitutionForm){
+	  if (changeInstitutionForm.$valid) {
+	    AuthService.changeInstitution($scope.userProfile.institution, $scope.data.newInstitution, $scope.data.password);
+	    $scope.userProfile.institution = $scope.data.newInstitution;
+	    $scope.userProfile.$save();
+	  }
+	};
+
+	$scope.changeCourseOfStudy = function(changeCourseForm){
+	  if (changeCourseForm.$valid) { 
+	    AuthService.changeCourseOfStudy(user.password.email, $scope.data.newCourseOfStudy, $scope.data.password);
+	    $scope.userProfile.courseOfStudy = $scope.data.newCourseOfStudy;
+	    $scope.userProfile.$save();
+	  }
+	};
+
+	/**
+	 * This function will get the oldPassword and newPassword values from the form and then pass them
+	 * to our changePassword() function inside the auth service.
+	 */
+	$scope.changePassword = function(changePasswordForm){
+	  if (changePasswordForm.$valid) {
+	    var oldPassword = $scope.data.oldPassword;
+	    var newPassword = $scope.data.newPassword;
+	    
+	    AuthService.changePassword(userProfile.email, oldPassword, newPassword);
+	  }
+	};
+
+	$scope.changeEmail = function(changeEmailForm){
+	  if (changeEmailForm.$valid) {
+	    AuthService.changeEmail(userProfile.email, $scope.data.newEmail, $scope.data.password);
+	    $scope.userProfile.email = $scope.data.newEmail;
+	    $scope.userProfile.$save();
+	  }
+	};
 
   $scope.logout = function(){
     AuthService.doLogout();
@@ -486,42 +527,7 @@ angular.module('sopps.controllers', [])
 		AuthService.logoutUser();
 	};
 
-	$scope.changeInstitution = function(changeInstitutionForm){
-	  if (changeInstitutionForm.$valid) {
-	    AuthService.changeInstitution($scope.userProfile.institution, $scope.data.newInstitution, $scope.data.password);
-	    $scope.userProfile.institution = $scope.data.newInstitution;
-	    $scope.userProfile.$save();
-	  }
-	};
 
-	$scope.changeCourseOfStudy = function(changeCourseForm){
-	  if (changeCourseForm.$valid) { 
-	    AuthService.changeCourseOfStudy(user.password.email, $scope.data.newCourseOfStudy, $scope.data.password);
-	    $scope.userProfile.courseOfStudy = $scope.data.newCourseOfStudy;
-	    $scope.userProfile.$save();
-	  }
-	};
-
-	/**
-	 * This function will get the oldPassword and newPassword values from the form and then pass them
-	 * to our changePassword() function inside the auth service.
-	 */
-	$scope.changePassword = function(changePasswordForm){
-	  if (changePasswordForm.$valid) {
-	    var oldPassword = $scope.data.oldPassword;
-	    var newPassword = $scope.data.newPassword;
-	    
-	    AuthService.changePassword(user.password.email, oldPassword, newPassword);
-	  }
-	};
-
-	$scope.changeEmail = function(changeEmailForm){
-	  if (changeEmailForm.$valid) {
-	    AuthService.changeEmail(user.password.email, $scope.data.newEmail, $scope.data.password);
-	    $scope.userProfile.email = $scope.data.newEmail;
-	    $scope.userProfile.$save();
-	  }
-	};
 })
 
 

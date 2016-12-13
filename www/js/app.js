@@ -9,7 +9,7 @@ angular.module('underscore', [])
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 angular.module('sopps', [
-  'ionic','ionic.service.core',
+  'ionic',
   'sopps.config',
   'sopps.controllers',
   'sopps.directives',
@@ -263,6 +263,9 @@ angular.module('sopps', [
       user: function($firebaseAuthService) {
         return $firebaseAuthService.$requireAuth();
       }
+    },
+    data: {
+      authenticate: true
     }
   })
 
@@ -274,6 +277,9 @@ angular.module('sopps', [
       user: function($firebaseAuthService) {
         return $firebaseAuthService.$requireAuth();
       }
+    },
+    data: {
+      authenticate: true
     }
   })
 
@@ -281,10 +287,8 @@ angular.module('sopps', [
     url: '/changePassword',
     templateUrl: 'views/app/changePassword.html',
     controller: 'UserCtrl',
-    resolve: {
-      user: function($firebaseAuthService) {
-        return $firebaseAuthService.$requireAuth();
-      }
+    data: {
+      authenticate: true
     }
   })
 

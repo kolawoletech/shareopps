@@ -1,0 +1,17 @@
+.layouts-view
+{
+  .layouts-functionalities
+  {
+
+
+    .item .title
+    {
+      font-weight:500;
+    }
+
+    .item .description
+    {
+      color: lighten($content-color, 30%);
+    }
+  }
+}
