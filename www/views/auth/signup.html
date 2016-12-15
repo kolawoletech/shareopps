@@ -11,7 +11,6 @@
       <ion-input class="item item-input item-stacked-label">
         <ion-label >Institution</ion-label>
         <input auto-complete ui-items="institution" type="text" name="institution" placeholder="College, University etc" ng-model="data.institution" required>
-        {{data.institution}}
       </ion-input>
       <ion-input class="item item-input item-stacked-label">
         <ion-label >Course of Study</ion-label>
@@ -40,7 +39,10 @@
     </form>
 
     <a href="#/auth/login" class="button button-royal button-clear button-block">
-      Or create an account
+      Or Sign In
+    </a>
+    <a href="#/auth/forgot-password" class="button button-royal button-clear button-block">
+      Forgot Password
     </a>
 
 

@@ -50,7 +50,7 @@ angular.module('sopps.controllers', [])
 })
 
 .controller('SignUpCtrl', function($scope, $state, AuthService, $ionicLoading) {
-       $scope.courseOfStudy =
+  $scope.courseOfStudy =
    [
    "Civil Engineering",
    "Electrical Engineering",
@@ -71,7 +71,12 @@ angular.module('sopps.controllers', [])
    "University of Kwazulu-Natal",
    "Stellenbosch University",
    "Rhodes University",
-   "University of South Africa"
+   "University of South Africa",
+   "Vaal University of Technology",
+   "University of Venda",
+   "University of Zululand",
+   "University of the Western Cape",
+   "Walter Sisulu University"
    ];
 
 
@@ -103,9 +108,9 @@ angular.module('sopps.controllers', [])
   var current_user = AuthService.getUser();
 
   var userProfile = AuthService.userProfileData();
-  console.log(userProfile);
+
   
-  var img = new Firebase("https://sopps.firebaseio.com/images");
+ var img = new Firebase("https://sopps.firebaseio.com/users/"+ current_user.uid +"/images");
   $scope.imgs = $firebaseArray(img);
 
  var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
@@ -113,12 +118,14 @@ angular.module('sopps.controllers', [])
     var sFileName = $("#nameImg").val();
     if (sFileName.length > 0) {
       var blnValid = false;
-      for (var j = 0; j < _validFileExtensions.length; j++) {
+      for (var j = 0; j
+< _validFileExtensions.length; j++) {
         var sCurExtension = _validFileExtensions[j];
         if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
           blnValid = true;
           var filesSelected = document.getElementById("nameImg").files;
-          if (filesSelected.length > 0) {
+          if (filesSelected.length >
+	0) {
             var fileToLoad = filesSelected[0];
 
             var fileReader = new FileReader();
@@ -166,10 +173,7 @@ angular.module('sopps.controllers', [])
   }
 
   
-
-
-
-
+   
 
   if(current_user && current_user.provider == "facebook"){
     $scope.current_user.email = current_user.facebook.displayName;
@@ -192,9 +196,10 @@ angular.module('sopps.controllers', [])
 	  }
 	};
 
+
 	$scope.changeCourseOfStudy = function(changeCourseForm){
 	  if (changeCourseForm.$valid) { 
-	    AuthService.changeCourseOfStudy(user.password.email, $scope.data.newCourseOfStudy, $scope.data.password);
+	    AuthService.changeCourseOfStudy($scope.userProfile.courseOfStudy, $scope.data.email, $scope.data.password);
 	    $scope.userProfile.courseOfStudy = $scope.data.newCourseOfStudy;
 	    $scope.userProfile.$save();
 	  }
@@ -510,6 +515,23 @@ angular.module('sopps.controllers', [])
 
 })
 
+.controller('ResetPasswordCtrl', function($scope,$ionicLoading, $ionicConfig, AuthService) {
+	$scope.data = {};
+
+	$scope.resetPassword = function(resetPasswordForm){
+		if (resetPasswordForm.$valid) {
+
+			$scope.errorMessage = null;
+
+	    
+
+		AuthService.resetPassword( $scope.data.email);
+
+
+
+		}
+	};
+})
 
 .controller('ProfileCtrl', function($firebaseRef, $scope, user, AuthService, $state, $ionicPopup, $firebaseObject){
 	// Creating an empty object called data and binding it to the $scope.

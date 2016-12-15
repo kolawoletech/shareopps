@@ -55,6 +55,7 @@ angular.module('sopps', [
   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
     if (toState.data.authenticate)
     {
+      event.preventDefault();
       AuthService.userIsLoggedIn().then(function(response)
       {
         if(response === false)
@@ -131,8 +132,15 @@ angular.module('sopps', [
 
   .state('auth.forgot-password', {
     url: "/forgot-password",
-    templateUrl: "views/auth/forgot-password.html",
-    controller: 'ForgotPasswordCtrl'
+    views: {
+      'auth-view': {
+        templateUrl: 'views/auth/forgot-password.html',
+        controller: 'ResetPasswordCtrl'
+      }
+    },
+    data: {
+      authenticate: false
+    }
   })
 
   .state('app', {

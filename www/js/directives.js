@@ -1,7 +1,5 @@
 angular.module('sopps.directives', [])
 
-
-
 .directive('ionProfilePicture', [
 '$ionicTemplateLoader',
 '$ionicBackdrop',
@@ -154,7 +152,6 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $docume
 		}
 	};
 })
-
 
 .directive('showHideContainer', function(){
 	return {

@@ -1,10 +1,49 @@
 /* jshint ignore:start */
 angular.module('sopps.services', [])
 
-.service('AuthService', function($q,$firebaseRef, $firebaseObject, $firebaseArray, $state){
+.service('AuthService', function($q,$firebaseRef, $firebaseObject, $ionicLoading, $firebaseArray,$ionicPopup, $state){
   var _firebase = new Firebase("https://sopps.firebaseio.com/");
   var authData = _firebase.getAuth();
+  
+	this.resetPassword = function(email){
+	    this.errorMessage = null;
 
+
+	      $ionicLoading.show({
+	        template: 'Email is being sent...'
+	      });
+
+
+	      _firebase.resetPassword({
+	    		email: email})
+	          .then(showConfirmation)
+	          .catch(handleError);
+
+	    function showConfirmation() {
+	      this.emailSent = true;
+	      $ionicLoading.hide();
+	    }
+
+	    function handleError(error) {
+	      switch (error.code) {
+	        case 'INVALID_EMAIL':
+	        case 'INVALID_USER':
+	          this.errorMessage = 'Invalid email';
+	          break;
+	        default:
+	          this.errorMessage = 'Error: [' + error.code + ']';
+	      }
+                    $ionicPopup.alert({
+                title: 'Reset Password Failed!',
+                template: 'User does not exist!'
+      });
+
+              $ionicLoading.hide();
+
+
+	     
+	    }
+	};  
 
     this.userProfileData = function(){
       var userProfileRef = $firebaseRef.default.child('users').child(authData.uid);
